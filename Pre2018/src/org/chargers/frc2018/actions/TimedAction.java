@@ -1,6 +1,6 @@
 package org.chargers.frc2018.actions;
 
-public class TimedAction implements Action {
+public class TimedAction extends Action {
 	
 	private Action action;
 	private double startTime;

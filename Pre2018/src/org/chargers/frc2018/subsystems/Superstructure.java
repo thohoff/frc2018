@@ -2,13 +2,20 @@ package org.chargers.frc2018.subsystems;
 
 import java.util.ArrayList;
 
+import org.chargers.frc2018.actions.Action;
+
 public class Superstructure extends Subsystem {
 	
 	private ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	private DriveTrain driveTrain = new DriveTrain();
+	private Action autoMode = null;
 	
-	public Superstructure(){
+	public Superstructure(Action auto){
 		subsystems.add(driveTrain);
+	}
+	
+	public void setAutoAction(Action action){
+		this.autoMode = action;
 	}
 	
 	@Override
@@ -23,13 +30,20 @@ public class Superstructure extends Subsystem {
 		for(Subsystem s : subsystems){
 			s.autoInit();
 		}
+		
+		executeAutoAction();
+		
 	}
 
 	@Override
 	public void autoPeriodic() {
+		
 		for(Subsystem s : subsystems){
 			s.autoPeriodic();
 		}
+		
+		executeAutoAction();
+		
 	}
 
 	@Override
@@ -44,6 +58,22 @@ public class Superstructure extends Subsystem {
 		for(Subsystem s : subsystems){
 			s.stop();
 		}
+		if(autoMode != null){
+			autoMode.stop();
+			autoMode = null;
+		}
 	}
-
+	
+	private void executeAutoAction(){
+		if(autoMode != null){
+			if(autoMode.canCall() == false){
+				autoMode.stop();
+				autoMode = null;
+			}
+			else{
+				autoMode.call();
+			}
+		}
+	}
+	
 }
