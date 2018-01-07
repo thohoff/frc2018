@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5160.utils;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * The Basic PID gives us finer control over the built in PID implementation, but may be slightly slower. 
@@ -48,7 +48,7 @@ public class BasicPID {
 	/**
 	 * @param talon The CANTalon to copy PIDF values from
 	 */
-	public BasicPID(CANTalon talon){
+	public BasicPID(TalonSRX talon){
 		setP(talon.getP()); 
 		setI(talon.getI()); 
 		setD(talon.getD());

@@ -2,11 +2,11 @@ package org.usfirst.frc.team5160.utils;
 
 import java.nio.channels.Pipe;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 
-public class SmartTalon extends CANTalon{
+public class SmartTalon extends TalonSRX{
 	
 	private BasicPID pid;
 	private Encoder encoder = null; 
@@ -82,8 +82,8 @@ public class SmartTalon extends CANTalon{
 	
 	
 	public void ensureCorrectMode(){
-		if(this.getControlMode() != CANTalon.TalonControlMode.PercentVbus){
-			this.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		if(this.getControlMode() != TalonSRX.TalonControlMode.PercentVbus){
+			this.changeControlMode(TalonSRX.TalonControlMode.PercentVbus);
 		}
 	}
 	public void smartHoming(){
