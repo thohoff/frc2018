@@ -45,16 +45,7 @@ public class BasicPID {
 		setD(d);
 		setF(f);
 	}
-	/**
-	 * @param talon The CANTalon to copy PIDF values from
-	 */
-	public BasicPID(TalonSRX talon){
-		setP(talon.getP()); 
-		setI(talon.getI()); 
-		setD(talon.getD());
-		setF(talon.getF());
-	}
-
+	
 	public double runPID(double position, double target){
 		double pVal = P * (target - position); //Calculate proportional part, just P * error or the different between current and desired positions. 
 		double iVal = I * (integral); //Calculate integral part, this is done before adding in current error

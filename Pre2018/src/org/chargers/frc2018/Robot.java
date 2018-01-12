@@ -20,7 +20,7 @@ public class Robot extends IterativeRobot {
 	private String autoSelected;
 	private SendableChooser<String> chooser = new SendableChooser<>();
 	
-	private Superstructure superstructure = new Superstructure();
+	private Superstructure superstructure = new Superstructure(null);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
