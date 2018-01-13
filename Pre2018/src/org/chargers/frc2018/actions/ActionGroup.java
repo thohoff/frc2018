@@ -14,7 +14,7 @@ public class ActionGroup extends Action{
 	public boolean isFinished() {
 		return actions.size() == 0; //stop if there are no more action left
 	}
-	@Override
+	@Override 
 	public void start() {
 		
 	}
