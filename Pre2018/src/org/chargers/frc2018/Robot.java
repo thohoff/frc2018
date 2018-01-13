@@ -2,9 +2,13 @@ package org.chargers.frc2018;
 
 import org.chargers.frc2018.subsystems.Superstructure;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,6 +23,7 @@ public class Robot extends IterativeRobot {
 	private final String customAuto = "My Auto";
 	private String autoSelected;
 	private SendableChooser<String> chooser = new SendableChooser<>();
+	private AHRS ahrs;
 	
 	private Superstructure superstructure = new Superstructure(null);
 	
@@ -28,6 +33,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		try {
+	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+	          /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+	          ahrs = new AHRS(Port.kMXP); 
+	      } catch (RuntimeException ex ) {
+	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+	      }
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
