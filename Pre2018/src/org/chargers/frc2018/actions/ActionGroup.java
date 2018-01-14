@@ -5,20 +5,30 @@ import java.util.ArrayList;
 public class ActionGroup extends Action{
 	private ArrayList<Action> actions = new ArrayList<Action>();
 	
-	protected void addAction(Action action){
+	public void addAction(Action action){
 		actions.add(new TimedAction(action, 20));
 	}
 	@Override
 	public boolean isFinished() {
-		return actions.size() == 0; //stop if there are no more action left
+		return actions.size() == 0; //stop if there are no more actions left
 	}
 	@Override 
 	public void start() {
-		
+		if(actions.get(0).canCall()){
+			actions.get(0).call();
+		}
+		else{
+			actions.remove(0);
+		}
 	}
 	@Override
 	public void update() {
-		
+		if(actions.get(0).canCall()){
+			actions.get(0).call();
+		}
+		else{
+			actions.remove(0);
+		}
 	}
 	@Override
 	public void stop() {

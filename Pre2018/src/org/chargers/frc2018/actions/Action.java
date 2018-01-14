@@ -3,27 +3,41 @@ package org.chargers.frc2018.actions;
 public abstract class Action {
 	
 	private boolean hasStarted = false;
-	
-	public abstract boolean isFinished();
-	public abstract void start();
-	public abstract void update();
-	public abstract void stop();
+	private boolean hasStopped = false;
+	protected abstract boolean isFinished();
+	protected abstract void start();
+	protected abstract void update();
+	protected abstract void stop();
 	
 	public boolean hasStarted(){
 		return hasStarted;
 	}
 	
+	public boolean hasStopped(){
+		return hasStopped;
+	}
+	
 	public boolean canCall(){
-		return (hasStarted == false) || (this.isFinished() == false);
+		return (hasStarted == false) || (this.isFinished() == false) && hasStopped == false;
 	}
 	
 	public void call(){
-		if(hasStarted == false){
-			this.start();
+		if(canCall() == true){
+			if(hasStarted == false){
+				this.start();
+			}
+			else{
+				this.update();
+			}
 		}
-		else{
-			this.update();
+		else if (hasStopped == false){
+			callStop();
 		}
+	}
+	
+	public void callStop(){
+		this.stop();
+		hasStopped = true;
 	}
 	
 }

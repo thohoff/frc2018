@@ -5,7 +5,11 @@ public class TimedAction extends Action {
 	private Action action;
 	private double startTime;
 	private double time;
-	
+	/**
+	 * Executes and action, ending when time expires or when the action finishes
+	 * @param action The action to execute
+	 * @param time The maximum time to execute it, in seconds
+	 */
 	public TimedAction(Action action, double time){
 		
 	}

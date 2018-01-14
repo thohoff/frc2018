@@ -59,7 +59,7 @@ public class Superstructure extends Subsystem {
 			s.stop();
 		}
 		if(autoMode != null){
-			autoMode.stop();
+			autoMode.callStop();
 			autoMode = null;
 		}
 	}
@@ -67,7 +67,7 @@ public class Superstructure extends Subsystem {
 	private void executeAutoAction(){
 		if(autoMode != null){
 			if(autoMode.canCall() == false){
-				autoMode.stop();
+				autoMode.callStop();
 				autoMode = null;
 			}
 			else{
