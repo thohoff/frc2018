@@ -10,7 +10,7 @@ public class Superstructure extends Subsystem {
 	public static final DriveTrain driveTrain = new DriveTrain();
 	private Action autoMode = null;
 	
-	public Superstructure(Action auto){
+	public Superstructure(){
 		subsystems.add(driveTrain);
 	}
 	
