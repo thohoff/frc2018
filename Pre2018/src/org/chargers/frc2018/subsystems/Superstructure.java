@@ -7,7 +7,7 @@ import org.chargers.frc2018.actions.Action;
 public class Superstructure extends Subsystem {
 	
 	private ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
-	private DriveTrain driveTrain = new DriveTrain();
+	public static final DriveTrain driveTrain = new DriveTrain();
 	private Action autoMode = null;
 	
 	public Superstructure(Action auto){

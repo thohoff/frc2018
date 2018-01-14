@@ -23,9 +23,9 @@ public class Robot extends IterativeRobot {
 	private final String customAuto = "My Auto";
 	private String autoSelected;
 	private SendableChooser<String> chooser = new SendableChooser<>();
-	private AHRS ahrs;
 	
-	private Superstructure superstructure = new Superstructure(null);
+	
+	public static final Superstructure superstructure = new Superstructure(null);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,14 +33,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		try {
-	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
-	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-	          /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-	          ahrs = new AHRS(Port.kMXP); 
-	      } catch (RuntimeException ex ) {
-	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
-	      }
+		
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);

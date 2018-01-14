@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	private double Kp = 1;
+	private double Kp = 1; //Proportional control factor
 	private double Lf = 8;
-	private Path path; 
-	private BasicPID pid;
-	private double length = 0;
-	private double speed = 0;
-	public PursuitController(Path path, double robotLength, double speed){
+	private Path path;  //Path for the robot to follow
+	private double robotLength = 0;
+	private double robotTopSpeed = 0;
+	public PursuitController(Path path, double robotLength, double robotTopSpeed){
 		this.path = path;
-		this.pid = pid;
-		this.length = robotLength;
-		this.speed = speed;
+		this.robotLength = robotLength;
+		this.robotTopSpeed = robotTopSpeed;
 	}
 	
 	private Point getTargetPoint(double robot_distance){
@@ -26,13 +24,29 @@ public class PursuitController {
 		
 		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - robot.angle;
 		
-		double delta_angle = Math.atan2(2.0 * length * Math.sin(alpha) / Lf, 1.0);
-		double delta_speed = Kp*(speed-robot.velocity); 
+		double delta_angle = Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
+		double delta_speed = Kp*(robotTopSpeed-robot.velocity); 
 		return new double[]{delta_speed, delta_angle};
 	}
-	public double[] getDrive(Point robot, double distance){
+	
+	/**
+	 * 
+	 * @param robot  A point containing the location, speed and angle of the robot
+	 * @param distance  The distance that the robot has traversed so far
+	 * @return An array containing the desired forward and angular power
+	 */
+	public double[] getDrive(Point robotPose, double distance){
 		Point target = getTargetPoint(distance);
-		return update(robot, target);
+		return update(robotPose, target);
+	}
+	
+	/**
+	 * 
+	 * @param distance The distance the robot has traversed
+	 * @return True if the robot has fully traversed the path. 
+	 */
+	public boolean isFinished(double distance){
+		return distance >= path.getLength();
 	}
 	
 	public static void main(String[] args){

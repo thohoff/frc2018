@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 public class ActionGroup extends Action{
 	private ArrayList<Action> actions = new ArrayList<Action>();
-	protected void addParallel(Action...actions){
-		
-	}
-	protected void addSequential(Action action){
-		actions.add(new TimedAction(action, 30));
+	
+	protected void addAction(Action action){
+		actions.add(new TimedAction(action, 20));
 	}
 	@Override
 	public boolean isFinished() {

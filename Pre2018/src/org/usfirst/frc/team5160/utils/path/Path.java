@@ -5,7 +5,9 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 public class Path {
-	Map<Double, Object> distanceMap = new TreeMap<Double, Object>();
+	private Map<Double, Object> distanceMap = new TreeMap<Double, Object>();
+	private double pathLength;
+	
 	
 	public void addPoints(Point... ps){
 		double distance = 0;
@@ -15,6 +17,7 @@ public class Path {
 			distance = distance + DistanceBetweenPoints(p, last);
 			last = p;
 		}
+		pathLength = distance;
 	}
 	
 	public static double[][] ToDoubleArray(Point[] ps){
@@ -83,6 +86,10 @@ public class Path {
 	        previousEntry = e;
 	    }
 	    return previousEntry.getValue();
+	}
+	
+	public double getLength(){
+		return pathLength;
 	}
 	
 }
