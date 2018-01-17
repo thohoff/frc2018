@@ -6,6 +6,8 @@ import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
 
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+
 public class PathDrive extends Action{
 	
 	private PursuitController controller;
@@ -24,22 +26,26 @@ public class PathDrive extends Action{
 	@Override
 	public void start() {
 		dt = Robot.superstructure.driveTrain;
-		dt.resetOrientation();
+		//dt.resetOrientation();
+		System.out.println("start");
 	}
 
 	@Override
 	public void update() {
+		/*
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		double[] power = controller.getDrive(point, distanceTraveled);
 		dt.mecanumDrive(power[0], 0, power[1]);
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
-		lastY = point.y;
+		lastY = point.y;*/
+		dt.mecanumDrive(0, 0, 0);
+		System.out.println("update");
 	}
 
 	@Override
 	public void stop() {
-		dt.mecanumDrive(0, 0, 0);
+		//dt.mecanumDrive(0, 0, 0);
 	}
 	
 	

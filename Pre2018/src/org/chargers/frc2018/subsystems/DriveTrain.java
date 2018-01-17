@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
+import org.chargers.frc2018.OI;
 
 public class DriveTrain extends Subsystem {
 	private AHRS driveIMU;
@@ -19,13 +20,15 @@ public class DriveTrain extends Subsystem {
 	      } catch (RuntimeException ex ) {
 	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 	      }
-		
-		robotDrive = new RobotDrive(0, 1, 2, 3);
+		driveIMU.reset();
+		driveIMU.resetDisplacement();
+		robotDrive = new RobotDrive(1,2,3,0);
 	}
 
 	@Override
 	public void autoInit() {
-		
+		driveIMU.reset();
+		driveIMU.resetDisplacement();
 	}
 
 	@Override
@@ -35,7 +38,12 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
-
+		this.mecanumDrive(OI.getJoystickY(), 0, OI.getJoystickX());
+		System.out.println(driveIMU.getDisplacementX() + ", "+driveIMU.getDisplacementY() + ", "+ driveIMU.getAngle());
+		if(OI.getJoystickX() > 0.5){
+		driveIMU.resetDisplacement();
+		driveIMU.reset();
+		}
 	}
 
 	@Override
@@ -64,11 +72,10 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void resetOrientation(){
-		driveIMU.reset();
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-		robotDrive.mecanumDrive_Cartesian(forwards, sideways, rotation, 0);
+		robotDrive.mecanumDrive_Cartesian(sideways, forwards, rotation, 0);
 	}
 	
 }

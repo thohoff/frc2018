@@ -675,7 +675,7 @@ public class FalconPathPlanner
 	}
 
 	//main program
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		long start = System.currentTimeMillis();
 		//System.setProperty("java.awt.headless", "true"); //enable this to true to emulate roboRio environment
@@ -746,7 +746,7 @@ public class FalconPathPlanner
 
 
 	}
-
+*/
 	public void poofExample()
 	{
 		/***Poof Example***/

@@ -48,7 +48,7 @@ public class PursuitController {
 	public boolean isFinished(double distance){
 		return distance >= path.getLength();
 	}
-	
+	/*
 	public static void main(String[] args){
 		long time = System.currentTimeMillis();
 		 Point[] ps = {
@@ -92,6 +92,6 @@ public class PursuitController {
 	  	System.out.println(System.currentTimeMillis()-time);
 	  	FalconLinePlot fig2 = new FalconLinePlot(Path.ToDoubleArray(ps), Color.RED, Color.RED);
 	  	fig2.addData(points, Color.blue);
-	}
+	}*/
 	
 }

@@ -19,11 +19,6 @@ import com.kauailabs.navx.frc.AHRS;
  */
 
 public class Robot extends IterativeRobot {
-	private final String defaultAuto = "Default";
-	private final String customAuto = "My Auto";
-	private String autoSelected;
-	private SendableChooser<String> chooser = new SendableChooser<>();
-	
 	
 	public static final Superstructure superstructure = new Superstructure();
 	
@@ -34,10 +29,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
-		
 		superstructure.robotInit();
 		
 	}
@@ -47,9 +38,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		System.out.println("Auto selected: " + autoSelected);
-		
 		superstructure.autoInit();
 	}
 
@@ -59,16 +47,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		superstructure.autoPeriodic();
-		
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
 	}
 
 	/**

@@ -22,16 +22,20 @@ public abstract class Action {
 	}
 	
 	public void call(){
+		System.out.println(hasStarted + " " +canCall() );
 		if(canCall() == true){
 			if(hasStarted == false){
 				this.start();
+				hasStarted = true;
 			}
 			else{
+				System.out.println("call update");
 				this.update();
 			}
 		}
 		else if (hasStopped == false){
 			callStop();
+			hasStopped = true;
 		}
 	}
 	
