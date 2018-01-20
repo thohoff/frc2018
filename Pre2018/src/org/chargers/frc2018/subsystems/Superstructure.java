@@ -16,7 +16,7 @@ public class Superstructure extends Subsystem {
 	public Superstructure(){
 		subsystems.add(driveTrain);
 		Path p = new Path();
-		Point[] points = new Point[]{new Point(0,0), new Point(0.5,0.5), new Point(0, 1)};
+		Point[] points = new Point[]{new Point(0,0), new Point(40,40), new Point(0, 40)};
 		points = Path.InjectPoints(points, 10);
 		p.addPoints(points);
 		this.autoMode = new PathDrive(p);

@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem {
 	@Override
 	public void teleopPeriodic() {
 		this.mecanumDrive(OI.getJoystickY(), 0, OI.getJoystickX());
-		System.out.println(driveIMU.getDisplacementX() + ", "+driveIMU.getDisplacementY() + ", "+ driveIMU.getAngle());
+		System.out.println(getPositionX() + ", "+getPositionY() + ", "+ getAngle());
 		if(OI.getJoystickX() > 0.5){
 		driveIMU.resetDisplacement();
 		driveIMU.reset();
@@ -56,11 +56,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getPositionX(){
-		return driveIMU.getDisplacementX();
+		return driveIMU.getDisplacementX() * 39.37;
 	}
 	
 	public double getPositionY(){
-		return driveIMU.getDisplacementY();
+		return driveIMU.getDisplacementY() * 39.37;
 	}
 	
 	public double getAngle(){
