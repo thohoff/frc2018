@@ -33,11 +33,12 @@ public class PathDrive extends Action{
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		double[] power = controller.getDrive(point, distanceTraveled);
-		dt.mecanumDrive(power[0], 0, power[1]);
+		dt.mecanumDrive(limit(power[0]), power[1]/5, 0);
+		System.out.println(power[1]);
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
 		lastY = point.y;
-		System.out.println(point.x+", "+  point.y +", " + point.angle);
+		//System.out.println(point.x+", "+  point.y +", " + point.angle);
 	}
 
 	@Override
@@ -45,6 +46,14 @@ public class PathDrive extends Action{
 		dt.mecanumDrive(0, 0, 0);
 	}
 	
-	
+	public static double limit(double x){
+		if(x > 0.3){
+			return 0.3;
+		}
+		if(x < -0.3){
+			return -0.3;
+		}
+		return x;
+	}
 	
 }

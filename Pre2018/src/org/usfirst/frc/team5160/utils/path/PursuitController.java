@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	private double Kp = 1; //Proportional control factor
+	private double Kp = 0.25; //Proportional control factor
 	private double Lf = 8;
 	private Path path;  //Path for the robot to follow
-	private double robotLength = 0;
+	private double robotLength = 30;
 	private double robotTopSpeed = 0;
 	public PursuitController(Path path, double robotLength, double robotTopSpeed){
 		this.path = path;
