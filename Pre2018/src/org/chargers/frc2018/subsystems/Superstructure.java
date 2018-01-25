@@ -15,11 +15,6 @@ public class Superstructure extends Subsystem {
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
-		Path p = new Path();
-		Point[] points = new Point[]{new Point(0,0), new Point(40,40), new Point(0, 40)};
-		points = Path.InjectPoints(points, 10);
-		p.addPoints(points);
-		this.autoMode = new PathDrive(p);
 	}
 	
 	public void setAutoAction(Action action){
@@ -35,6 +30,12 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
+		Path p = new Path();
+		Point[] points = new Point[]{new Point(0,0), new Point(0,20), new Point(20, 20)};
+		points = Path.InjectPoints(points, 10);
+		p.addPoints(points);
+		this.autoMode = new PathDrive(p);
+		
 		for(Subsystem s : subsystems){
 			s.autoInit();
 		}
