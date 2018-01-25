@@ -843,7 +843,7 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
     }
     
     /******TEST MAIN METHOD*******/
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
     	
   	  double[] data = {
   		        -235, 14, 18, 03, 60, 150, 74, 87, 54, 77,
@@ -871,7 +871,7 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
   	
   	FalconLinePlot fig1 =  new FalconLinePlot(test,data);
   	
-  }*/
+  }
     
     
 }

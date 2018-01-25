@@ -19,9 +19,9 @@ public class Motor {
 	
 	public Motor(double fs, double fc, double st, double sc){
 		this.freeSpeed = fs;
-		this.stallTorque = fc;
-		this.stallCurrent = st;
-		this.freeCurrent = sc;
+		this.stallTorque = st;
+		this.stallCurrent = sc;
+		this.freeCurrent = fc;
 	}
 	
 	
