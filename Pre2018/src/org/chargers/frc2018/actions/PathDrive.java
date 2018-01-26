@@ -26,15 +26,14 @@ public class PathDrive extends Action{
 	@Override
 	public void start() {
 		dt = Robot.superstructure.driveTrain;
-		dt.resetOrientation();
+		dt.reset();
 	}
 
 	@Override
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		double[] power = controller.getDrive(point, distanceTraveled);
-		dt.mecanumDrive(limit(power[0]), power[1]/5, 0);
-		System.out.println(power[1]);
+		dt.mecanumDrive(limit(power[0]), power[1]/2, 0);
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
 		lastY = point.y;

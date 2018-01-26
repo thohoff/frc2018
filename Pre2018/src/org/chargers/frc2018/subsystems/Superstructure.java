@@ -31,8 +31,10 @@ public class Superstructure extends Subsystem {
 	@Override
 	public void autoInit() {
 		Path p = new Path();
-		Point[] points = new Point[]{new Point(0,0), new Point(0,20), new Point(20, 20)};
-		points = Path.InjectPoints(points, 10);
+		Point[] points = new Point[]{new Point(0,0),new Point(0,30), new Point(30,30), new Point(60, 30), new Point(60,60)};
+		points = Path.InjectPoints(points, 5);
+		points = Path.SmoothPoints(points);
+		points = Path.SmoothPoints(points);
 		p.addPoints(points);
 		this.autoMode = new PathDrive(p);
 		

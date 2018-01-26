@@ -6,7 +6,7 @@ import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
 	private double Kp = 0.25; //Proportional control factor
-	private double Lf = 8;
+	private double Lf = 2;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;
 	private double robotTopSpeed = 0;
@@ -48,11 +48,11 @@ public class PursuitController {
 	public boolean isFinished(double distance){
 		return distance >= path.getLength();
 	}
-	/*
-	public static void main(String[] args){
+	
+	/*public static void main(String[] args){
 		long time = System.currentTimeMillis();
 		 Point[] ps = {
-			new Point(0,0), new Point(50,50), new Point(200, 0), new Point(0,0), new Point(100,200)
+			new Point(0,0),new Point(0,30), new Point(30,60), new Point(120, 60), new Point(120,120)
 		 };
 		 
 	  	
@@ -69,7 +69,7 @@ public class PursuitController {
 	  	double rx = 0;
 	  	double ry = 0;
 	  	double rv = 0;
-	  	double ra = 0.5;
+	  	double ra = 0;
 	  	double rd = 0;
 	  	double dt = 0.1;
 	  	double rl = 24;
