@@ -27,9 +27,12 @@ public class Gearbox {
 		return motor.stallTorque * motorCount * reduction * 39.37*0.2248*efficiency/ (diameter/2.0);
 	}
 	public double getLoadTorque(double diameter){
-		return motor.stallTorque - motor.stallTorque/motor.freeSpeed*(getLoadDegreesPerSecondDiameter(diameter)*60/360);
+		return motor.stallTorque - motor.stallTorque/motor.freeSpeed*(getLoadDegreesPerSecondDiameter(diameter)*60/360)*reduction;
 	}
 	
+	public double getLoadCurrent(double diameter){
+		return motor.stallCurrent - (motor.stallCurrent-motor.freeCurrent)/motor.freeSpeed*(getLoadDegreesPerSecondDiameter(diameter)*60/360)*reduction;
+	}
 	
 	public double[][] plotPowerLoad(double diameter){
 		double orig_load = load;
@@ -37,29 +40,67 @@ public class Gearbox {
 		for(int i = 0; i < 300; i++){
 			tmp[i][0] = i;
 			load = i;
-			tmp[i][1] = getLoadInchesPerSecondDiameter(diameter)*i/6;
+			double val = getLoadInchesPerSecondDiameter(diameter)*load/6;
+			if(val < 0){
+				val = 0;
+			}
+			tmp[i][1] = val;
 		}
 		load = orig_load;
 		return tmp;
 	}
 	public double[][] plotPowerReduction(double diameter){
 		double orig_red = reduction;
-		double[][] tmp = new double[90][2];
-		for(int i = 0; i < 90; i++){
+		double[][] tmp = new double[50][2];
+		for(int i = 0; i < 50; i++){
 			reduction = i;
 			tmp[i][0] = i;
-			tmp[i][1] = getLoadInchesPerSecondDiameter(diameter)*load/6;
+			double val = getLoadInchesPerSecondDiameter(diameter)*load/6;
+			if(val < 0){
+				val = 0;
+			}
+			tmp[i][1] = val;
 		}
 		reduction = orig_red;
 		return tmp;
 	}
 	public double[][] plotSpeedReduction(double diameter){
 		double orig_red = reduction;
-		double[][] tmp = new double[40][2];
-		for(int i = 0; i < 40; i++){
-			reduction = i+10;
-			tmp[i][0] = i+10;
-			tmp[i][1] = getLoadInchesPerSecondDiameter(diameter);
+		double[][] tmp = new double[50][2];
+		for(int i = 0; i < 50; i++){
+			reduction = i;
+			tmp[i][0] = i;
+			double val = getLoadInchesPerSecondDiameter(diameter);
+			if(val < 0){
+				val = 0;
+			}
+			tmp[i][1] = val;
+		}
+		reduction = orig_red;
+		return tmp;
+	}
+	public double[][] plotAmperageReduction(double diameter){
+		double orig_red = reduction;
+		double[][] tmp = new double[50][2];
+		for(int i = 0; i < 50; i++){
+			reduction = i;
+			tmp[i][0] = i;
+			tmp[i][1] = getLoadCurrent(diameter);
+		}
+		reduction = orig_red;
+		return tmp;
+	}
+	public double[][] plotSpeedPerAmperageReduction(double diameter){
+		double orig_red = reduction;
+		double[][] tmp = new double[50][2];
+		for(int i = 0; i < 50; i++){
+			reduction = i;
+			tmp[i][0] = i;
+			double val = getLoadInchesPerSecondDiameter(diameter);
+			if(val < 0){
+				val = 0;
+			}
+			tmp[i][1] = val*val*val/getLoadCurrent(diameter);
 		}
 		reduction = orig_red;
 		return tmp;

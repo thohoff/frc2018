@@ -62,7 +62,7 @@ public class BasicPID {
 		lastPosition = position;
 		integral = integral + (target - position);
 		
-		return val;
+		return RMath.clamp(-1, 1, val);
 	}
 	
 	public double runPID(double position, double target, double velocity){
@@ -79,7 +79,7 @@ public class BasicPID {
 		lastPosition = position;
 		integral = integral + (target - position);
 		
-		return val;
+		return RMath.clamp(-1, 1, val);
 	}
 	
 	public void reset(){
