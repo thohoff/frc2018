@@ -17,7 +17,7 @@ public class PathDrive extends Action{
 	private double lastX = 0, lastY = 0;
 	private boolean reverse = false;
 	public PathDrive(Path path, boolean reverse){
-		controller = new PursuitController(path, 28, 10);
+		controller = new PursuitController(path, 28, 15*12);
 		this.reverse = reverse; 
 	}
 
@@ -29,25 +29,24 @@ public class PathDrive extends Action{
 	@Override
 	public void start() {
 		dt = Robot.superstructure.driveTrain;
+		this.lastX = dt.getPositionX();
+		this.lastY = dt.getPositionY();
 	}
 
 	@Override
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
-		double[] power = controller.getDrive(point, distanceTraveled);
-		power[0] = RMath.clamp(-1, 1, power[0]);
-		power[1] = RMath.clamp(-1, 1, power[1]);
+		double[] power = RMath.normalizeTwo(controller.getDrive(point, distanceTraveled));
 		if (reverse == false){
-			dt.mecanumDrive(power[0], power[1]/2, 0);
+			dt.mecanumDrive(power[0], 0, power[1]);
 		}
 		else{
-			dt.mecanumDrive(-power[0], -power[1]/2, 0);
+			dt.mecanumDrive(-power[0],  0,-power[1]);
 		}
 		
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
 		lastY = point.y;
-		//System.out.println(point.x+", "+  point.y +", " + point.angle);
 	}
 
 	@Override

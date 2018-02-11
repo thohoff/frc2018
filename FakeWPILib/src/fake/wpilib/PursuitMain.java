@@ -43,7 +43,7 @@ public class PursuitMain {
 	  	for(int i = 0; i < 80; i++){
 	  		points[i][0] = rx;
 	  		points[i][1] = ry;
-	  		double[] res = pc.getDrive(new Point(rx, ry, ra, rv), rd);
+	  		double[] res = pc.getDrive(new Point(rx, ry, ra, rv,rd));
 	  		
 	  		double dx =  rv * Math.cos(ra) * dt;
 	  		double dy =  rv * Math.sin(ra) * dt;

@@ -4,13 +4,18 @@ import java.awt.Color;
 
 import org.chargers.frc2018.Robot;
 import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
+import org.usfirst.frc.team5160.utils.path.Path;
+import org.usfirst.frc.team5160.utils.path.Point;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class RobotMain {
+	
+	public static Point[] points;
+
 	public static void main(String[] args){
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot);
+		MetaRobot meta = new MetaRobot(robot, 0.95, 0.05);
 		
 		robot.robotInit();
 		robot.autonomousInit();
@@ -20,8 +25,10 @@ public class RobotMain {
 			robot.autonomousPeriodic();
 		}
 		
-		FalconLinePlot fig2 = new FalconLinePlot(toDoubles(meta.posX.toArray()), toDoubles(meta.posY.toArray()));
-	  	
+		FalconLinePlot fig2 = new FalconLinePlot(toDoubles(meta.posX.toArray()), toDoubles(meta.posY.toArray()), Color.RED, Color.RED);
+		fig2.addData(Path.ToDoubleArray(points), Color.BLUE, Color.BLUE);
+		FalconLinePlot fig3 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.velocities.toArray()), Color.BLACK, Color.BLACK);
+
 		System.out.println(meta.time);		
 	}
 	

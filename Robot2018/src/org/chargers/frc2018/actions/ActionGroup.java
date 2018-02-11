@@ -27,11 +27,14 @@ public class ActionGroup extends Action{
 			actions.get(0).call();
 		}
 		else{
+			actions.get(0).stop();
 			actions.remove(0);
 		}
 	}
 	@Override
 	public void stop() {
-		actions.get(0).stop();
+		if(actions.isEmpty() == false){
+			actions.get(0).stop();
+		}
 	}
 }

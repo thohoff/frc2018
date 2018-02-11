@@ -33,7 +33,7 @@ public class DriveTrain extends Subsystem {
 	public WPI_TalonSRX backLeft;
 	public Encoder leftEncoder;
 	public Encoder rightEncoder;
-	public Gyro gyro;
+	public ADXRS450_Gyro gyro;
 	
 	@Override
 	public void robotInit() {
@@ -111,8 +111,6 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void reset(){
-		posX = 0;
-		posY = 0;
 		driveIMU.reset();
 		driveIMU.resetDisplacement();
 		timeSinceLastDrive.reset();
@@ -122,7 +120,6 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-		System.out.println(getPositionX() + ", "+getPositionY() + ", "+ getAngle());
 		//robotDrive.driveCartesian(sideways, forwards, rotation);
 		frontLeft.set(forwards - rotation);
 		backLeft.set(forwards - rotation);
@@ -151,6 +148,11 @@ public class DriveTrain extends Subsystem {
 		motor.configPeakCurrentDuration(2500, 100);
 		motor.configPeakCurrentLimit(80, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
+	}
+
+	public void setPosition(double x, double y) {
+		this.posX = x;
+		this.posY = y;
 	}
 	
 }

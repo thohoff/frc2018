@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	private double Kp = 0.25; //Proportional control factor
-	private double Lf = 5;
+	private double Kp = 0.05; //Proportional control factor
+	private double Lf = 10;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;
 	private double robotTopSpeed = 0;
@@ -22,10 +22,11 @@ public class PursuitController {
 	
 	private double[] update(Point robot, Point target){
 		
-		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - robot.angle;
-		
+		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - Math.toRadians(robot.angle);
+		System.out.println(robot.angle + " , " + alpha + " , " + Path.DistanceBetweenPoints(robot, target));
 		double delta_angle = Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
 		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)); 
+		System.out.println(delta_angle + ", " + delta_speed);
 		return new double[]{delta_speed, delta_angle};
 	}
 	
@@ -37,6 +38,10 @@ public class PursuitController {
 	 */
 	public double[] getDrive(Point robotPose, double distance){
 		Point target = getTargetPoint(distance);
+		System.out.println("target : " + target.x + ", " + target.y);
+		System.out.println("robot  : " + robotPose.x + ", " + robotPose.y);
+		System.out.println("error  : " + (target.x-robotPose.x) + ", " + (target.y - robotPose.y));
+		System.out.println();
 		return update(robotPose, target);
 	}
 	

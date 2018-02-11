@@ -22,7 +22,7 @@ import org.chargers.frc2018.RobotMap;
 public class DriveTrain extends Subsystem {
 	private AHRS driveIMU;
 	private MecanumDrive robotDrive;
-	private double posX = 0, posY = 0;
+	private double posX = 0, posY = 0, speed = 0;
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = 6.0*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
 	private Timer timeSinceLastDrive = new Timer();
@@ -107,7 +107,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getSpeed(){
-		return 0;//Math.sqrt(Math.pow(this.velX,2) + Math.pow(this.velY,2));
+		return speed;
 	}
 	
 	public void reset(){
@@ -136,6 +136,7 @@ public class DriveTrain extends Subsystem {
 		double deltaY = deltaDistance * Math.sin(Math.toRadians(this.getAngle()));
 		this.posX = this.posX + deltaX;
 		this.posY = this.posY + deltaY;
+		this.speed = deltaDistance/deltaTime;
 		
 		timeSinceLastDrive.reset();
 	}

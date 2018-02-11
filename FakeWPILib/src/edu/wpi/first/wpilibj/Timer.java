@@ -1,20 +1,17 @@
 package edu.wpi.first.wpilibj;
 
 public class Timer {
-
+	private long startTime = 0;
 	public double get() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0.01;
 	}
 
 	public void start() {
-		// TODO Auto-generated method stub
-		
+		startTime = System.currentTimeMillis();
 	}
 
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		startTime = System.currentTimeMillis();		
 	}
 
 
