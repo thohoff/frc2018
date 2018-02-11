@@ -10,8 +10,8 @@ public class RobotMap {
 		//drive motors
 		public static int FRONT_LEFT_CIM = 14;
 		public static int BACK_LEFT_CIM = 13;
-		public static int FRONT_RIGHT_CIM = 1;
-		public static int BACK_RIGHT_CIM = 2;
+		public static int FRONT_RIGHT_CIM = 2;
+		public static int BACK_RIGHT_CIM = 1;
 		
 		public static int ELEVATOR_LEFT_775 = 12;
 		public static int ELEVATOR_RIGHT_775 = 3;

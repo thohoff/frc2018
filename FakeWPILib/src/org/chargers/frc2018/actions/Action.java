@@ -33,13 +33,13 @@ public abstract class Action {
 		}
 		else if (hasStopped == false){
 			callStop();
-			hasStopped = true;
+			//hasStopped = true;
 		}
 	}
 	
 	public void callStop(){
 		this.stop();
-		hasStopped = true;
+	//	hasStopped = true;
 	}
 	
 }

@@ -2,6 +2,7 @@ package org.chargers.frc2018.actions;
 
 import org.chargers.frc2018.Robot;
 import org.chargers.frc2018.subsystems.DriveTrain;
+import org.usfirst.frc.team5160.utils.RMath;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
@@ -14,8 +15,10 @@ public class PathDrive extends Action{
 	private double distanceTraveled = 0; 
 	private DriveTrain dt;
 	private double lastX = 0, lastY = 0;
-	public PathDrive(Path path){
+	private boolean reverse = false;
+	public PathDrive(Path path, boolean reverse){
 		controller = new PursuitController(path, 28, 10);
+		this.reverse = reverse; 
 	}
 
 	@Override
@@ -26,18 +29,24 @@ public class PathDrive extends Action{
 	@Override
 	public void start() {
 		dt = Robot.superstructure.driveTrain;
-		dt.resetOrientation();
+		this.lastX = dt.getPositionX();
+		this.lastY = dt.getPositionY();
 	}
 
 	@Override
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
-		double[] power = controller.getDrive(point, distanceTraveled);
-		dt.mecanumDrive(power[0], 0, power[1]);
+		double[] power = RMath.normalizeTwo(controller.getDrive(point, distanceTraveled));
+		if (reverse == false){
+			dt.mecanumDrive(power[0], 0, power[1]);
+		}
+		else{
+			dt.mecanumDrive(-power[0],  0,-power[1]);
+		}
+		
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
 		lastY = point.y;
-		System.out.println(point.x+", "+  point.y +", " + point.angle);
 	}
 
 	@Override
@@ -45,6 +54,14 @@ public class PathDrive extends Action{
 		dt.mecanumDrive(0, 0, 0);
 	}
 	
-	
+	public static double limit(double x){
+		if(x > 0.3){
+			return 0.3;
+		}
+		if(x < -0.3){
+			return -0.3;
+		}
+		return x;
+	}
 	
 }

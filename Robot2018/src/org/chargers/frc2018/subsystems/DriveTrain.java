@@ -1,15 +1,19 @@
 package org.chargers.frc2018.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.chargers.frc2018.OI;
@@ -17,18 +21,19 @@ import org.chargers.frc2018.RobotMap;
 
 public class DriveTrain extends Subsystem {
 	private AHRS driveIMU;
-	private RobotDrive robotDrive;
+	private MecanumDrive robotDrive;
 	private double posX = 0, posY = 0;
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = 6.0*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
 	private Timer timeSinceLastDrive = new Timer();
 	
-	private WPI_TalonSRX frontRight; 
-	private WPI_TalonSRX backRight;
-	private WPI_TalonSRX frontLeft;
-	private WPI_TalonSRX backLeft;
-	private Encoder leftEncoder;
-	private Encoder rightEncoder;
+	public WPI_TalonSRX frontRight; 
+	public WPI_TalonSRX backRight;
+	public WPI_TalonSRX frontLeft;
+	public WPI_TalonSRX backLeft;
+	public Encoder leftEncoder;
+	public Encoder rightEncoder;
+	public Gyro gyro;
 	
 	@Override
 	public void robotInit() {
@@ -45,6 +50,8 @@ public class DriveTrain extends Subsystem {
 		leftEncoder = new Encoder(RobotMap.LEFT_ENCODER_CHANNEL_A, RobotMap.LEFT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		rightEncoder = new Encoder(RobotMap.RIGHT_ENCODER_CHANNEL_A, RobotMap.RIGHT_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		
+		gyro = new ADXRS450_Gyro();
+		
 		try {
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
 	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
@@ -53,7 +60,7 @@ public class DriveTrain extends Subsystem {
 	      } catch (RuntimeException ex ) {
 	          DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 	      }
-		this.robotDrive = new RobotDrive(frontLeft,backLeft,frontRight,frontRight);
+		//this.robotDrive = new MecanumDrive(frontLeft,backLeft,frontRight,frontRight);
 	}
 
 	@Override
@@ -70,15 +77,12 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
-		if(this.timeSinceLastDrive.get()>0.075){
-			this.mecanumDrive(0, 0, 0);
-		}
+		//if(this.timeSinceLastDrive.get()>0.1){
+		//	this.mecanumDrive(0, 0, 0);
+		//}
 		
-		this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), 0);
+		this.mecanumDrive(OI.getJoystickY(), 0, OI.getJoystickX());
 		
-		if(OI.getJoystickX() > 0.5){
-			this.reset();
-		}
 	}
 
 	@Override
@@ -99,7 +103,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getAngle(){
-		return this.driveIMU.getAngle();
+		return gyro.getAngle()+90;
 	}
 	
 	public double getSpeed(){
@@ -118,9 +122,12 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-		//System.out.println(getPositionX() + ", "+getPositionY() + ", "+ getAngle());
-		robotDrive.mecanumDrive_Cartesian(sideways, forwards, rotation, 0);
-		
+		System.out.println(getPositionX() + ", "+getPositionY() + ", "+ getAngle());
+		//robotDrive.driveCartesian(sideways, forwards, rotation);
+		frontLeft.set(forwards - rotation);
+		backLeft.set(forwards - rotation);
+		frontRight.set(forwards + rotation);
+		backRight.set(forwards + rotation);
 		
 		double deltaTime = timeSinceLastDrive.get();
 		
@@ -128,8 +135,8 @@ public class DriveTrain extends Subsystem {
 		double deltaDistance = encoderDistance - lastEncoderDistance;
 		lastEncoderDistance = encoderDistance;
 		
-		double deltaX = deltaDistance * Math.cos(Math.toRadians(this.driveIMU.getAngle()));
-		double deltaY = deltaDistance * Math.sin(Math.toRadians(this.driveIMU.getAngle()));
+		double deltaX = deltaDistance * Math.cos(Math.toRadians(this.getAngle()));
+		double deltaY = deltaDistance * Math.sin(Math.toRadians(this.getAngle()));
 		this.posX = this.posX + deltaX;
 		this.posY = this.posY + deltaY;
 		
@@ -137,6 +144,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	private void configureMotor(TalonSRX motor){
+		motor.clearStickyFaults(0);
 		motor.configOpenloopRamp(0.25, 100);
 		motor.enableCurrentLimit(true);
 		motor.configContinuousCurrentLimit(60, 100);

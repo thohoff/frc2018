@@ -12,4 +12,10 @@ public class Timer {
 		
 	}
 
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

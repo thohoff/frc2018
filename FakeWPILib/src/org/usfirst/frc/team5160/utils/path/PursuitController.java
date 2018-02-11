@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	private double Kp = 1; //Proportional control factor
-	private double Lf = 8;
+	private double Kp = 0.05; //Proportional control factor
+	private double Lf = 10;
 	private Path path;  //Path for the robot to follow
-	private double robotLength = 0;
+	private double robotLength = 30;
 	private double robotTopSpeed = 0;
 	public PursuitController(Path path, double robotLength, double robotTopSpeed){
 		this.path = path;
@@ -22,10 +22,11 @@ public class PursuitController {
 	
 	private double[] update(Point robot, Point target){
 		
-		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - robot.angle;
-		
+		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - Math.toRadians(robot.angle);
+		System.out.println(robot.angle + " , " + alpha + " , " + Path.DistanceBetweenPoints(robot, target));
 		double delta_angle = Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
-		double delta_speed = Kp*(robotTopSpeed-robot.velocity); 
+		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)); 
+		System.out.println(delta_angle + ", " + delta_speed);
 		return new double[]{delta_speed, delta_angle};
 	}
 	
@@ -37,6 +38,10 @@ public class PursuitController {
 	 */
 	public double[] getDrive(Point robotPose, double distance){
 		Point target = getTargetPoint(distance);
+		System.out.println("target : " + target.x + ", " + target.y);
+		System.out.println("robot  : " + robotPose.x + ", " + robotPose.y);
+		System.out.println("error  : " + (target.x-robotPose.x) + ", " + (target.y - robotPose.y));
+		System.out.println();
 		return update(robotPose, target);
 	}
 	
@@ -48,11 +53,11 @@ public class PursuitController {
 	public boolean isFinished(double distance){
 		return distance >= path.getLength();
 	}
-	/*
-	public static void main(String[] args){
+	
+	/*public static void main(String[] args){
 		long time = System.currentTimeMillis();
 		 Point[] ps = {
-			new Point(0,0), new Point(50,50), new Point(200, 0), new Point(0,0), new Point(100,200)
+			new Point(0,0),new Point(0,30), new Point(30,60), new Point(120, 60), new Point(120,120)
 		 };
 		 
 	  	
@@ -69,7 +74,7 @@ public class PursuitController {
 	  	double rx = 0;
 	  	double ry = 0;
 	  	double rv = 0;
-	  	double ra = 0.5;
+	  	double ra = 0;
 	  	double rd = 0;
 	  	double dt = 0.1;
 	  	double rl = 24;

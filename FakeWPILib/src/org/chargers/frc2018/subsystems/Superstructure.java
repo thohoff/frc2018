@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.chargers.frc2018.actions.Action;
 import org.chargers.frc2018.actions.PathDrive;
+import org.chargers.frc2018.actions.ThreeCubeAuto;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
@@ -15,11 +16,6 @@ public class Superstructure extends Subsystem {
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
-		Path p = new Path();
-		Point[] points = new Point[]{new Point(0,0), new Point(0.5,0.5), new Point(0, 1)};
-		points = Path.InjectPoints(points, 10);
-		p.addPoints(points);
-		this.autoMode = new PathDrive(p);
 	}
 	
 	public void setAutoAction(Action action){
@@ -35,6 +31,8 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
+		this.autoMode = new ThreeCubeAuto();
+				
 		for(Subsystem s : subsystems){
 			s.autoInit();
 		}

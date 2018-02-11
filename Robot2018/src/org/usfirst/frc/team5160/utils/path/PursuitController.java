@@ -6,7 +6,7 @@ import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
 	private double Kp = 0.25; //Proportional control factor
-	private double Lf = 2;
+	private double Lf = 5;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;
 	private double robotTopSpeed = 0;
@@ -25,7 +25,7 @@ public class PursuitController {
 		double alpha = Math.atan2(target.y - robot.y, target.x - robot.x) - robot.angle;
 		
 		double delta_angle = Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
-		double delta_speed = Kp*(robotTopSpeed-robot.velocity); 
+		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)); 
 		return new double[]{delta_speed, delta_angle};
 	}
 	

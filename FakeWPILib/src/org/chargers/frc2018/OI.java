@@ -11,18 +11,21 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	public static Joystick joystick = new Joystick(0);
+	
 	public static double getJoystickX(){
 		if(Math.abs(joystick.getX()) > 0.05){
 			return joystick.getX()*joystick.getX() * Math.signum(joystick.getX());
 		}
 		return 0;
 	}
+	
 	public static double getJoystickY(){
 		if(Math.abs(joystick.getY()) > 0.05){
 			return joystick.getY()*joystick.getY() * Math.signum(joystick.getY());
 		}
 		return 0;
 	}
+	
 	public static double getJoystickRotation(){
 		if(Math.abs(joystick.getY()) > 0.05){
 			return joystick.getX(Hand.kRight)*joystick.getX(Hand.kRight) * Math.signum(joystick.getY());

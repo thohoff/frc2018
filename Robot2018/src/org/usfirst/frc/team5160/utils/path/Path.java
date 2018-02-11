@@ -64,7 +64,7 @@ public class Path {
 		return (Point) findNearest(distanceMap, distance);
 	}
 	
-	private static double DistanceBetweenPoints(Point a, Point b){
+	public static double DistanceBetweenPoints(Point a, Point b){
 		return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
 	}
 	
