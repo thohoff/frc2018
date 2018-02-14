@@ -5,7 +5,7 @@ public class Point {
 	public double y = 0;
 	public double velocity = 0;
 	public double angle = 0;
-	
+	public double distance = 0;
 	public Point(Point p){
 		this.x = p.x;
 		this.y = p.y;
@@ -30,4 +30,13 @@ public class Point {
 		this.angle = angle; 
 		this.velocity = velocity;
 	}
+
+	public Point(double x, double y, double angle, double velocity, double distance) {
+		this.x = x;
+		this.y = y;
+		this.angle = angle; 
+		this.velocity = velocity;
+		this.distance = distance;
+	}
+
 }

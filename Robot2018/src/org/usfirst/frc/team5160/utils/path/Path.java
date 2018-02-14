@@ -11,12 +11,23 @@ public class Path {
 	
 	public void addPoints(Point... ps){
 		double distance = 0;
+		double velocity = 0;
 		Point last = ps[0];
-		for(Point p : ps){
-			distanceMap.put(distance, p);
+		for(int i = 0; i < ps.length - 1; i++){
+			Point p = ps[i];
+			p.angle = Math.toDegrees(AngleBetweenPoints(ps[i+1], p));
+			p.distance = distance;
 			distance = distance + DistanceBetweenPoints(p, last);
 			last = p;
 		}
+		Point p = ps[ps.length-1];
+		p.angle = ps[ps.length-2].angle;
+		p.distance = distance;
+		
+		for(Point point  : ps){
+			distanceMap.put(point.distance, point);
+		}
+		
 		pathLength = distance;
 	}
 	
@@ -54,7 +65,7 @@ public class Path {
 		tmp[0] = ps[0];
 		tmp[tmp.length-1] = ps[tmp.length-1];
 		for(int i = 1; i < tmp.length - 1; i++){
-			tmp[i] = new Point((ps[i-1].x+ps[i+1].x)/2.0, (ps[i-1].y+ps[i+1].y)/2.0);
+			tmp[i] = new Point(ps[i-1].x*0.4+ps[i+1].x*0.4 + ps[i].x * 0.2, ps[i-1].y*0.4+ps[i+1].y*0.4 + ps[i].y * 0.2);
 			
 		}
 		return tmp;
@@ -66,6 +77,10 @@ public class Path {
 	
 	public static double DistanceBetweenPoints(Point a, Point b){
 		return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
+	}
+	
+	public static double AngleBetweenPoints(Point a, Point b){
+		return Math.atan2(a.y - b.y, a.x - b.x);
 	}
 	
 	private static Object findNearest(Map<Double, Object> map, double value) {

@@ -13,4 +13,5 @@ public class WPI_TalonSRX extends TalonSRX{
 	public double get(){
 		return power;
 	}
+	
 }

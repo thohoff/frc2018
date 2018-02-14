@@ -36,7 +36,8 @@ public class PathDrive extends Action{
 	@Override
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
-		double[] power = RMath.normalizeTwo(controller.getDrive(point, distanceTraveled));
+		point.distance = distanceTraveled;
+		double[] power = RMath.normalizeTwo(controller.getDrive(point));
 		if (reverse == false){
 			dt.mecanumDrive(power[0], 0, power[1]);
 		}

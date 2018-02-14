@@ -6,6 +6,7 @@ import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
+
 public class ThreeCubeAuto extends ActionGroup{
 	public ThreeCubeAuto(){
 		double robotStartX = 48;
@@ -15,7 +16,7 @@ public class ThreeCubeAuto extends ActionGroup{
 				new Point(robotStartX+18,robotLength/2.0), new Point(100, 100)};
 		
 		Point[] toScale = {
-			new Point(robotStartX+18,robotLength/2.0), new Point(robotStartX+18,36), new Point(48,200),new Point(85, 270 - robotLength/2.0), new Point(85, 300 - robotLength/2.0)
+			new Point(robotStartX+18,robotLength/2.0), new Point(robotStartX+18,36), new Point(48,200),new Point(85, 260 - robotLength/2.0), new Point(85, 300 - robotLength/2.0)
 		};
 		 
 		Point[] fromScaleToCube = {
@@ -28,9 +29,9 @@ public class ThreeCubeAuto extends ActionGroup{
 		 
 		 this.addAction(new PathDrive(makePath(toScale), false));
 
-		 this.addAction(new PathDrive(makePath(fromScaleToCube), true));
+		// this.addAction(new PathDrive(makePath(fromScaleToCube), true));
 		 
-		 this.addAction(new PathDrive(makePath(fromCubeToScale), false));
+		 //this.addAction(new PathDrive(makePath(fromCubeToScale), false));
 		
 		 
 			
@@ -38,14 +39,11 @@ public class ThreeCubeAuto extends ActionGroup{
 	
 	private Path makePath(Point[] ps){
 		Path path = new Path();
-	  	ps = Path.InjectPoints(ps, 10);
+	  	ps = Path.InjectPoints(ps, 4);
 	  	ps = Path.SmoothPoints(ps);
-	  	ps = Path.SmoothPoints(ps);
-	  	ps = Path.InjectPoints(ps, 10);
-	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.InjectPoints(ps, 4);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
-	  	FalconLinePlot fig2 = new FalconLinePlot(Path.ToDoubleArray(ps), Color.BLUE, Color.BLUE);
 	  	return path;
 	}
 }

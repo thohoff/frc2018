@@ -4,14 +4,16 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 
 public class TalonSRX {
-
+	double encoder = 0;
 	public TalonSRX(int eLEVATOR_LEFT_775) {
 		// TODO Auto-generated constructor stub
 	}
-
+	public void setEncoder(double d){
+		encoder = d;
+	}
 	public SensorCollection getSensorCollection() {
 		// TODO Auto-generated method stub
-		return new SensorCollection();
+		return new SensorCollection(encoder);
 	}
 
 	public void configOpenloopRamp(double d, int i) {

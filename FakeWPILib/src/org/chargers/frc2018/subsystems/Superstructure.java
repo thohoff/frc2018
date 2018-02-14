@@ -12,10 +12,12 @@ public class Superstructure extends Subsystem {
 	
 	private ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static DriveTrain driveTrain = new DriveTrain();
+	public static Elevator elevator = new Elevator();
 	private Action autoMode = null;
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
+		subsystems.add(elevator);
 	}
 	
 	public void setAutoAction(Action action){

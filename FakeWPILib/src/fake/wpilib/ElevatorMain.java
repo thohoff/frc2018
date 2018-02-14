@@ -9,30 +9,27 @@ import org.usfirst.frc.team5160.utils.path.Point;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
-public class RobotMain {
+public class ElevatorMain {
 	
-	public static FalconLinePlot fig2 = new FalconLinePlot(new double[][]{{0,0}});
 
 	public static void main(String[] args){
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0 );
-		
+		MetaRobot meta = new MetaRobot(robot, 0, 0, 0.97);
 		robot.robotInit();
-		robot.autonomousInit();
-		
-		for(int i = 0; i < 2000; i++){
+		meta.elevator.setTarget(100);
+		for(int i = 0; i < 200; i++){
 			meta.update();
-			robot.autonomousPeriodic();
+			robot.teleopPeriodic();
 		}
 		
-		
-		fig2.addData(toDoubles(meta.posX.toArray()), toDoubles(meta.posY.toArray()), Color.RED, Color.RED);
-		
-		PursuitMain.makeGraph(fig2);
-		
-		fig2.updateUI();
-		FalconLinePlot fig3 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.velocities.toArray()), Color.BLACK, Color.BLACK);
-
+		meta.elevator.setTarget(0);
+		for(int i = 0; i < 200; i++){
+			meta.update();
+			robot.teleopPeriodic();
+		}
+		FalconLinePlot fig2 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.elevatorHeights.toArray()), Color.RED, Color.RED);
+		fig2.addData(toDoubles(meta.times.toArray()), toDoubles(meta.elevatorSpeeds.toArray()), Color.BLUE, Color.BLUE);
+		fig2.addData(new double[]{0,6}, new double[]{0,0}, Color.BLACK);
 		System.out.println(meta.time);		
 	}
 	

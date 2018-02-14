@@ -117,6 +117,8 @@ public class DriveTrain extends Subsystem {
 		timeSinceLastDrive.start();
 		leftEncoder.reset();
 		rightEncoder.reset();
+		speed = 0;
+		
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
