@@ -25,6 +25,7 @@ public class PathDriveDynamic extends Action{
 
 	@Override
 	public boolean isFinished() {
+		
 		return controller.isFinished(distanceTraveled);
 	}
 
@@ -62,11 +63,11 @@ public class PathDriveDynamic extends Action{
 	
 	private Path makePath(Point[] ps){
 		Path path = new Path();
-	  	ps = Path.InjectPoints(ps, 5);
+	  	ps = Path.InjectPoints(ps,5);
 	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
-	  	ps = Path.InjectPoints(ps, 5);
-	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
 	  	RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
