@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	public static double Kp = 0.06, Ka = 0.0, Kb = 0.2, Kv = 0.35; //Proportional control factors
-	public static double Lf = 10, La = 64;
+	public static double Kp = 0.4, Ka = 4, Kb = 0, Kv = 0.0; //Proportional control factors
+	public static double Lf = 8, La = 48;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;
 	private double robotTopSpeed = 0;
@@ -67,7 +67,7 @@ public class PursuitController {
 		Point target = getTargetPoint(robotPose.distance);
 		//System.out.println("target : " + target.x + ", " + target.y);
 		//System.out.println("robot  : " + robotPose.x + ", " + robotPose.y);
-		//System.out.println("error  : " + (target.x-robotPose.x) + ", " + (target.y - robotPose.y));
+		//System.out.println("error  : " + Path.DistanceBetweenPoints(robotPose, target));
 		//System.out.println();
 		return update(robotPose, target);
 	}
@@ -78,7 +78,7 @@ public class PursuitController {
 	 * @return True if the robot has fully traversed the path. 
 	 */
 	public boolean isFinished(double distance){
-		return distance >= path.getLength();
+		return distance >= path.getLength() - 1;
 	}
 	
 	/*public static void main(String[] args){

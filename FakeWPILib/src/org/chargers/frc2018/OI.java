@@ -27,8 +27,18 @@ public class OI {
 	}
 	
 	public static double getJoystickRotation(){
-		if(Math.abs(joystick.getY()) > 0.05){
-			return joystick.getX(Hand.kRight)*joystick.getX(Hand.kRight) * Math.signum(joystick.getY());
+		if(Math.abs(joystick.getX(Hand.kRight)) > 0.05){
+			return joystick.getX(Hand.kRight)*joystick.getX(Hand.kRight) * Math.signum(joystick.getX(Hand.kRight));
+		}
+		return 0;
+	}
+	
+	public static double getIntakePower(){
+		if(joystick.getRawButton(1)){
+			return 1;
+		}
+		else if(joystick.getRawButton(2)){
+			return -1;
 		}
 		return 0;
 	}

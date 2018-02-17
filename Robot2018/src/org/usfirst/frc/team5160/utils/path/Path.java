@@ -83,6 +83,16 @@ public class Path {
 		return Math.atan2(a.y - b.y, a.x - b.x);
 	}
 	
+	public static Point[] AddStart(Point[] ps, Point p){
+		Point[] tmp = new Point[ps.length + 1];
+		tmp[0] = p;
+		for(int i = 1; i < tmp.length; i++){
+			tmp[i] = ps[i-1];
+		}
+		return tmp; 
+	}
+	
+	
 	private static Object findNearest(Map<Double, Object> map, double value) {
 	    Map.Entry<Double, Object> previousEntry = null;
 	    

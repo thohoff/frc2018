@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	public static double Kp = 0.06, Ka = 1, Kb = 0, Kv = 0.0; //Proportional control factors
+	public static double Kp = 0.2, Ka = 1.5, Kb = 0, Kv = 0.0; //Proportional control factors
 	public static double Lf = 8, La = 48;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;

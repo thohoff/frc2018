@@ -117,6 +117,8 @@ public class DriveTrain extends Subsystem {
 		timeSinceLastDrive.start();
 		leftEncoder.reset();
 		rightEncoder.reset();
+		speed = 0;
+		
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
@@ -137,7 +139,7 @@ public class DriveTrain extends Subsystem {
 		this.posX = this.posX + deltaX;
 		this.posY = this.posY + deltaY;
 		this.speed = deltaDistance/deltaTime;
-		
+		System.out.println(posX + ", "+posY);
 		timeSinceLastDrive.reset();
 	}
 	
