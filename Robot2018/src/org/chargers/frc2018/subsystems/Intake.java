@@ -7,9 +7,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+
 public class Intake extends Subsystem {
 	public WPI_TalonSRX middleLeftMotor;
 	public WPI_TalonSRX middleRightMotor; 
+	
+	public AnalogInput ultrasonicSensor;
+	public double InchesPerVolt = 40.31496; // Scaling factor Vcc/5120 per mm per the sensor specifications. Converted is ~40 inches per volt
 	
 	@Override
 	public void robotInit(){
@@ -18,6 +23,8 @@ public class Intake extends Subsystem {
 		
 		configureMotor(middleLeftMotor);
 		configureMotor(middleRightMotor);
+		
+		ultrasonicSensor = new AnalogInput(3); //Ultrasonic sensor is in port 3
 	}
 	
 	@Override
@@ -26,8 +33,18 @@ public class Intake extends Subsystem {
 	}
 	
 	public void setPower(double power){
-		middleLeftMotor.set(power);
-		middleRightMotor.set(-power);
+		
+		double minDistance = 3;
+		double distance = ultrasonicSensor.getVoltage() * InchesPerVolt;
+		
+		if(distance <= minDistance){
+			middleLeftMotor.set(0);
+			middleRightMotor.set(0);
+		}
+		else{
+			middleLeftMotor.set(power);
+			middleRightMotor.set(-power);
+		}
 	}
 	private void configureMotor(TalonSRX motor){
 		motor.configOpenloopRamp(0.5, 100);
