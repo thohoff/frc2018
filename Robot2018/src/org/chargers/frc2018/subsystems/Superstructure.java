@@ -38,8 +38,8 @@ public class Superstructure extends Subsystem {
 		{330 - 120, 18}
 	};
 	
-	private StartingPosition startingPosition = StartingPosition.CENTER;
-	private Priority priority = Priority.NONE;		
+	private StartingPosition startingPosition = StartingPosition.LEFT;
+	private Priority priority = Priority.SCALE;		
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
@@ -60,7 +60,7 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "RRR";
+		String gameData = "LLL";
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
@@ -130,7 +130,6 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoPeriodic() {
-		
 		for(Subsystem s : subsystems){
 			s.autoPeriodic();
 		}

@@ -1,5 +1,6 @@
 package org.chargers.frc2018.subsystems;
 
+import org.chargers.frc2018.OI;
 import org.chargers.frc2018.RobotMap;
 import org.usfirst.frc.team5160.utils.BasicPID;
 import org.usfirst.frc.team5160.utils.TrajectoryPID;
@@ -15,7 +16,7 @@ public class Elevator extends Subsystem {
 	public WPI_TalonSRX rightMotor;
 	
 	public TrajectoryPID pid;
-	public static double p = 0.5, i = 0.0, d = 5, v = 0.6, a = 0.4;
+	public static double p = 0.2, i = 0.0, d = 5, v = 0.6, a = 0.4;
 	
 	
 	private DigitalInput upperLimitSwitch;
@@ -46,6 +47,7 @@ public class Elevator extends Subsystem {
 		if(getHeightInches() > targetHeight){
 			error += Math.abs(targetHeight - getHeightInches()) *4;
 		}
+		this.setPower(OI.getElevatorPower()*0.75);
 
 	}
 	
@@ -79,11 +81,11 @@ public class Elevator extends Subsystem {
 	}
 	
 	private void configureMotor(TalonSRX motor){
-		motor.configOpenloopRamp(0.5, 100);
+		motor.configOpenloopRamp(0.2, 100);
 		motor.enableCurrentLimit(true);
-		motor.configContinuousCurrentLimit(60, 100);
+		motor.configContinuousCurrentLimit(40, 100);
 		motor.configPeakCurrentDuration(300, 100);
-		motor.configPeakCurrentLimit(80, 100);
+		motor.configPeakCurrentLimit(60, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
 	}
 	

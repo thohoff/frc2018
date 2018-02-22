@@ -15,7 +15,7 @@ public class RobotMain {
 
 	public static void main(String[] args){
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.9, 0.0,0 );
+		MetaRobot meta = new MetaRobot(robot, 0.97, 0.0,0 );
 		
 		robot.robotInit();
 		robot.autonomousInit();
@@ -33,7 +33,7 @@ public class RobotMain {
 		fig2.updateUI();
 		FalconLinePlot fig3 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.velocities.toArray()), Color.BLACK, Color.BLACK);
 
-		System.out.println(meta.time);		
+		System.out.println(meta.time + ", "+meta.report());		
 	}
 	
 	public static double[] toDoubles(Object[] objs){

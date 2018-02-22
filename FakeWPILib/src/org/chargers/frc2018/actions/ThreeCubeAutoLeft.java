@@ -6,7 +6,6 @@ import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
-import fake.wpilib.RobotMain;
 
 public class ThreeCubeAutoLeft extends ActionGroup{
 	public ThreeCubeAutoLeft(){
@@ -52,47 +51,34 @@ public class ThreeCubeAutoLeft extends ActionGroup{
 
 		 
 		 this.addAction(new PathDriveDynamic(fromLeftToScale, false));
-
-		 for(int i = 0; i< 50; i++){
-		 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube, true));
-		 
-		 
-		 for(int i = 0; i< 50; i++){
-			 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale, false));
-		
-
-		 for(int i = 0; i< 50; i++){
-			 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 		 
 		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube2, true));
-		
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 		 
 
-		 for(int i = 0; i< 50; i++){
-			 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
 		 
 		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale2, false));
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
+
 		
-
-		 for(int i = 0; i< 50; i++){
-			 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
-
 		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube3, true));
-		
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 
-		 for(int i = 0; i< 50; i++){
-			 this.addAction(new TimedAction(new Nothing(), 0.0));
-		 }
 		 
 		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale3, false));
-		
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+			
 			
 	}
 	

@@ -30,6 +30,7 @@ public class Superstructure extends Subsystem {
 	private ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Elevator elevator = new Elevator();
+	public static Intake intake = new Intake();
 	private Action autoMode = null;
 	public double[][] startingCoordinates = new double[][]{
 		{66, 18},
@@ -38,11 +39,12 @@ public class Superstructure extends Subsystem {
 	};
 	
 	private StartingPosition startingPosition = StartingPosition.LEFT;
-	private Priority priority = Priority.NONE;		
+	private Priority priority = Priority.SCALE;		
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
 		subsystems.add(elevator);
+		subsystems.add(intake);
 	}
 	
 	public void setAutoAction(Action action){
@@ -58,7 +60,7 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "LLR";
+		String gameData = "LLL";
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
@@ -128,7 +130,6 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoPeriodic() {
-		
 		for(Subsystem s : subsystems){
 			s.autoPeriodic();
 		}

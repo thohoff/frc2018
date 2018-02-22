@@ -19,4 +19,9 @@ public class ADXRS450_Gyro {
 		angle += d ;//+ 0.5*RMath.SignedFRand();
 	}
 
+	public void reset() {
+		// TODO Auto-generated method stub
+		angle = 0;
+	}
+
 }

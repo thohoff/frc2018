@@ -20,7 +20,7 @@ public class MetaRobot {
 	public ArrayList<Double> times = new ArrayList<Double>();
 	public ArrayList<Double> velocities = new ArrayList<Double>();
 	
-	public double x = 55, y = 18, angle = 90, elevatorHeight = 0;
+	public double x = 180, y = 18, angle = 90, elevatorHeight = 0;
 	public static final double topSpeed = 15 * 12;
 	public static final double width = 28;
 	public static final double length = 26;
@@ -63,7 +63,7 @@ public class MetaRobot {
 		rightSpeed = topSpeed*rightPower*(1-momentum) + rightSpeed*momentum;
 		
 		
-		double rotation = leftPower*topSpeed / 4.0 - rightPower*topSpeed / 4.0 + leftSpeed/4.0 - rightSpeed/4.0; 
+		double rotation = -leftPower*topSpeed / 2.0 + rightPower*topSpeed / 2.0 - leftSpeed/2.0 + rightSpeed/2.0; 
 		
 		double forwards = leftSpeed / 2.0 + rightSpeed / 2.0;
 		
@@ -93,8 +93,8 @@ public class MetaRobot {
 	
 	public double report(){
 		Point robot = new Point(x, y);
-		Point target = new Point(85, 300-17);
-		return Path.DistanceBetweenPoints(robot, target) + Math.abs(this.angle - 90)/1.5 ;
+		Point target = new Point(230, 150-17);
+		return Path.DistanceBetweenPoints(robot, target) + Math.abs(this.angle - 90)/5.0 ;
 	}
 	
 	public double reportElevator(){

@@ -14,12 +14,18 @@ public class RobotMap {
 		public static int BACK_RIGHT_CIM = 1;
 		
 		//Elevator motors
-		public static int ELEVATOR_LEFT_775 = 12;
-		public static int ELEVATOR_RIGHT_775 = 3;
+		public static int ELEVATOR_LEFT_775 = 11;
+		public static int ELEVATOR_RIGHT_775 = 4;
+		
+		//Climber motors
+		public static int CLIMBER_LEFT_775 = 12; 
+		public static int CLIMBER_RIGHT_775 = 3;
 		
 		//Intake motors
 		public static int INTAKE_MIDDLE_RIGHT_775 = 7;
 		public static int INTAKE_MIDDLE_LEFT_775 = 8;
+		public static int INTAKE_FRONT_RIGHT_775 = 6;
+		public static int INTAKE_FRONT_LEFT_775 = 9;
 		
 		//Drive encoders 
 		public static int LEFT_ENCODER_CHANNEL_A = 0;

@@ -64,7 +64,7 @@ public class RMath {
     public static double[] normalizeTwo(double[] d){
     	double total = Math.abs(d[0]) + Math.abs(d[1]);
     	if(total > 1){
-    	total = d[0] * d[0] + d[1] * d[1];
+    	//total = d[0] * d[0] + d[1] * d[1];
     	return new double[] {d[0] / total, d[1] / total};
     	}
     	return d;

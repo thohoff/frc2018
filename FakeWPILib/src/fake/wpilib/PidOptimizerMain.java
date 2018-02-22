@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 class Conditions{
 	double momentum, imbalance;  
 	Conditions(){
-		momentum = RMath.FRandRange((float) 0.93f, 0.97f);
-		imbalance = RMath.FRandRange(-0.01f, 0.01f);
+		momentum = 0.97;//FRandRange((float) 0.97f, 0.98f);
+		imbalance = 0;//RMath.FRandRange(-0.01f, 0.01f);
 	}
 }
 
@@ -28,16 +28,16 @@ public class PidOptimizerMain {
 	public static Point[] points;
 
 	public static void main(String[] args){
-		Conditions[] conds = new Conditions[50];
-		for(int i = 0; i < 50; i++){
+		Conditions[] conds = new Conditions[10];
+		for(int i = 0; i < 10; i++){
 			conds[i] = new Conditions();
 		}
 		double minScore = 5000;
-		for(double Kp = 0.06; Kp < 0.12; Kp += 0.01){
-			for(double Kv = 0.0; Kv < 0.9; Kv += 0.1){
+		for(double Kp = 0.06; Kp < 0.2; Kp += 0.03){
+			for(double Kv = 0.0; Kv < 0.01; Kv += 0.1){
 				//double Kb = 0, Ka = 0;
-				for(double Kb = 0.0; Kb < 2; Kb += 0.2){
-					for(double Ka = 0; Ka < 0.7; Ka += 0.2){
+				for(double Kb = 0.0; Kb < 3; Kb += 0.3){
+					for(double Ka = 0; Ka < 3; Ka += 0.3){
 						PursuitController.Kp = Kp;
 						PursuitController.Kv = Kv;
 						PursuitController.Ka = Ka;
@@ -59,7 +59,11 @@ public class PidOptimizerMain {
 	
 	public static double score(Conditions[] conds){
 		double average = 0;
-		for(int i = 0; i < 50; i++){
+		for(int i = 0; i < 10; i++){
+			PursuitController.Kp += RMath.FRand()*0.01;
+			PursuitController.Kv += RMath.FRand()*0.01;
+			PursuitController.Ka += RMath.FRand()*0.01;
+			PursuitController.Kb += RMath.FRand()*0.01;
 			Robot robot = new Robot();
 			Conditions c = conds[i];
 			MetaRobot meta = new MetaRobot(robot, c.momentum, c.imbalance, 0);
@@ -67,12 +71,12 @@ public class PidOptimizerMain {
 			robot.robotInit();
 			robot.autonomousInit();
 			
-			for(int k = 0; k < 1200; k++){
+			for(int k = 0; k < 350; k++){
 				meta.update();
 				robot.autonomousPeriodic();
 			}
 
-			average += meta.report()/50.0;
+			average += meta.report()/10.0;
 			
 			robot = new Robot();
 			meta = new MetaRobot(robot, 0, 0, 0);

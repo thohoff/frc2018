@@ -9,7 +9,6 @@ import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
 
-import fake.wpilib.RobotMain;
 
 public class PathDriveDynamic extends Action{
 	private PursuitController controller;
@@ -36,7 +35,8 @@ public class PathDriveDynamic extends Action{
 		this.lastY = dt.getPositionY();
 		points = Path.AddStart(points, new Point(lastX, lastY));
 		controller = new PursuitController(makePath(points), 28, 15*12);
-
+		update();
+		dt.setPosition(lastX, lastY);
 	}
 
 	@Override
@@ -45,12 +45,11 @@ public class PathDriveDynamic extends Action{
 		point.distance = distanceTraveled;
 		double[] power = RMath.normalizeTwo(controller.getDrive(point));
 		if (reverse == false){
-			dt.mecanumDrive(power[0], 0, power[1]);
+			dt.mecanumDrive(power[0]*0.65, 0, power[1]*0.8);
 		}
 		else{
-			dt.mecanumDrive(-power[0],  0,-power[1]);
+			dt.mecanumDrive(-power[0]*0.65,  0,-power[1]*0.8);
 		}
-		
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
 		lastY = point.y;
@@ -70,7 +69,7 @@ public class PathDriveDynamic extends Action{
 	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
-	  	RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
+	  	//RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
 	  	return path;
 	}
 	

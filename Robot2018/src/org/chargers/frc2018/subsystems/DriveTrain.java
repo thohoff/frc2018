@@ -80,8 +80,8 @@ public class DriveTrain extends Subsystem {
 		//if(this.timeSinceLastDrive.get()>0.1){
 		//	this.mecanumDrive(0, 0, 0);
 		//}
-		
-		this.mecanumDrive(OI.getJoystickY(), 0, OI.getJoystickX());
+		System.out.println((int) this.getPositionX() + ", "+ (int) this.getPositionY());
+		this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotation());
 		
 	}
 
@@ -103,7 +103,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getAngle(){
-		return gyro.getAngle()+90;
+		return -gyro.getAngle()+90;
 	}
 	
 	public double getSpeed(){
@@ -118,15 +118,19 @@ public class DriveTrain extends Subsystem {
 		leftEncoder.reset();
 		rightEncoder.reset();
 		speed = 0;
+		gyro.reset();
 		
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
+		//System.out.println(this.getAngle());
+		forwards = forwards*1;
+		rotation = rotation * 0.6;
 		//robotDrive.driveCartesian(sideways, forwards, rotation);
-		frontLeft.set(forwards - rotation);
-		backLeft.set(forwards - rotation);
-		frontRight.set(forwards + rotation);
-		backRight.set(forwards + rotation);
+		frontLeft.set(forwards - sideways - rotation);
+		backLeft.set(forwards + sideways - rotation);
+		frontRight.set(forwards - sideways + rotation);
+		backRight.set(forwards + sideways + rotation);
 		
 		double deltaTime = timeSinceLastDrive.get();
 		
@@ -139,17 +143,17 @@ public class DriveTrain extends Subsystem {
 		this.posX = this.posX + deltaX;
 		this.posY = this.posY + deltaY;
 		this.speed = deltaDistance/deltaTime;
-		System.out.println(posX + ", "+posY);
+		//System.out.println(posX + ", "+posY);//+ ", "+forwards+", " +rotation+ ", " + rightEncoder.get() + ", "+ leftEncoder.get());
 		timeSinceLastDrive.reset();
 	}
 	
 	private void configureMotor(TalonSRX motor){
 		motor.clearStickyFaults(0);
-		motor.configOpenloopRamp(0.25, 100);
+		motor.configOpenloopRamp(0.2, 100);
 		motor.enableCurrentLimit(true);
 		motor.configContinuousCurrentLimit(60, 100);
-		motor.configPeakCurrentDuration(2500, 100);
-		motor.configPeakCurrentLimit(80, 100);
+		motor.configPeakCurrentDuration(2000, 100);
+		motor.configPeakCurrentLimit(85, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
 	}
 

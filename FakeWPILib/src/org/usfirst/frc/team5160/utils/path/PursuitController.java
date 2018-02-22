@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	public static double Kp = 0.2, Ka = 1.5, Kb = 0, Kv = 0.0; //Proportional control factors
-	public static double Lf = 8, La = 48;
+	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kv = 0.0; //Proportional control factors
+	public static double Lf = 18, La = 48;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 30;
 	private double robotTopSpeed = 0;
@@ -53,7 +53,8 @@ public class PursuitController {
 		double delta_angle = alpha + beta;
 		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
 		//System.out.println(Path.DistanceBetweenPoints(robot, target)+", "+Kv * (targetVelocity - robot.velocity/robotTopSpeed));
-		//System.out.println(Path.DistanceBetweenPoints(robot, target)+", "+ (robot.angle) + ", " + target.angle + ", " + robot.distance + ", "+ target.distance +", "+robot.velocity);
+		System.out.println((int) robot.x +" ," + (int) robot.y + " , " + (int) target.x + ", "+ (int) target.y +", "+ (int) robot.angle );
+		//System.out.println(delta_speed + ", " +delta_angle);
 		return new double[]{delta_speed, delta_angle};
 	}
 	

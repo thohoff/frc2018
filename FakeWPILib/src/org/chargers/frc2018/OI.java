@@ -27,12 +27,20 @@ public class OI {
 	}
 	
 	public static double getJoystickRotation(){
-		if(Math.abs(joystick.getX(Hand.kRight)) > 0.05){
-			return joystick.getX(Hand.kRight)*joystick.getX(Hand.kRight) * Math.signum(joystick.getX(Hand.kRight));
+		if(Math.abs(joystick.getRawAxis(4)) > 0.05){
+			return joystick.getRawAxis(4)*joystick.getRawAxis(4) * Math.signum(joystick.getRawAxis(4));
 		}
 		return 0;
 	}
-	
+	public static double getElevatorPower(){
+		if(joystick.getRawButton(3)){
+			return 1;
+		}
+		else if(joystick.getRawButton(4)){
+			return -1;
+		}
+		return 0;
+	}
 	public static double getIntakePower(){
 		if(joystick.getRawButton(1)){
 			return 1;

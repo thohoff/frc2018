@@ -6,7 +6,6 @@ import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
-import fake.wpilib.RobotMain;
 
 public class LeftSwitchLeft extends ActionGroup{
 	public LeftSwitchLeft(){

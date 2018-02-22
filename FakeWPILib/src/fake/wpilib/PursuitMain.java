@@ -86,6 +86,9 @@ public class PursuitMain {
 		Point[] FromMiddleToRightSwitch = {
 				new Point(180,robotLength/2.0), new Point(180,36), new Point(230,80), new Point(230, 150 - robotLength/2.0)
 		};
+		Point[] fromRightSwitchToCube = {
+				new Point(230, 150 - robotLength/2.0), new Point(210, 110) , new Point(180, 150-robotLength)
+		};
 		
 
 		Point[] FromLeftToLeftSwitch = {
@@ -159,6 +162,12 @@ public class PursuitMain {
 	  	
 	  	path = new Path();
 	  	ps = makePath(FromMiddleToRightSwitch);
+	  	path.addPoints(ps);
+	  	
+	  	fig2.addData(Path.ToDoubleArray(ps), Color.RED, Color.RED);
+	  	
+	  	path = new Path();
+	  	ps = makePath(fromRightSwitchToCube);
 	  	path.addPoints(ps);
 	  	
 	  	fig2.addData(Path.ToDoubleArray(ps), Color.RED, Color.RED);

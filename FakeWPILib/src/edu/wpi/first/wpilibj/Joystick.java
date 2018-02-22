@@ -25,4 +25,9 @@ public class Joystick {
 		return false;
 	}
 
+	public int getRawAxis(int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
