@@ -15,16 +15,16 @@ public class RobotMain {
 
 	public static void main(String[] args){
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.97, 0.0,0 );
+		MetaRobot meta = new MetaRobot(robot, 0.9, 0.0,0 );
 		
 		robot.robotInit();
 		robot.autonomousInit();
 		
-		for(int i = 0; i < 2000; i++){
+		for(int i = 0; i < 1500; i++){
 			meta.update();
 			robot.autonomousPeriodic();
 		}
-		
+		robot.autonomousPeriodic();
 		
 		fig2.addData(toDoubles(meta.posX.toArray()), toDoubles(meta.posY.toArray()), Color.RED, Color.RED);
 		

@@ -20,15 +20,17 @@ public class MetaRobot {
 	public ArrayList<Double> times = new ArrayList<Double>();
 	public ArrayList<Double> velocities = new ArrayList<Double>();
 	
-	public double x = 180, y = 18, angle = 90, elevatorHeight = 0;
+	public double x = 55, y = 18, angle = 90, elevatorHeight = 0;
 	public static final double topSpeed = 15 * 12;
 	public static final double width = 28;
 	public static final double length = 26;
 	public static final double wheelRadius = Math.sqrt(Math.pow(width/2.0, 2) + Math.pow(length/2.0, 2));
 	public static final double elevatorTopSpeed = 100; 
+	public static double time = 0; 
 	
-	public double time = 0;
+	
 	public double leftSpeed = 0, rightSpeed = 0;
+	public double lastSpeed = 0;
 	public double momentum = 0;
 	public double imbalance = 0;
 	public double elevatorSpeed = 0;
@@ -49,7 +51,7 @@ public class MetaRobot {
 		posX.add(x);
 		posY.add(y);
 		times.add(time);
-		velocities.add(leftSpeed/2.0+rightSpeed/2.0);
+		
 		elevatorHeights.add(elevatorHeight);
 		elevatorSpeeds.add(elevatorSpeed);
 		
@@ -58,17 +60,17 @@ public class MetaRobot {
 		//Run drive train calculations
 		double leftPower = driveTrain.backLeft.get() / 2.0 + driveTrain.frontLeft.get() / 2.0;
 		double rightPower = driveTrain.backRight.get() / 2.0 + driveTrain.frontRight.get() / 2.0;
-		
 		leftSpeed = topSpeed*leftPower*(1-momentum - imbalance) + leftSpeed*(momentum + imbalance);
 		rightSpeed = topSpeed*rightPower*(1-momentum) + rightSpeed*momentum;
 		
 		
-		double rotation = -leftPower*topSpeed / 2.0 + rightPower*topSpeed / 2.0 - leftSpeed/2.0 + rightSpeed/2.0; 
+		double rotation = -leftPower*topSpeed*(1-momentum) + rightPower*topSpeed *(1-momentum) - leftSpeed*momentum + rightSpeed*momentum; 
 		
 		double forwards = leftSpeed / 2.0 + rightSpeed / 2.0;
-		
+		velocities.add(forwards - lastSpeed);
 		double dx =  forwards * Math.cos(Math.toRadians(angle)) * dt;
   		double dy =  forwards * Math.sin(Math.toRadians(angle)) * dt;
+  		
   		double deltaDegree = dt * rotation * 360.0 / (wheelRadius * 2*Math.PI);
   		
   		//Run elevator calculations
@@ -77,18 +79,18 @@ public class MetaRobot {
   		double de = elevatorSpeed*dt - 1*dt;
   		
   		//Update robot state
-		this.angle += deltaDegree;
+		this.angle -= deltaDegree;
   		this.x += dx;
   		this.y += dy;
   		this.elevatorHeight += de;
 		  		
-		driveTrain.leftEncoder.adjust(dt * leftPower * topSpeed);
-		driveTrain.rightEncoder.adjust(dt * rightPower * topSpeed);
+		driveTrain.leftEncoder.adjust(dt*leftSpeed);
+		driveTrain.rightEncoder.adjust(dt * rightSpeed);
 		driveTrain.gyro.adjust( deltaDegree);
 		elevator.leftMotor.setEncoder(elevatorHeight);
 		
 		time += dt;
-		
+		lastSpeed = forwards;
 	}
 	
 	public double report(){

@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 
 public class PursuitController {
-	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kv = 0.0; //Proportional control factors
+	public static double Kp = 0.07, Ka = 2.5, Kb = 0.0, Kv = 0.0; //Proportional control factors
 	public static double Lf = 18, La = 48;
 	private Path path;  //Path for the robot to follow
-	private double robotLength = 30;
+	private double robotLength = 34;
 	private double robotTopSpeed = 0;
 	public PursuitController(Path path, double robotLength, double robotTopSpeed){
+		
 		this.path = path;
 		this.robotLength = robotLength;
 		this.robotTopSpeed = robotTopSpeed;
@@ -51,9 +52,12 @@ public class PursuitController {
 		alpha = Ka * Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
 		double beta = Kb * Math.atan2(2.0 * robotLength * Math.sin(Math.toRadians(robot.angle - target.angle)) / Lf, 1.0);
 		double delta_angle = alpha + beta;
+		if(Path.DistanceBetweenPoints(robot, target) < 9){
+			delta_angle = (robot.angle - target.angle)*0.03;
+		}
 		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
 		//System.out.println(Path.DistanceBetweenPoints(robot, target)+", "+Kv * (targetVelocity - robot.velocity/robotTopSpeed));
-		System.out.println((int) robot.x +" ," + (int) robot.y + " , " + (int) target.x + ", "+ (int) target.y +", "+ (int) robot.angle );
+		//System.out.println((int) robot.x +" ," + (int) robot.y + " , " + (int) target.x + ", "+ (int) target.y +", "+ (int) robot.angle );
 		//System.out.println(delta_speed + ", " +delta_angle);
 		return new double[]{delta_speed, delta_angle};
 	}
@@ -79,7 +83,7 @@ public class PursuitController {
 	 * @return True if the robot has fully traversed the path. 
 	 */
 	public boolean isFinished(double distance){
-		return distance >= path.getLength() - 1;
+		return distance >= path.getLength() - 3;
 	}
 	
 	/*public static void main(String[] args){
