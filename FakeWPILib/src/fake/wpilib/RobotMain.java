@@ -15,7 +15,7 @@ public class RobotMain {
 
 	public static void main(String[] args){
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.9, 0.0,0 );
+		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0 );
 		
 		robot.robotInit();
 		robot.autonomousInit();
@@ -23,6 +23,10 @@ public class RobotMain {
 		for(int i = 0; i < 1500; i++){
 			meta.update();
 			robot.autonomousPeriodic();
+			if(i % 1500 == 0){
+				//drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
+			}
+				
 		}
 		robot.autonomousPeriodic();
 		
@@ -32,7 +36,11 @@ public class RobotMain {
 		
 		fig2.updateUI();
 		FalconLinePlot fig3 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.velocities.toArray()), Color.BLACK, Color.BLACK);
-
+		//FalconLinePlot fig4 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.accelerations.toArray()), Color.BLACK, Color.BLACK);
+		FalconLinePlot fig5 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.jerks.toArray()), Color.BLACK, Color.BLACK);
+		fig3.setTitle("Velocity");
+		//fig4.setTitle("Acceleration");
+		fig5.setTitle("Jerk");
 		System.out.println(meta.time + ", "+meta.report());		
 	}
 	
@@ -43,5 +51,24 @@ public class RobotMain {
 		}
 		return tmp;
 	}
-	
+	public static void drawRobot(double x, double y, double angle, Color c){
+		double rad = Math.toRadians(angle);
+		double length = 38;
+		double width = 33;
+		double[][] tmp = new double[][]{
+			{x,y}, {x + width/2*Math.cos(rad), y+length/2*Math.sin(rad)}
+		};
+		
+		double[][] tmp2 = new double[][]{
+			{width/2*Math.cos(rad) - length/2*Math.sin(rad) + x, width/2*Math.sin(rad) + length/2*Math.cos(rad) + y},
+			{-width/2*Math.cos(rad) - length/2*Math.sin(rad) + x, -width/2*Math.sin(rad) + length/2*Math.cos(rad) + y},
+			{-width/2*Math.cos(rad) + length/2*Math.sin(rad) + x, -width/2*Math.sin(rad) - length/2*Math.cos(rad) + y},
+			{width/2*Math.cos(rad) + length/2*Math.sin(rad) + x, width/2*Math.sin(rad) - length/2*Math.cos(rad) + y},
+			{width/2*Math.cos(rad) - length/2*Math.sin(rad) + x, width/2*Math.sin(rad) + length/2*Math.cos(rad) + y}
+		};
+		
+		fig2.addData(tmp, c);
+		fig2.addData(tmp2, c);
+		fig2.updateUI();
+	}
 }

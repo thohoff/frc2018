@@ -19,7 +19,8 @@ public class MetaRobot {
 	public ArrayList<Double> elevatorSpeeds = new ArrayList<Double>();
 	public ArrayList<Double> times = new ArrayList<Double>();
 	public ArrayList<Double> velocities = new ArrayList<Double>();
-	
+	public ArrayList<Double> accelerations = new ArrayList<Double>();
+	public ArrayList<Double> jerks = new ArrayList<Double>();
 	public double x = 55, y = 18, angle = 90, elevatorHeight = 0;
 	public static final double topSpeed = 15 * 12;
 	public static final double width = 28;
@@ -30,7 +31,10 @@ public class MetaRobot {
 	
 	
 	public double leftSpeed = 0, rightSpeed = 0;
-	public double lastSpeed = 0;
+	public static double lastSpeed = 0;
+	public static double lastAccel = 0;
+	public static double lastJerk = 0;
+	
 	public double momentum = 0;
 	public double imbalance = 0;
 	public double elevatorSpeed = 0;
@@ -51,7 +55,9 @@ public class MetaRobot {
 		posX.add(x);
 		posY.add(y);
 		times.add(time);
-		
+		velocities.add(lastSpeed);
+		accelerations.add(lastAccel);
+		jerks.add(lastJerk);
 		elevatorHeights.add(elevatorHeight);
 		elevatorSpeeds.add(elevatorSpeed);
 		
@@ -67,7 +73,7 @@ public class MetaRobot {
 		double rotation = -leftPower*topSpeed*(1-momentum) + rightPower*topSpeed *(1-momentum) - leftSpeed*momentum + rightSpeed*momentum; 
 		
 		double forwards = leftSpeed / 2.0 + rightSpeed / 2.0;
-		velocities.add(forwards - lastSpeed);
+		
 		double dx =  forwards * Math.cos(Math.toRadians(angle)) * dt;
   		double dy =  forwards * Math.sin(Math.toRadians(angle)) * dt;
   		
@@ -90,12 +96,15 @@ public class MetaRobot {
 		elevator.leftMotor.setEncoder(elevatorHeight);
 		
 		time += dt;
+		double accel = (forwards-lastSpeed) / dt;
+		lastJerk = (lastAccel - accel) / dt;
+		lastAccel = (forwards-lastSpeed) / dt;
 		lastSpeed = forwards;
 	}
 	
 	public double report(){
 		Point robot = new Point(x, y);
-		Point target = new Point(230, 150-17);
+		Point target = new Point(85, 303-17);
 		return Path.DistanceBetweenPoints(robot, target) + Math.abs(this.angle - 90)/5.0 ;
 	}
 	

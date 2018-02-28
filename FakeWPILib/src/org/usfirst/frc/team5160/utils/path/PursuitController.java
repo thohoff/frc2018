@@ -3,13 +3,18 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team5160.utils.BasicPID;
+import org.usfirst.frc.team5160.utils.TrajectoryPID;
+
+import fake.wpilib.MetaRobot;
 
 public class PursuitController {
-	public static double Kp = 0.07, Ka = 2.5, Kb = 0.0, Kv = 0.0; //Proportional control factors
-	public static double Lf = 18, La = 48;
+	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kvel = 0.0, Kacc = 0, Kd = 0; //Proportional control factors
+	public static double Lf = 18, La = 64;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 34;
 	private double robotTopSpeed = 0;
+	private TrajectoryPID pid = new TrajectoryPID(Kp, 0.0, Kd, Kvel, Kacc, La); 
+	private BasicPID turnPid = new BasicPID(1, 0, 0.5);
 	public PursuitController(Path path, double robotLength, double robotTopSpeed){
 		
 		this.path = path;
@@ -22,6 +27,7 @@ public class PursuitController {
 	}
 	
 	private double[] update(Point robot, Point target){
+		/*
 		double targetVelocity = 0;
 		if(path.getLength() > 2*La){
 			//Accelerating
@@ -47,18 +53,12 @@ public class PursuitController {
 			else{
 				targetVelocity = (split/La)  - (path.getLength() - target.distance) * (split/La) / La;
 			}
-		}
+		}*/
 		double alpha = Path.AngleBetweenPoints(robot, target) - Math.toRadians(robot.angle);
 		alpha = Ka * Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
 		double beta = Kb * Math.atan2(2.0 * robotLength * Math.sin(Math.toRadians(robot.angle - target.angle)) / Lf, 1.0);
 		double delta_angle = alpha + beta;
-		if(Path.DistanceBetweenPoints(robot, target) < 9){
-			delta_angle = (robot.angle - target.angle)*0.03;
-		}
-		double delta_speed = Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
-		//System.out.println(Path.DistanceBetweenPoints(robot, target)+", "+Kv * (targetVelocity - robot.velocity/robotTopSpeed));
-		//System.out.println((int) robot.x +" ," + (int) robot.y + " , " + (int) target.x + ", "+ (int) target.y +", "+ (int) robot.angle );
-		//System.out.println(delta_speed + ", " +delta_angle);
+		double delta_speed = pid.runPID(robot.distance, 0, path.getLength());//Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
 		return new double[]{delta_speed, delta_angle};
 	}
 	
@@ -70,10 +70,6 @@ public class PursuitController {
 	 */
 	public double[] getDrive(Point robotPose){
 		Point target = getTargetPoint(robotPose.distance);
-		//System.out.println("target : " + target.x + ", " + target.y);
-		//System.out.println("robot  : " + robotPose.x + ", " + robotPose.y);
-		//System.out.println("error  : " + Path.DistanceBetweenPoints(robotPose, target));
-		//System.out.println();
 		return update(robotPose, target);
 	}
 	
@@ -83,7 +79,10 @@ public class PursuitController {
 	 * @return True if the robot has fully traversed the path. 
 	 */
 	public boolean isFinished(double distance){
-		return distance >= path.getLength() - 3;
+		if(distance >= path.getLength()){
+			System.out.println("done : "+MetaRobot.time);
+		}
+		return distance >= path.getLength()-3;
 	}
 	
 	/*public static void main(String[] args){

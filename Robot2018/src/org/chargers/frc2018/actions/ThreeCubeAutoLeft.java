@@ -77,9 +77,9 @@ public class ThreeCubeAutoLeft extends ActionGroup{
 
 		 
 		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale3, false));
-		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
+		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );
 			
-			
+		
 	}
 	
 }

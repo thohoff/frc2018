@@ -50,36 +50,36 @@ public class ThreeCubeAutoLeft extends ActionGroup{
 			};
 
 		 
-		 this.addAction(new PathDriveDynamic(fromLeftToScale, false));
+		 this.addAction(new PathDriveDynamic(fromLeftToScale, false).setPower(0.7));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
-		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube, true));
+		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube, true).setPower(0.7));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
-		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale, false));
+		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale, false).setPower(0.65));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
 		 
-		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube2, true));
+		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube2, true).setPower(0.65));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
 		 
 
 		 
-		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale2, false));
+		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale2, false).setPower(0.65));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
 
 		
-		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube3, true));
+		 this.addAction(new PathDriveDynamic(fromLeftScaleToCube3, true).setPower(0.65));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
 			
 
 		 
-		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale3, false));
+		 this.addAction(new PathDriveDynamic(fromCubeToLeftScale3, false).setPower(0.65));
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );
 			
-			
+		
 	}
 	
 }

@@ -133,7 +133,6 @@ public class DriveTrain extends Subsystem {
 		backRight.set(forwards + sideways + rotation);
 		
 		double deltaTime = timeSinceLastDrive.get();
-		System.out.println(deltaTime);
 		double encoderDistance = (leftEncoder.get() * TICK_TO_INCH + rightEncoder.get() * TICK_TO_INCH) / 2.0;
 		double deltaDistance = encoderDistance - lastEncoderDistance;
 		lastEncoderDistance = encoderDistance;

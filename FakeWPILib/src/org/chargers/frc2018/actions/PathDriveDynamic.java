@@ -19,11 +19,15 @@ public class PathDriveDynamic extends Action{
 	private double lastX = 0, lastY = 0;
 	private boolean reverse = false;
 	private Point[] points;
+	private double power = 0.65;
 	public PathDriveDynamic(Point[] ps, boolean reverse){
 		this.reverse = reverse; 
 		this.points = ps;
 	}
-
+	public PathDriveDynamic setPower(double power){
+		this.power = power;
+		return this;
+	}
 	@Override
 	public boolean isFinished() {
 		
@@ -46,12 +50,12 @@ public class PathDriveDynamic extends Action{
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		point.distance = distanceTraveled;
-		double[] power = RMath.normalizeTwo(controller.getDrive(point));
+		double[] output = RMath.normalizeTwo(controller.getDrive(point));
 		if (reverse == false){
-			dt.mecanumDrive(power[0]*0.65, 0, power[1]*0.8);
+			dt.mecanumDrive(output[0]*power, 0, output[1]*(power*1.2));
 		}
 		else{
-			dt.mecanumDrive(-power[0]*0.65,  0,-power[1]*0.8);
+			dt.mecanumDrive(-output[0]*power,  0,-output[1]*(power*1.2));
 		}
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
@@ -65,7 +69,7 @@ public class PathDriveDynamic extends Action{
 	
 	private Path makePath(Point[] ps){
 		Path path = new Path();
-	  	ps = Path.InjectPoints(ps,5);
+		ps = Path.InjectPoints(ps,5);
 	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.SmoothPoints(ps);

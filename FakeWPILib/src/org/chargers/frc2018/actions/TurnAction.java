@@ -18,7 +18,7 @@ public class TurnAction extends Action{
 	private int met = 0;
 	public TurnAction(double target){
 		this.target = target;
-		pid = new BasicPID(0.07, 0.0001, 0.4);
+		pid = new BasicPID(0.07, 0.0001, 0.7);
 	}
 
 	@Override

@@ -284,12 +284,21 @@ public class PursuitMain {
 	}
 	
 	private static Point[] makePath(Point[] ps){
-	  	ps = Path.InjectPoints(ps, 5);
+		long time = System.nanoTime();
+		ps = Path.InjectPoints(ps,5);
 	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.SmoothPoints(ps);
-	  	ps = Path.InjectPoints(ps, 5);
 	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.InjectPoints(ps,2);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.InjectPoints(ps,2);
+	  	ps = Path.SmoothPoints(ps);
+	  	
+	  	System.out.println((System.nanoTime()-time)/1000);
 	  	return ps;
 	}
 	

@@ -1,4 +1,4 @@
-package org.chargers.frc2018.subsystems;
+package edu.wpi.first.wpilibj;
 
 public class AnalogInput {
 

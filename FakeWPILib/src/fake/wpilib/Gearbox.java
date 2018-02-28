@@ -36,8 +36,8 @@ public class Gearbox {
 	
 	public double[][] plotPowerLoad(double diameter){
 		double orig_load = load;
-		double[][] tmp = new double[300][2];
-		for(int i = 0; i < 300; i++){
+		double[][] tmp = new double[500][2];
+		for(int i = 0; i < 500; i++){
 			tmp[i][0] = i;
 			load = i;
 			double val = getLoadInchesPerSecondDiameter(diameter)*load/6;

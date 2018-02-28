@@ -1,6 +1,5 @@
 package org.chargers.frc2018.actions;
 
-import java.awt.Color;
 
 import org.chargers.frc2018.Robot;
 import org.chargers.frc2018.subsystems.DriveTrain;
@@ -10,6 +9,7 @@ import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
 
 
+
 public class PathDriveDynamic extends Action{
 	private PursuitController controller;
 	private double distanceTraveled = 0; 
@@ -17,11 +17,14 @@ public class PathDriveDynamic extends Action{
 	private double lastX = 0, lastY = 0;
 	private boolean reverse = false;
 	private Point[] points;
+	private double power = 0.7;
 	public PathDriveDynamic(Point[] ps, boolean reverse){
 		this.reverse = reverse; 
 		this.points = ps;
 	}
-
+	public void setPower(double power){
+		this.power = power;
+	}
 	@Override
 	public boolean isFinished() {
 		
@@ -30,11 +33,12 @@ public class PathDriveDynamic extends Action{
 
 	@Override
 	public void start() {
+		
 		dt = Robot.superstructure.driveTrain;
 		this.lastX = dt.getPositionX();
 		this.lastY = dt.getPositionY();
 		points = Path.AddStart(points, new Point(lastX, lastY));
-		controller = new PursuitController(makePath(points), 28, 15*12);
+		controller = new PursuitController(makePath(points), 34, 15*12);
 		update();
 		dt.setPosition(lastX, lastY);
 	}
@@ -43,12 +47,12 @@ public class PathDriveDynamic extends Action{
 	public void update() {
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		point.distance = distanceTraveled;
-		double[] power = RMath.normalizeTwo(controller.getDrive(point));
+		double[] output = RMath.normalizeTwo(controller.getDrive(point));
 		if (reverse == false){
-			dt.mecanumDrive(power[0]*0.65, 0, power[1]*0.8);
+			dt.mecanumDrive(output[0]*power, 0, output[1]*power);
 		}
 		else{
-			dt.mecanumDrive(-power[0]*0.65,  0,-power[1]*0.8);
+			dt.mecanumDrive(-output[0]*power,  0,-output[1]*power);
 		}
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
@@ -64,7 +68,13 @@ public class PathDriveDynamic extends Action{
 		Path path = new Path();
 	  	ps = Path.InjectPoints(ps,5);
 	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.InjectPoints(ps,2);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
+	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.SmoothPoints(ps);
 	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);

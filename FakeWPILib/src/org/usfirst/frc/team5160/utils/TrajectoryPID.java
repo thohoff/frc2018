@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5160.utils;
 
+import fake.wpilib.MetaRobot;
 
 /**
  * The Basic PID gives us finer control over the built in PID implementation, but may be slightly slower. 
@@ -23,7 +24,7 @@ public class TrajectoryPID {
 	
 	protected double integral = 0;
 	
-	protected double lastPosition = 0; 
+	protected double lastError = 0; 
 	
 	/**
 	 * @param p Proportional error weight
@@ -46,9 +47,10 @@ public class TrajectoryPID {
 
 
 	public double runPID(double position, double start, double target){
+		double error = (target - position);
 		double pVal = P * (target - position); //Calculate proportional part, just P * error or the different between current and desired positions. 
 		double iVal = I * (integral); //Calculate integral part, this is done before adding in current error
-		double dVal = - D * (position - lastPosition); //Calculate derivative part, is negative because this slows down rapid changes
+		
 		double vVal = 0; // It is just a constant
 		double aVal = 0;
 		int direction = RMath.sign(target-position);
@@ -88,40 +90,22 @@ public class TrajectoryPID {
 			}
 			
 		}
+		double dVal = D * (error - lastError ); //Calculate derivative part, is negative because this slows down rapid changes
 		vVal = V*vVal*direction;
 		aVal = aVal*direction;
+		System.out.println(aVal);
 		
 		//Set the derivative to zero on first run, because there is nothing to base it on
 		if(firstRun){
 			dVal = 0;
 			firstRun = false;
 		}
-		
 		double val = pVal + iVal + dVal + vVal + aVal;
 		
-		lastPosition = position;
-		integral = integral + (target - position);
+		lastError = error;
+		integral = integral + error;
 		if(I != 0){
-			integral = RMath.clamp(-3/I, 3/I, integral);
-		}
-		return RMath.clamp(-1, 1, val);
-	}
-	
-	public double runPID(double position, double start, double target, double velocity){
-		firstRun = false;
-
-		double pVal = P * (target - position); //Calculate proportional part, just P * error or the different between current and desired positions. 
-		double iVal = I * (integral); //Calculate integral part, this is done before adding in current error
-		double dVal = - D * (velocity); //Calculate derivative part, uses the velocity, because thats the derivative, is negative because this slows down rapid changes
-		double vVal = V; // It is just a constant
-		
-				
-		double val = pVal + iVal + dVal + vVal;
-		
-		lastPosition = position;
-		integral = integral + (target - position);
-		if(I != 0){
-			integral = RMath.clamp(-3/I, 3/I, integral);
+			integral = RMath.clamp(-1/I, 1/I, integral);
 		}
 		return RMath.clamp(-1, 1, val);
 	}
@@ -129,7 +113,7 @@ public class TrajectoryPID {
 	public void reset(){
 		firstRun = true;
 		integral = 0;
-		lastPosition = 0;
+		lastError = 0;
 	}
 	
 	public double getP() {
