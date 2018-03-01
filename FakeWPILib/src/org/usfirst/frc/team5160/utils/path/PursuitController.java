@@ -9,7 +9,7 @@ import fake.wpilib.MetaRobot;
 
 public class PursuitController {
 	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kvel = 0.0, Kacc = 0, Kd = 0; //Proportional control factors
-	public static double Lf = 18, La = 64;
+	public static double Lf = 18, La = 48;
 	private Path path;  //Path for the robot to follow
 	private double robotLength = 34;
 	private double robotTopSpeed = 0;
@@ -20,6 +20,7 @@ public class PursuitController {
 		this.path = path;
 		this.robotLength = robotLength;
 		this.robotTopSpeed = robotTopSpeed;
+		
 	}
 	
 	private Point getTargetPoint(double robot_distance){
@@ -78,11 +79,11 @@ public class PursuitController {
 	 * @param distance The distance the robot has traversed
 	 * @return True if the robot has fully traversed the path. 
 	 */
-	public boolean isFinished(double distance){
-		if(distance >= path.getLength()){
+	public boolean isFinished(Point robotPose){
+		if(robotPose.distance >= path.getLength() - 3){
 			System.out.println("done : "+MetaRobot.time);
 		}
-		return distance >= path.getLength()-3;
+		return robotPose.distance >= path.getLength() || Path.DistanceBetweenPoints(robotPose, path.getNearest(path.getLength())) < 3;
 	}
 	
 	/*public static void main(String[] args){

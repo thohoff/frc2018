@@ -19,7 +19,7 @@ public class PathDriveDynamic extends Action{
 	private double lastX = 0, lastY = 0;
 	private boolean reverse = false;
 	private Point[] points;
-	private double power = 0.65;
+	private double power = 0.7;
 	public PathDriveDynamic(Point[] ps, boolean reverse){
 		this.reverse = reverse; 
 		this.points = ps;
@@ -30,8 +30,9 @@ public class PathDriveDynamic extends Action{
 	}
 	@Override
 	public boolean isFinished() {
-		
-		return controller.isFinished(distanceTraveled);
+		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
+		point.distance = distanceTraveled;
+		return controller.isFinished(point);
 	}
 
 	@Override

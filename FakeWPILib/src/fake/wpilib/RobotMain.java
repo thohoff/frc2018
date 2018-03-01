@@ -23,8 +23,8 @@ public class RobotMain {
 		for(int i = 0; i < 1500; i++){
 			meta.update();
 			robot.autonomousPeriodic();
-			if(i % 1500 == 0){
-				//drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
+			if(i % 1449 == 0){
+				drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
 			}
 				
 		}

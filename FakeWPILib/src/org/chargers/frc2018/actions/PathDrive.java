@@ -23,7 +23,9 @@ public class PathDrive extends Action{
 
 	@Override
 	public boolean isFinished() {
-		return controller.isFinished(distanceTraveled);
+		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
+		point.distance = distanceTraveled;
+		return controller.isFinished(point);
 	}
 
 	@Override

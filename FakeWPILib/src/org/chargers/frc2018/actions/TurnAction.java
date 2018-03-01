@@ -18,11 +18,12 @@ public class TurnAction extends Action{
 	private int met = 0;
 	public TurnAction(double target){
 		this.target = target;
-		pid = new BasicPID(0.07, 0.0001, 0.7);
+		pid = new BasicPID(0.07, 0.0001, 0);
 	}
 
 	@Override
 	public boolean isFinished() {
+		System.out.println(dt.getAngle());
 		if(Math.abs(dt.getAngle()- target) < 2){
 			met++;
 			if(met > 5){
