@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import fake.wpilib.MetaRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.chargers.frc2018.OI;
@@ -123,6 +124,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
+		System.out.println(" ( " + (int) posX + " , " + (int) MetaRobot.x + " ), "+ " ( " + (int) posY + " , " + (int) MetaRobot.y + " ) ");
 		//System.out.println(this.getAngle());
 		forwards = forwards*1;
 		rotation = rotation * 0.6;

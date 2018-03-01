@@ -42,7 +42,7 @@ public class PathDriveDynamic extends Action{
 		this.lastX = dt.getPositionX();
 		this.lastY = dt.getPositionY();
 		points = Path.AddStart(points, new Point(lastX, lastY));
-		controller = new PursuitController(makePath(points), 34, 15*12);
+		controller = new PursuitController(makePath(points), 28, 15*12);
 		update();
 		dt.setPosition(lastX, lastY);
 	}

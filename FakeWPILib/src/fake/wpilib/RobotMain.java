@@ -13,26 +13,32 @@ public class RobotMain {
 	
 	public static FalconLinePlot fig2 = new FalconLinePlot(new double[][]{{0,0}});
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws InterruptedException{
+		
+		PursuitMain.makeGraph(fig2);
+		
 		Robot robot = new Robot();
 		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0 );
 		
 		robot.robotInit();
 		robot.autonomousInit();
 		
+		
+		
 		for(int i = 0; i < 1500; i++){
 			meta.update();
 			robot.autonomousPeriodic();
-			if(i % 1449 == 0){
+			if(i % 9 == 0){
 				drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
 			}
+			Thread.sleep(10);
 				
 		}
 		robot.autonomousPeriodic();
 		
 		fig2.addData(toDoubles(meta.posX.toArray()), toDoubles(meta.posY.toArray()), Color.RED, Color.RED);
 		
-		PursuitMain.makeGraph(fig2);
+		
 		
 		fig2.updateUI();
 		FalconLinePlot fig3 = new FalconLinePlot(toDoubles(meta.times.toArray()), toDoubles(meta.velocities.toArray()), Color.BLACK, Color.BLACK);

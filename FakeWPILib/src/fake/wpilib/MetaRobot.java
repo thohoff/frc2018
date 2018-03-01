@@ -21,7 +21,7 @@ public class MetaRobot {
 	public ArrayList<Double> velocities = new ArrayList<Double>();
 	public ArrayList<Double> accelerations = new ArrayList<Double>();
 	public ArrayList<Double> jerks = new ArrayList<Double>();
-	public double x = 180, y = 18, angle = 90, elevatorHeight = 0;
+	public static double x = 280, y = 18, angle = 90, elevatorHeight = 0;
 	public static final double topSpeed = 15 * 12;
 	public static final double width = 28;
 	public static final double length = 26;

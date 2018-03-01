@@ -11,14 +11,14 @@ public class PursuitController {
 	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kvel = 0.0, Kacc = 0, Kd = 0; //Proportional control factors
 	public static double Lf = 18, La = 48;
 	private Path path;  //Path for the robot to follow
-	private double robotLength = 34;
+	private double wheelBase = 28; //Length of the wheelbase
 	private double robotTopSpeed = 0;
 	private TrajectoryPID pid = new TrajectoryPID(Kp, 0.0, Kd, Kvel, Kacc, La); 
 	private BasicPID turnPid = new BasicPID(1, 0, 0.5);
-	public PursuitController(Path path, double robotLength, double robotTopSpeed){
+	public PursuitController(Path path, double wheelBase, double robotTopSpeed){
 		
 		this.path = path;
-		this.robotLength = robotLength;
+		this.wheelBase = wheelBase;
 		this.robotTopSpeed = robotTopSpeed;
 		
 	}
@@ -56,8 +56,8 @@ public class PursuitController {
 			}
 		}*/
 		double alpha = Path.AngleBetweenPoints(robot, target) - Math.toRadians(robot.angle);
-		alpha = Ka * Math.atan2(2.0 * robotLength * Math.sin(alpha) / Lf, 1.0);
-		double beta = Kb * Math.atan2(2.0 * robotLength * Math.sin(Math.toRadians(robot.angle - target.angle)) / Lf, 1.0);
+		alpha = Ka * Math.atan2(2.0 * wheelBase * Math.sin(alpha) / Lf, 1.0);
+		double beta = Kb * Math.atan2(2.0 * wheelBase * Math.sin(Math.toRadians(robot.angle - target.angle)) / Lf, 1.0);
 		double delta_angle = alpha + beta;
 		double delta_speed = pid.runPID(robot.distance, 0, path.getLength());//Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
 		return new double[]{delta_speed, delta_angle};

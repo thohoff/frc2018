@@ -24,7 +24,6 @@ public class ActionGroup extends Action{
 	}
 	@Override
 	public void update() {
-		System.out.println(actions.size());
 		if(actions.get(0).canCall()){
 			actions.get(0).call();
 		}

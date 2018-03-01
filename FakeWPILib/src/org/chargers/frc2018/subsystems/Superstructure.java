@@ -15,6 +15,8 @@ import org.chargers.frc2018.actions.ThreeCubeAutoRight;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
+import fake.wpilib.MetaRobot;
+
 
 
 public class Superstructure extends Subsystem {
@@ -32,14 +34,9 @@ public class Superstructure extends Subsystem {
 	public static Elevator elevator = new Elevator();
 	public static Intake intake = new Intake();
 	private Action autoMode = null;
-	public double[][] startingCoordinates = new double[][]{
-		{66, 18},
-		{330-66,18},
-		{330 - 120, 18}
-	};
 	
-	private StartingPosition startingPosition = StartingPosition.CENTER;
-	private Priority priority = Priority.SCALE;		
+	private StartingPosition startingPosition = StartingPosition.LEFT;
+	private Priority priority = Priority.NONE;		
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
@@ -60,7 +57,7 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "RRR";
+		String gameData = "LLL";
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
@@ -125,7 +122,8 @@ public class Superstructure extends Subsystem {
 		}
 		
 		executeAutoAction();
-		
+		MetaRobot.x = driveTrain.getPositionX();
+		MetaRobot.y = driveTrain.getPositionY();
 	}
 
 	@Override
