@@ -28,9 +28,12 @@ public class OI {
 	
 	public static double getJoystickRotation(){
 		if(Math.abs(joystick.getRawAxis(4)) > 0.05){
-			return joystick.getRawAxis(4)*joystick.getRawAxis(4) * Math.signum(joystick.getRawAxis(4));
+			return joystick.getRawAxis(4);//*joystick.getRawAxis(4) * Math.signum(joystick.getRawAxis(4));
 		}
 		return 0;
+	}
+	public static double getJoystickAngle(){
+		return joystick.getAngle();
 	}
 	public static double getElevatorPower(){
 		if(joystick.getRawButton(3)){

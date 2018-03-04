@@ -73,9 +73,10 @@ public class MetaRobot {
 		double rotation = -leftPower*topSpeed*(1-momentum) + rightPower*topSpeed *(1-momentum) - leftSpeed*momentum + rightSpeed*momentum; 
 		
 		double forwards = leftSpeed / 2.0 + rightSpeed / 2.0;
+		double sideways = topSpeed*(driveTrain.backLeft.get() + driveTrain.backRight.get() - driveTrain.frontLeft.get() - driveTrain.frontRight.get()) / 6.0;
 		
-		double dx =  forwards * Math.cos(Math.toRadians(angle)) * dt;
-  		double dy =  forwards * Math.sin(Math.toRadians(angle)) * dt;
+		double dx =  forwards * Math.cos(Math.toRadians(angle)) * dt + sideways*Math.sin(Math.toRadians(angle))*dt / 1.5;
+  		double dy =  forwards * Math.sin(Math.toRadians(angle)) * dt - sideways*Math.cos(Math.toRadians(angle))*dt / 1.5;
   		
   		double deltaDegree = dt * rotation * 360.0 / (wheelRadius * 2*Math.PI);
   		

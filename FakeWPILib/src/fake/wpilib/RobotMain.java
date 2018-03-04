@@ -16,21 +16,21 @@ public class RobotMain {
 	public static void main(String[] args) throws InterruptedException{
 		
 		PursuitMain.makeGraph(fig2);
-		
+		fig2.setFocusable(true);
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0 );
+		MetaRobot meta = new MetaRobot(robot, 0.98, 0.0,0 );
 		
 		robot.robotInit();
-		robot.autonomousInit();
-		
-		
-		
-		for(int i = 0; i < 1500; i++){
-			meta.update();
-			robot.autonomousPeriodic();
-			if(i % 9 == 0){
+		//robot.autonomousInit();
+		drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
+		for(int i = 0; i < 1000; i++){
+			if(i % 1 == 0){
+				fig2.removeLastNode();
 				drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
 			}
+			meta.update();
+			robot.teleopPeriodic();
+			
 			Thread.sleep(10);
 				
 		}
@@ -73,7 +73,7 @@ public class RobotMain {
 			{width/2*Math.cos(rad) - length/2*Math.sin(rad) + x, width/2*Math.sin(rad) + length/2*Math.cos(rad) + y}
 		};
 		
-		fig2.addData(tmp, c);
+		//fig2.addData(tmp, c);
 		fig2.addData(tmp2, c);
 		fig2.updateUI();
 	}
