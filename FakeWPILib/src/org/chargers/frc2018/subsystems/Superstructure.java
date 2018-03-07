@@ -26,12 +26,14 @@ public class Superstructure extends Subsystem {
 		NONE, SCALE, SWITCH;
 	}
 	
+	//Robot subsystems
 	private ArrayList<Subsystem> subsystems = new ArrayList<Subsystem>();
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Elevator elevator = new Elevator();
 	public static Intake intake = new Intake();
 	private Action autoMode = null;
 	
+	//Auto configuration
 	private StartingPosition startingPosition = StartingPosition.LEFT;
 	private Priority priority = Priority.NONE;		
 	
@@ -58,7 +60,7 @@ public class Superstructure extends Subsystem {
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
-		
+		// Select the correct autonomous mode based on the field configuration
 		if(startingPosition == StartingPosition.LEFT){
 			driveTrain.setPosition(55, 18);
 			if(low == 'L' && high == 'L'){

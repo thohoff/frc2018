@@ -8,7 +8,7 @@ public class ADXRS450_Gyro {
 	
 	public double getAngle() {
 		// TODO Auto-generated method stub
-		return angle;
+		return angle + RMath.FRandRange(-2.5f, 2.5f);
 	}
 	
 	public void set(double d){

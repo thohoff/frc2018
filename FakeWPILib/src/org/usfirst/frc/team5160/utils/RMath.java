@@ -69,4 +69,21 @@ public class RMath {
     	}
     	return d;
     }
+    public static double[] normalizeThree(double[] d){
+    	double total = Math.abs(d[0]) + Math.abs(d[1]) + Math.abs(d[2]);
+    	if(total > 1){
+    	//total = d[0] * d[0] + d[1] * d[1];
+    	return new double[] {d[0] / total, d[1] / total, d[2]/total};
+    	}
+    	return d;
+    }
+    public static double[] normalizeThree(double d0, double d1, double d2){
+    	double total = Math.abs(d0) + Math.abs(d1) + Math.abs(d2);
+    	if(total > 1){
+    	//total = d[0] * d[0] + d[1] * d[1];
+    	return new double[] {d0 / total, d1 / total, d2/total};
+    	}
+    	return new double[]{d0, d1, d2};
+    }
+    
 }
