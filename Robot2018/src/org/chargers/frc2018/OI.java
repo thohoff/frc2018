@@ -38,6 +38,7 @@ public class OI {
 		}
 		return 0;
 	}
+	
 	public static double getElevatorPower(){
 		if(joystick.getRawButton(3)){
 			return 1;

@@ -22,11 +22,6 @@ import org.usfirst.frc.team5160.utils.BasicPID;
 import org.usfirst.frc.team5160.utils.RMath;
 
 public class DriveTrain extends Subsystem {
-<<<<<<< HEAD
-	private AHRS driveIMU;
-=======
-	private MecanumDrive robotDrive;
->>>>>>> branch 'master' of https://github.com/jumbolimbo/frc2018
 	private double posX = 0, posY = 0, speed = 0;
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = 6.0*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
@@ -88,7 +83,7 @@ public class DriveTrain extends Subsystem {
 			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickAngle());
 		}
 		else{
-			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotation());
+			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
 		}
 		
 	}
@@ -162,11 +157,6 @@ public class DriveTrain extends Subsystem {
 	 * @param rotation The amount of power in rotation, relative to the robot, input in the range of -1 to 1. Higher values will work but won't lead to faster speeds
 	 */
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-<<<<<<< HEAD
-		//System.out.println(" ( " + (int) posX + " , " + (int) MetaRobot.x + " ), "+ " ( " + (int) posY + " , " + (int) MetaRobot.y + " ) ");
-		//System.out.println(this.getAngle());
-=======
->>>>>>> branch 'master' of https://github.com/jumbolimbo/frc2018
 		forwards = forwards*1;
 		rotation = rotation * 0.6;
 		

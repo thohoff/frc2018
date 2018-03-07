@@ -28,7 +28,6 @@ public class OI {
 	
 	public static double getJoystickRotationX(){
 		if(Math.abs(joystick.getRawAxis(4)) > 0.05){
-<<<<<<< HEAD
 			return joystick.getRawAxis(4);
 		}
 		return 0;
@@ -36,9 +35,6 @@ public class OI {
 	public static double getJoystickRotationY(){
 		if(Math.abs(joystick.getRawAxis(5)) > 0.05){
 			return joystick.getRawAxis(5);
-=======
-			return joystick.getRawAxis(4);//*joystick.getRawAxis(4) * Math.signum(joystick.getRawAxis(4));
->>>>>>> branch 'master' of https://github.com/jumbolimbo/frc2018
 		}
 		return 0;
 	}
