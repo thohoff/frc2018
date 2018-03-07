@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5160.utils;
 
-import fake.wpilib.MetaRobot;
-
 /**
  * The Basic PID gives us finer control over the built in PID implementation, but may be slightly slower. 
  * @author thomas

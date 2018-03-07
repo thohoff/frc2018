@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import fake.wpilib.MetaRobot;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.chargers.frc2018.OI;
@@ -22,7 +21,6 @@ import org.chargers.frc2018.RobotMap;
 
 public class DriveTrain extends Subsystem {
 	private AHRS driveIMU;
-	private MecanumDrive robotDrive;
 	private double posX = 0, posY = 0, speed = 0;
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = 6.0*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
@@ -124,7 +122,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-		System.out.println(" ( " + (int) posX + " , " + (int) MetaRobot.x + " ), "+ " ( " + (int) posY + " , " + (int) MetaRobot.y + " ) ");
+		//System.out.println(" ( " + (int) posX + " , " + (int) MetaRobot.x + " ), "+ " ( " + (int) posY + " , " + (int) MetaRobot.y + " ) ");
 		//System.out.println(this.getAngle());
 		forwards = forwards*1;
 		rotation = rotation * 0.6;

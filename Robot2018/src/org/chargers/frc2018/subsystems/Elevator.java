@@ -11,7 +11,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
+
+
 public class Elevator extends Subsystem {
+	
+	public enum ElevatorPosition {
+		BOTTOM, SWITCH, SCALE, CLIMB
+	}
+	
 	public WPI_TalonSRX leftMotor; 
 	public WPI_TalonSRX rightMotor;
 	
@@ -41,13 +48,19 @@ public class Elevator extends Subsystem {
 	}
 	
 	@Override
+	public void autoInit() {
+		targetHeight = 0;
+	}
+	
+	@Override
+	public void autoPeriodic() {
+		this.setPower(pid.runPID(getHeightInches(),startHeight, targetHeight));
+
+	}
+	
+	@Override
 	public void teleopPeriodic() {
-		setPower(pid.runPID(getHeightInches(),startHeight, targetHeight));
-		error += Math.abs(targetHeight - getHeightInches());
-		if(getHeightInches() > targetHeight){
-			error += Math.abs(targetHeight - getHeightInches()) *4;
-		}
-		this.setPower(OI.getElevatorPower()*0.75);
+		this.setPower(pid.runPID(getHeightInches(),startHeight, targetHeight));
 
 	}
 	
@@ -69,6 +82,21 @@ public class Elevator extends Subsystem {
 		rightMotor.set(power);
 	}
 	
+	public void setTarget(ElevatorPosition target){
+		startHeight = getHeightInches();
+		if(target == ElevatorPosition.BOTTOM){
+			this.targetHeight = 0;
+		}
+		else if(target == ElevatorPosition.SWITCH){
+			this.targetHeight = 18;
+		}
+		else if(target == ElevatorPosition.CLIMB){
+			this.targetHeight = 58;
+		}
+		else if(target == ElevatorPosition.SCALE){
+			this.targetHeight = 80;
+		}
+	}
 	
 	public void setTarget(double target){
 		startHeight = getHeightInches();

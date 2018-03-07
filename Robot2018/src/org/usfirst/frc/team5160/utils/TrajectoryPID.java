@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5160.utils;
 
-
 /**
  * The Basic PID gives us finer control over the built in PID implementation, but may be slightly slower. 
  * @author thomas
@@ -90,16 +89,16 @@ public class TrajectoryPID {
 			
 		}
 		double dVal = D * (error - lastError ); //Calculate derivative part, is negative because this slows down rapid changes
-		vVal = V*vVal*direction;
 		aVal = aVal*direction;
-		System.out.println(aVal);
 		
 		//Set the derivative to zero on first run, because there is nothing to base it on
 		if(firstRun){
 			dVal = 0;
 			firstRun = false;
 		}
-		double val = pVal + iVal + dVal + vVal + aVal;
+		double val = pVal + iVal + dVal + aVal;
+		vVal = V* (vVal - val)*direction;
+		val += vVal;
 		
 		lastError = error;
 		integral = integral + error;

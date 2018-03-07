@@ -21,12 +21,30 @@ public class RightSwitchCenter extends ActionGroup{
 				new Point(210, 110) , new Point(180, 150-robotLength)
 		};
 		
-		this.addAction(new PathDriveDynamic(fromMiddleToRightSwitch, false));
-		//this.addAction(new PathDriveDynamic(fromRightSwitchToCube, true));
+		Point[] fromRightSwitchToCube2 = {
+				//new Point(230, 150 - robotLength/2.0), 
+				 new Point(150, 140-robotLength)
+		};
 		
-		/*for(int i = 0; i< 50; i++){
-			this.addAction(new TimedAction(new Nothing(), 0.0));
-		}*/
+		Point[] fromCubeToExchange = {
+				new Point(135, robotLength)
+		};
+		
+		this.addAction(new TimedAction(new PathDriveDynamic(fromMiddleToRightSwitch, false),4));
+		this.addAction(new TimedAction(new TurnAction(90), 1) );	
+		
+		this.addAction(new TimedAction(new PathDriveDynamic(fromRightSwitchToCube, true), 3));
+		this.addAction(new TimedAction(new PathDriveDynamic(fromCubeToExchange, false), 3));
+		
+		this.addAction(new TimedAction(new PathDriveDynamic(fromRightSwitchToCube2, true), 3));
+		this.addAction(new TimedAction(new PathDriveDynamic(fromCubeToExchange, false), 3));
+		
+		this.addAction(new TimedAction(new PathDriveDynamic(fromRightSwitchToCube2, true), 3));
+		this.addAction(new TimedAction(new PathDriveDynamic(fromCubeToExchange, false), 3));
+		
+		this.addAction(new TimedAction(new PathDriveDynamic(fromRightSwitchToCube2, true), 3));
+		this.addAction(new TimedAction(new PathDriveDynamic(fromCubeToExchange, false), 3));
+		
 		 
 		 
 

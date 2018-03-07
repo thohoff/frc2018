@@ -64,8 +64,12 @@ public class Path {
 		Point[] tmp = new Point[ps.length];
 		tmp[0] = ps[0];
 		tmp[tmp.length-1] = ps[tmp.length-1];
+		
+		double c = 0.5;
+		double w = (1 - c) / 2;
+		
 		for(int i = 1; i < tmp.length - 1; i++){
-			tmp[i] = new Point(ps[i-1].x*0.4+ps[i+1].x*0.4 + ps[i].x * 0.2, ps[i-1].y*0.4+ps[i+1].y*0.4 + ps[i].y * 0.2);
+			tmp[i] = new Point(ps[i-1].x*w+ps[i+1].x*c + ps[i].x * w, ps[i-1].y*w+ps[i+1].y*c + ps[i].y * w);
 			
 		}
 		return tmp;

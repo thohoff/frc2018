@@ -18,7 +18,7 @@ public abstract class Action {
 	}
 	
 	public boolean canCall(){
-		return (hasStarted == false) || (this.isFinished() == false) && hasStopped == false;
+		return (hasStarted == false) || ((this.isFinished() == false) && hasStopped == false);
 	}
 	
 	public void call(){
@@ -33,13 +33,13 @@ public abstract class Action {
 		}
 		else if (hasStopped == false){
 			callStop();
-			//hasStopped = true;
+			hasStopped = true;
 		}
 	}
 	
 	public void callStop(){
 		this.stop();
-	//	hasStopped = true;
+		hasStopped = true;
 	}
 	
 }

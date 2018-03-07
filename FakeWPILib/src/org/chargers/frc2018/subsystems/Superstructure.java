@@ -15,9 +15,6 @@ import org.chargers.frc2018.actions.ThreeCubeAutoRight;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
-import fake.wpilib.MetaRobot;
-
-
 
 public class Superstructure extends Subsystem {
 	
@@ -122,8 +119,8 @@ public class Superstructure extends Subsystem {
 		}
 		
 		executeAutoAction();
-		MetaRobot.x = driveTrain.getPositionX();
-		MetaRobot.y = driveTrain.getPositionY();
+		//MetaRobot.x = driveTrain.getPositionX();
+		//MetaRobot.y = driveTrain.getPositionY();
 	}
 
 	@Override

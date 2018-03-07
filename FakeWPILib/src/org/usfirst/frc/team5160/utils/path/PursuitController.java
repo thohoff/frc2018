@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.usfirst.frc.team5160.utils.BasicPID;
 import org.usfirst.frc.team5160.utils.TrajectoryPID;
 
-import fake.wpilib.MetaRobot;
 
 public class PursuitController {
 	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kvel = 0.0, Kacc = 0, Kd = 0; //Proportional control factors
@@ -80,9 +79,6 @@ public class PursuitController {
 	 * @return True if the robot has fully traversed the path. 
 	 */
 	public boolean isFinished(Point robotPose){
-		if(robotPose.distance >= path.getLength() - 3){
-			System.out.println("done : "+MetaRobot.time);
-		}
 		return robotPose.distance >= path.getLength() || Path.DistanceBetweenPoints(robotPose, path.getNearest(path.getLength())) < 3;
 	}
 	

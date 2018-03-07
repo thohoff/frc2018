@@ -9,8 +9,6 @@ import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
 
-import fake.wpilib.RobotMain;
-
 
 public class PathDriveDynamic extends Action{
 	private PursuitController controller;
@@ -83,7 +81,6 @@ public class PathDriveDynamic extends Action{
 	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
-	  	RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
 	  	//RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
 	  	return path;
 	}

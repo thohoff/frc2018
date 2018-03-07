@@ -16,7 +16,6 @@ import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
 
-
 public class Superstructure extends Subsystem {
 	
 	public enum StartingPosition {
@@ -32,14 +31,9 @@ public class Superstructure extends Subsystem {
 	public static Elevator elevator = new Elevator();
 	public static Intake intake = new Intake();
 	private Action autoMode = null;
-	public double[][] startingCoordinates = new double[][]{
-		{66, 18},
-		{330-66,18},
-		{330 - 120, 18}
-	};
 	
 	private StartingPosition startingPosition = StartingPosition.LEFT;
-	private Priority priority = Priority.SCALE;		
+	private Priority priority = Priority.NONE;		
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
@@ -60,7 +54,7 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "LLL";
+		String gameData = "LLL";//DriverStation.getInstance().getGameSpecificMessage();
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
@@ -125,7 +119,6 @@ public class Superstructure extends Subsystem {
 		}
 		
 		executeAutoAction();
-		
 	}
 
 	@Override
