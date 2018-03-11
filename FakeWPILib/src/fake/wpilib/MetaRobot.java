@@ -26,7 +26,7 @@ public class MetaRobot {
 	public static final double width = 28;
 	public static final double length = 26;
 	public static final double wheelRadius = Math.sqrt(Math.pow(width/2.0, 2) + Math.pow(length/2.0, 2));
-	public static final double elevatorTopSpeed = 100; 
+	public static final double elevatorTopSpeed = 160; 
 	public static double time = 0; 
 	
 	
@@ -49,7 +49,10 @@ public class MetaRobot {
 		this.elevatorMomentum = elevatorMomentum;
 		this.elevator.error = 0;
 	}
-	
+	public void autoInit(){
+		this.x = driveTrain.getPositionX();
+		this.y = driveTrain.getPositionY();
+	}
 	public void update(){
 		//Update logging values
 		posX.add(x);
@@ -83,7 +86,7 @@ public class MetaRobot {
   		//Run elevator calculations
   		double elevatorPower = elevator.leftMotor.get()/2.0 + elevator.rightMotor.get()/2.0;
   		elevatorSpeed = elevatorTopSpeed*elevatorPower*(1-elevatorMomentum) + elevatorSpeed*elevatorMomentum;
-  		double de = elevatorSpeed*dt - 1*dt;
+  		double de = elevatorSpeed*dt;
   		
   		//Update robot state
 		this.angle -= deltaDegree;
@@ -94,8 +97,7 @@ public class MetaRobot {
 		driveTrain.leftEncoder.adjust(dt*leftSpeed);
 		driveTrain.rightEncoder.adjust(dt * rightSpeed);
 		driveTrain.gyro.adjust( deltaDegree);
-		elevator.leftMotor.setEncoder(elevatorHeight);
-		
+		elevator.encoder.set(elevatorHeight*10);
 		time += dt;
 		double accel = (forwards-lastSpeed) / dt;
 		lastJerk = (lastAccel - accel) / dt;

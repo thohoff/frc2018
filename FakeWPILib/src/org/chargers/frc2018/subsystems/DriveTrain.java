@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.Timer;
 
+import org.chargers.frc2018.Constants;
 import org.chargers.frc2018.OI;
 import org.chargers.frc2018.RobotMap;
 import org.usfirst.frc.team5160.utils.BasicPID;
@@ -24,12 +25,12 @@ import org.usfirst.frc.team5160.utils.RMath;
 public class DriveTrain extends Subsystem {
 	private double posX = 0, posY = 0, speed = 0;
 	private double lastEncoderDistance;
-	private static final double TICK_TO_INCH = 6.0*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
+	private static final double TICK_TO_INCH = Constants.kWheelDiameter*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
 	private Timer timeSinceLastDrive = new Timer();
 	private boolean fieldOriented = true;
 	
-	private double desiredRotation = 90; 
-	private BasicPID turnPID = new BasicPID(0.05, 0.0, 0.5);
+	private double desired_angle = 90; 
+	private BasicPID turnPID;
 	
 	public WPI_TalonSRX frontRight; 
 	public WPI_TalonSRX backRight;
@@ -41,6 +42,9 @@ public class DriveTrain extends Subsystem {
 	
 	@Override
 	public void robotInit() {
+		//Initialize robot PID
+		turnPID = new BasicPID(Constants.kTeleTurnKp, Constants.kTeleTurnKi, Constants.kTeleTurnKd);
+		
 		//Initialize motors on the CAN bus 
 		frontRight = new WPI_TalonSRX(RobotMap.FRONT_RIGHT_CIM);
 		backRight = new WPI_TalonSRX(RobotMap.BACK_RIGHT_CIM);
@@ -76,11 +80,8 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
-		//if(this.timeSinceLastDrive.get()>0.1){
-		//	this.mecanumDrive(0, 0, 0);
-		//}
 		if(fieldOriented){
-			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickAngle());
+			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX(), OI.getJoystickRotationY() );
 		}
 		else{
 			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
@@ -110,29 +111,39 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void reset(){
-		//Reset the gyro, drive time, encoders and speed 
+		//Reset the gyro, drive time, encoders, speed and PID
 		timeSinceLastDrive.reset();
 		timeSinceLastDrive.start();
 		leftEncoder.reset();
 		rightEncoder.reset();
 		speed = 0;
 		gyro.reset();
-		
+		desired_angle = 90;
+		turnPID = new BasicPID(Constants.kTeleTurnKp, Constants.kTeleTurnKi, Constants.kTeleTurnKd);
 	}
 	/***
 	 * ChargerCanum field oriented drive and rotation
 	 * @param forwards The amount of movement in the y-axis direction, relative to the field, input in the range of -1 to 1
 	 * @param sideways The amount of movement in the x-axis direction, relative to the field, input in the range of -1 to 1
-	 * @param desired_angle The desired angle in degrees to rotate to in degrees, relative to the field -- 90 is straight ahead
+	 * @param rotation_x The x value of the rotation joystick, input in the range of -1 to 1
+	 * @param rotation_y The y value of the rotation joystick, input in the range of -1 to 1
 	 */
-	public void mecanumDriveField(double forwards, double sideways, double desired_angle){
-		System.out.println(this.getAngle()+", "+ desired_angle);
+	public void mecanumDriveField(double forwards, double sideways, double rotation_x, double rotation_y){
 		
+		if(Math.pow(rotation_x, 2) + Math.pow(rotation_y, 2) > Constants.kRotationJoystickDeadzone){
+			desired_angle = Math.toDegrees(Math.atan2(rotation_y,rotation_x));
+			//System.out.println(rotation_x + ", "+rotation_y);
+		}
+		//System.out.println(desired_angle+ ", "+ rotation_x + ", "+rotation_y);
 		//Finds the error in angle between the robot and the target. Returns a value in degrees, and finds whether to rotate clockwise or counter clockwise
 		double angle_error = Math.toDegrees(Math.asin(Math.sin(Math.toRadians(this.getAngle())- Math.toRadians(desired_angle))));
 		
 		double rotation = -turnPID.runPID(angle_error, 0);//Plug the error into PID to get to the desired angle
 		 
+		if(Math.abs(forwards) + Math.abs(sideways) + Math.abs(rotation) > 1){
+			rotation = rotation * RMath.clamp(0.1, 1, 1 - Math.abs(forwards) + Math.abs(sideways));
+		}
+		
 		//Field oriented drive power changing
 		double temp    =  forwards*Math.sin(Math.toRadians(this.getAngle())) + sideways*Math.cos(Math.toRadians(this.getAngle())); 
 		sideways   =  -forwards*Math.cos(Math.toRadians(this.getAngle())) + sideways*Math.sin(Math.toRadians(this.getAngle())); 
@@ -157,7 +168,7 @@ public class DriveTrain extends Subsystem {
 	 * @param rotation The amount of power in rotation, relative to the robot, input in the range of -1 to 1. Higher values will work but won't lead to faster speeds
 	 */
 	public void mecanumDrive(double forwards, double sideways, double rotation){
-		forwards = forwards*1;
+		forwards = forwards;
 		rotation = rotation * 0.6;
 		
 		double[] tmp = RMath.normalizeThree(forwards, sideways, rotation);

@@ -38,9 +38,14 @@ public class OI {
 		}
 		return 0;
 	}
-	public static double getJoystickAngle(){
-		return joystick.getAngle();
+	public static boolean getElevatorMoveUp(){
+		return joystick.getRawButtonPressed(3);
 	}
+	
+	public static boolean getElevatorMoveDown(){
+		return joystick.getRawButtonPressed(4);
+	}
+	
 	public static double getElevatorPower(){
 		if(joystick.getRawButton(3)){
 			return 1;

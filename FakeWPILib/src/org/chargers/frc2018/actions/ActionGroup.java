@@ -8,6 +8,15 @@ public class ActionGroup extends Action{
 	public void addAction(Action action){
 		actions.add(new TimedAction(action, 20));
 	}
+	
+	public void addParallelActions(boolean finishOnFirst, Action...acts){
+		ParallelAction tmp = new ParallelAction(finishOnFirst);
+		for(Action act : acts){
+			tmp.addAction(act);
+		}
+		actions.add(tmp);
+	}
+	
 	@Override
 	public boolean isFinished() {
 		return actions.size() == 0; //stop if there are no more actions left

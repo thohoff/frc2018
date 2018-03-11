@@ -3,15 +3,24 @@ package edu.wpi.first.wpilibj;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.exceptions.XInputNotLoadedException;
+
 import fake.wpilib.RobotMain;
 
 public class Joystick implements KeyListener{
 	double x;
 	double y;
-	double rot = 90;
-	double theta = 0;
+	double rotX = 0;
+	double rotY = 0;
+	double lift = 0;
 	public Joystick(int i) {
 		RobotMain.fig2.addKeyListener(this);
+		try {
+			XInputDevice[] devices = XInputDevice.getAllDevices();
+		} catch (XInputNotLoadedException e) {
+			e.printStackTrace();
+		}
 		System.out.println("joy");
 	}
 
@@ -35,8 +44,12 @@ public class Joystick implements KeyListener{
 	}
 
 	public double getRawAxis(int i) {
-		// TODO Auto-generated method stub
-		return theta;
+		if(i == 4){
+		return rotX;
+		}
+		else{
+			return rotY; 
+		}
 	}
 
 	@Override
@@ -53,23 +66,23 @@ public class Joystick implements KeyListener{
 		else if(e.getKeyChar() == 's'){
 			y =  - 1;
 		}
-		else if(e.getKeyChar() == 'e'){
-			theta = 1;
-		}
 		else if(e.getKeyChar() == 'q'){
-			theta =  - 1;
+			lift = -1;
+		}
+		else if(e.getKeyChar() == 'e'){
+			lift =  1;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_UP){
-			rot =  90;
+			rotY =  1;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			rot =  0;
+			rotX =  1;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-			rot =  -90;
+			rotY =  -1;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-			rot =  180;
+			rotX=  -1;
 		}
 		
 	}
@@ -86,13 +99,25 @@ public class Joystick implements KeyListener{
 			y = 0;
 		}
 		else if(e.getKeyChar() == 's'){
-			y =0;
+			y = 0;
 		}
 		else if(e.getKeyChar() == 'q'){
-			theta = 0;
+			lift = 0;
 		}
 		else if(e.getKeyChar() == 'e'){
-			theta =0;
+			lift =  0;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_UP){
+			rotY =  0;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			rotX =  0;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+			rotY =  0;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			rotX=  0;
 		}
 		
 	}
@@ -103,8 +128,14 @@ public class Joystick implements KeyListener{
 		
 	}
 
-	public double getAngle() {
-		return rot;
+	public boolean getRawButtonPressed(int i) {
+		if(i == 3 && lift > 0){
+			return true;
+		}
+		else if(i == 4 && lift < 0){
+			return true;
+		}
+		return false;
 	}
 
 }

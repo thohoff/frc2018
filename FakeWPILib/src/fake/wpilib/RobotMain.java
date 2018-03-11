@@ -15,21 +15,29 @@ public class RobotMain {
 
 	public static void main(String[] args) throws InterruptedException{
 		
+		
+		
 		PursuitMain.makeGraph(fig2);
 		fig2.setFocusable(true);
+		FalconLinePlot fig1 = new FalconLinePlot(new double[][]{{0,0}});
 		Robot robot = new Robot();
-		MetaRobot meta = new MetaRobot(robot, 0.98, 0.0,0 );
+		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0.95 );
 		
 		robot.robotInit();
-		//robot.autonomousInit();
+		robot.autonomousInit();
+		meta.autoInit();
 		drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
-		for(int i = 0; i < 3000; i++){
+		for(int i = 0; i < 1500; i++){
 			if(i % 1 == 0){
+				
 				fig2.removeLastNode();
 				drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
+				fig1.clearNodes();
+				fig1.addData(toDoubles(meta.times.toArray()), toDoubles(meta.elevatorHeights.toArray()), Color.BLUE);
+				fig1.updateUI();
 			}
 			meta.update();
-			robot.teleopPeriodic();
+			robot.autonomousPeriodic();
 			
 			Thread.sleep(10);
 				

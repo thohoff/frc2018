@@ -34,7 +34,7 @@ public class Superstructure extends Subsystem {
 	private Action autoMode = null;
 	
 	//Auto configuration
-	private StartingPosition startingPosition = StartingPosition.LEFT;
+	private StartingPosition startingPosition = StartingPosition.CENTER;
 	private Priority priority = Priority.NONE;		
 	
 	public Superstructure(){
@@ -56,7 +56,7 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "LLL";
+		String gameData = "LLR";
         this.autoMode = new RightSwitchLeft();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
@@ -121,8 +121,6 @@ public class Superstructure extends Subsystem {
 		}
 		
 		executeAutoAction();
-		//MetaRobot.x = driveTrain.getPositionX();
-		//MetaRobot.y = driveTrain.getPositionY();
 	}
 
 	@Override

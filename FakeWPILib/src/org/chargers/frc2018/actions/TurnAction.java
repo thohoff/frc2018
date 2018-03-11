@@ -1,5 +1,6 @@
 package org.chargers.frc2018.actions;
 
+import org.chargers.frc2018.Constants;
 import org.chargers.frc2018.Robot;
 import org.chargers.frc2018.subsystems.DriveTrain;
 import org.usfirst.frc.team5160.utils.BasicPID;
@@ -18,7 +19,7 @@ public class TurnAction extends Action{
 	private int met = 0;
 	public TurnAction(double target){
 		this.target = target;
-		pid = new BasicPID(0.07, 0.0001, 0.1);
+		pid = new BasicPID(Constants.kAutoTurnKp, Constants.kAutoTurnKi, Constants.kAutoTurnKd);
 	}
 
 	@Override
