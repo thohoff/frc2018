@@ -67,8 +67,8 @@ public class RobotMain {
 	}
 	public static void drawRobot(double x, double y, double angle, Color c){
 		double rad = Math.toRadians(angle);
-		double length = 38;
-		double width = 33;
+		double length = 33;
+		double width = 38;
 		double[][] tmp = new double[][]{
 			{x,y}, {x + width/2*Math.cos(rad), y+length/2*Math.sin(rad)}
 		};

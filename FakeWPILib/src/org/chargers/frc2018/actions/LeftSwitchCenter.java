@@ -20,7 +20,7 @@ public class LeftSwitchCenter extends ActionGroup{
 		};
 		Point[] fromLeftSwitchToCube = {
 				//new Point(100, 150 - robotLength/2.0), 
-				new Point(120, 110) ,new Point(140, 150-cubeBuffer*2)
+				new Point(120, 90) ,new Point(140, 150-cubeBuffer*2)
 		};
 		
 		Point[] fromLeftSwitchToCube2 = {

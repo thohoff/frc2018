@@ -2,6 +2,7 @@ package fake.wpilib;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import org.chargers.frc2018.Constants;
 import org.usfirst.frc.team5160.utils.BasicPID;
 import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
 import org.usfirst.frc.team5160.utils.path.Path;
@@ -15,6 +16,7 @@ public class PursuitMain {
 		
 		
 		
+		/*
 		
 		Point[] FromLeftToScale = {
 			new Point(55,robotLength/2.0), new Point(55,36), new Point(48,200),new Point(85, 270 - robotLength/2.0), new Point(85, 300 - robotLength/2.0)
@@ -238,7 +240,20 @@ public class PursuitMain {
 	  	path.addPoints(ps);
 	  	
 	  	fig2.addData(Path.ToDoubleArray(ps), Color.RED, Color.RED);
+	  	*/
+		double scoreBuffer = Constants.kCenterToFrontBumperDistance;
+		double cubeBuffer = Constants.kCenterToIntakeDistance - Constants.kAutoCubeIntakeDistance;
+		
+		Point[] toLeftScale = {
+				//new Point(55,robotLength/2.0), 
+				new Point(55,36), new Point(48,200),new Point(85, 270 - scoreBuffer), new Point(85, 300 - scoreBuffer)
+		};
+		
 	  	
+	  	Path path = new Path();
+	  	Point[] ps = makePath(toLeftScale);
+	  	path.addPoints(ps);
+	  	FalconLinePlot fig2 = new FalconLinePlot(Path.ToDoubleArray(ps), Color.RED, Color.RED);
 	  	makeGraph(fig2);
 	  	
 	}
