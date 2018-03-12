@@ -842,6 +842,19 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
         }
     }
     
+    public void removeLastNode(){
+    	if(link.get(link.size() - 1).x.length == 5){
+    		link.remove(link.size() - 1);
+    	}
+    	else if (link.get(link.size() - 2).x.length == 5){
+    		link.remove(link.size() - 2);
+    	}
+    }
+    
+    public void clearNodes(){
+    	link.clear();
+    }
+    
     /******TEST MAIN METHOD*******/
     /*public static void main(String[] args) {
     	

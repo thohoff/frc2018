@@ -11,21 +11,56 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	public static Joystick joystick = new Joystick(0);
+	
 	public static double getJoystickX(){
 		if(Math.abs(joystick.getX()) > 0.05){
 			return joystick.getX()*joystick.getX() * Math.signum(joystick.getX());
 		}
 		return 0;
 	}
+	
 	public static double getJoystickY(){
 		if(Math.abs(joystick.getY()) > 0.05){
 			return joystick.getY()*joystick.getY() * Math.signum(joystick.getY());
 		}
 		return 0;
 	}
-	public static double getJoystickRotation(){
-		if(Math.abs(joystick.getY()) > 0.05){
-			return joystick.getX(Hand.kRight)*joystick.getX(Hand.kRight) * Math.signum(joystick.getY());
+	
+	public static double getJoystickRotationX(){
+		if(Math.abs(joystick.getRawAxis(4)) > 0.05){
+			return joystick.getRawAxis(4);
+		}
+		return 0;
+	}
+	public static double getJoystickRotationY(){
+		if(Math.abs(joystick.getRawAxis(5)) > 0.05){
+			return joystick.getRawAxis(5);
+		}
+		return 0;
+	}
+	public static boolean getElevatorMoveUp(){
+		return joystick.getRawButtonPressed(3);
+	}
+	
+	public static boolean getElevatorMoveDown(){
+		return joystick.getRawButtonPressed(4);
+	}
+	
+	public static double getElevatorPower(){
+		if(joystick.getRawButton(3)){
+			return 1;
+		}
+		else if(joystick.getRawButton(4)){
+			return -1;
+		}
+		return 0;
+	}
+	public static double getIntakePower(){
+		if(joystick.getRawButton(1)){
+			return 1;
+		}
+		else if(joystick.getRawButton(2)){
+			return -1;
 		}
 		return 0;
 	}
