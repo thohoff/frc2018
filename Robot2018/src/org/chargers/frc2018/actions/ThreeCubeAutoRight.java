@@ -49,7 +49,7 @@ public class ThreeCubeAutoRight extends ActionGroup {
 	     
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
-			
+			/*
 		 //Drive and intake cube
 		 tmp = new ParallelAction(false)
 	    		 .addAction(new PathDriveDynamic(fromRightScaleToCube, true).setPower(0.7), 4)
@@ -98,7 +98,7 @@ public class ThreeCubeAutoRight extends ActionGroup {
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(90), 1) );
 		 this.addAction(new TimedAction(new TurnAction(90), 1) );
-
+			 */
 	}
 
 }

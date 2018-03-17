@@ -15,6 +15,8 @@ import org.chargers.frc2018.actions.ThreeCubeAutoRight;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -64,6 +66,8 @@ public class Superstructure extends Subsystem {
 		for(Subsystem s : subsystems){
 			s.robotInit();
 		}
+		//UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		//camera.setResolution(400, 300);
 	}
 
 	@Override

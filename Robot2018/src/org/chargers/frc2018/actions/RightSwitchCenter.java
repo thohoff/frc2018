@@ -40,7 +40,7 @@ public class RightSwitchCenter extends ActionGroup{
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );		
 		
-		
+		/*
 		tmp = new ParallelAction(false)
 	    		 .addAction(new PathDriveDynamic(fromRightSwitchToCube, true).setPower(0.65), 6)
 	    		 .addAction(new ElevatorAction(ELEVATOR_STATE.ZERO), 6);
@@ -57,7 +57,7 @@ public class RightSwitchCenter extends ActionGroup{
 		
 		this.addAction(new TimedAction(new PathDriveDynamic(fromRightSwitchToCube2, true), 3));
 		this.addAction(new TimedAction(new PathDriveDynamic(fromCubeToExchange, false), 3));
-		
+		*/
 		 
 		 
 
