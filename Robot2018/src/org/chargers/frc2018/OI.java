@@ -50,6 +50,9 @@ public class OI {
 	public static double getElevatorPower(){
 		return operator.getY();
 	}
+	public static double getIntakePowerOverride(){
+		return operator.getRawAxis(5);
+	}
 	public static double getIntakePower(){
 		if(operator.getRawButton(1)){
 			return 1;

@@ -35,7 +35,12 @@ public class Intake extends Subsystem {
 	
 	@Override
 	public void teleopPeriodic(){
-		this.setPowerSafe(OI.getIntakePower());
+		if(Math.abs(OI.getIntakePowerOverride()) < 0.1){
+			this.setPowerSafe(OI.getIntakePower()*0.75);	
+		}
+		else{
+			this.setPower(OI.getIntakePowerOverride()*0.75);
+		}
 	}
 	
 	public void setPower(double power){
