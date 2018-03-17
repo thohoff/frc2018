@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class Intake extends Subsystem {
 	public WPI_TalonSRX middleLeftMotor;
 	public WPI_TalonSRX middleRightMotor; 
-	public WPI_TalonSRX frontLeftMotor;
-	public WPI_TalonSRX frontRightMotor;
+	public WPI_TalonSRX backLeftMotor;
+	public WPI_TalonSRX backRightMotor;
 	
 	
 	public AnalogInput ultrasonicSensor;
@@ -23,22 +23,31 @@ public class Intake extends Subsystem {
 	public void robotInit(){
 		middleLeftMotor = new WPI_TalonSRX(RobotMap.INTAKE_MIDDLE_LEFT_775);
 		middleRightMotor = new WPI_TalonSRX(RobotMap.INTAKE_MIDDLE_RIGHT_775);
-		frontLeftMotor = new WPI_TalonSRX(RobotMap.INTAKE_FRONT_LEFT_775);
-		frontRightMotor = new WPI_TalonSRX(RobotMap.INTAKE_FRONT_RIGHT_775);
+		backLeftMotor = new WPI_TalonSRX(RobotMap.INTAKE_BACK_LEFT_775);
+		backRightMotor = new WPI_TalonSRX(RobotMap.INTAKE_BACK_RIGHT_775);
 		
 		configureMotor(middleLeftMotor);
 		configureMotor(middleRightMotor);
-		configureMotor(frontLeftMotor);
-		configureMotor(frontRightMotor);
+		configureMotor(backLeftMotor);
+		configureMotor(backRightMotor);
 		ultrasonicSensor = new AnalogInput(3); //Ultrasonic sensor is in port 3
 	}
 	
 	@Override
 	public void teleopPeriodic(){
-		this.setPower(OI.getIntakePower());
+		this.setPowerSafe(OI.getIntakePower());
 	}
 	
 	public void setPower(double power){
+		middleLeftMotor.set(power);
+		middleRightMotor.set(-power);
+		backLeftMotor.set(power);
+		backRightMotor.set(power);
+	}
+	public double getUltrasonicDistance(){
+		return ultrasonicSensor.getVoltage() * InchesPerVolt;
+	}
+	public void setPowerSafe(double power){
 		
 		double minDistance = 3;
 		double distance = ultrasonicSensor.getVoltage() * InchesPerVolt;
@@ -50,8 +59,8 @@ public class Intake extends Subsystem {
 		else{
 			middleLeftMotor.set(power);
 			middleRightMotor.set(-power);
-			frontLeftMotor.set(power);
-			frontRightMotor.set(power);
+			backLeftMotor.set(power);
+			backRightMotor.set(power);
 		}
 	}
 	private void configureMotor(TalonSRX motor){

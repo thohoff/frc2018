@@ -17,6 +17,7 @@ public class RobotMap {
 		public static int ELEVATOR_LEFT_775 = 11;
 		public static int ELEVATOR_RIGHT_775 = 4;
 		
+		
 		//Climber motors
 		public static int CLIMBER_LEFT_775 = 12; 
 		public static int CLIMBER_RIGHT_775 = 3;
@@ -24,14 +25,18 @@ public class RobotMap {
 		//Intake motors
 		public static int INTAKE_MIDDLE_RIGHT_775 = 7;
 		public static int INTAKE_MIDDLE_LEFT_775 = 8;
-		public static int INTAKE_FRONT_RIGHT_775 = 6;
-		public static int INTAKE_FRONT_LEFT_775 = 9;
+		public static int INTAKE_BACK_RIGHT_775 = 6;
+		public static int INTAKE_BACK_LEFT_775 = 9;
 		
 		//Drive encoders 
 		public static int LEFT_ENCODER_CHANNEL_A = 0;
 		public static int LEFT_ENCODER_CHANNEL_B = 1;
 		public static int RIGHT_ENCODER_CHANNEL_A = 2;
 		public static int RIGHT_ENCODER_CHANNEL_B = 3;
+		
+		//Elevator encoder
+		public static int ELEVATOR_ENCODER_CHANNEL_A = 4;
+		public static int ELEVATOR_ENCODER_CHANNEL_B = 5;
 		
 		//Limit switch
 		public static int UPPER_SWITCH_CHANNEL = 4;

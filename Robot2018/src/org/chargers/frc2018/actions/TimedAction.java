@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class TimedAction extends Action {
 	
 	private Action action;
-	private double startTime;
 	private double maxTime;
 	private Timer timer;
 	/**

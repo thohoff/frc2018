@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	public static Joystick joystick = new Joystick(0);
+	public static Joystick operator = new Joystick(1);
 	
 	public static double getJoystickX(){
 		if(Math.abs(joystick.getX()) > 0.05){
@@ -38,21 +39,22 @@ public class OI {
 		}
 		return 0;
 	}
+	public static boolean getElevatorMoveUp(){
+		return operator.getRawButtonPressed(3);
+	}
+	
+	public static boolean getElevatorMoveDown(){
+		return operator.getRawButtonPressed(4);
+	}
 	
 	public static double getElevatorPower(){
-		if(joystick.getRawButton(3)){
-			return 1;
-		}
-		else if(joystick.getRawButton(4)){
-			return -1;
-		}
-		return 0;
+		return operator.getY();
 	}
 	public static double getIntakePower(){
-		if(joystick.getRawButton(1)){
+		if(operator.getRawButton(1)){
 			return 1;
 		}
-		else if(joystick.getRawButton(2)){
+		else if(operator.getRawButton(2)){
 			return -1;
 		}
 		return 0;

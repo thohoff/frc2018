@@ -1,6 +1,5 @@
 package org.chargers.frc2018.actions;
 
-import java.awt.Color;
 
 import org.chargers.frc2018.Robot;
 import org.chargers.frc2018.subsystems.DriveTrain;
@@ -8,6 +7,7 @@ import org.usfirst.frc.team5160.utils.RMath;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
+
 
 
 public class PathDriveDynamic extends Action{
@@ -40,7 +40,7 @@ public class PathDriveDynamic extends Action{
 		this.lastX = dt.getPositionX();
 		this.lastY = dt.getPositionY();
 		points = Path.AddStart(points, new Point(lastX, lastY));
-		controller = new PursuitController(makePath(points), 28, 15*12);
+		controller = new PursuitController(makePath(points));
 		update();
 		dt.setPosition(lastX, lastY);
 	}
@@ -81,7 +81,6 @@ public class PathDriveDynamic extends Action{
 	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
-	  	//RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
 	  	return path;
 	}
 	

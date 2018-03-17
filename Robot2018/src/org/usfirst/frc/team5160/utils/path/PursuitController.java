@@ -2,24 +2,26 @@ package org.usfirst.frc.team5160.utils.path;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import org.chargers.frc2018.Constants;
 import org.usfirst.frc.team5160.utils.BasicPID;
 import org.usfirst.frc.team5160.utils.TrajectoryPID;
 
 
 public class PursuitController {
-	public static double Kp = 0.1, Ka = 2.5, Kb = 0.0, Kvel = 0.0, Kacc = 0, Kd = 0; //Proportional control factors
-	public static double Lf = 18, La = 48;
+	//Proportional control factors
+	public double Ka = Constants.kTrajectoryKalpha;
+	public double Kb = Constants.kTrajectoryKbeta;
+	public double Kp = Constants.kTrajectoryKp;
+	public double Kvel = Constants.kTrajectoryKv;
+	public double Kacc = Constants.kTrajectoryKa;
+	public double Kd = Constants.kTrajectoryKd; 
+	public double Lf = Constants.kTrajectoryLookAhead;
+	public double La = Constants.kTrajectoryAccelerationDistance;
 	private Path path;  //Path for the robot to follow
-	private double wheelBase = 28; //Length of the wheelbase
-	private double robotTopSpeed = 0;
+	private double wheelBase = Constants.kTrackWidth; //Length of the wheelbase
 	private TrajectoryPID pid = new TrajectoryPID(Kp, 0.0, Kd, Kvel, Kacc, La); 
-	private BasicPID turnPid = new BasicPID(1, 0, 0.5);
-	public PursuitController(Path path, double wheelBase, double robotTopSpeed){
-		
+	public PursuitController(Path path){		
 		this.path = path;
-		this.wheelBase = wheelBase;
-		this.robotTopSpeed = robotTopSpeed;
-		
 	}
 	
 	private Point getTargetPoint(double robot_distance){

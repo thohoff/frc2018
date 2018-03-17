@@ -18,9 +18,6 @@ public class RightSwitchLeft extends ActionGroup{
 		
 		this.addAction(new PathDriveDynamic(fromLeftToRightSwitch, false));
 		
-		for(int i = 0; i< 50; i++){
-			this.addAction(new TimedAction(new Nothing(), 0.0));
-		}
 		 
 		 
 

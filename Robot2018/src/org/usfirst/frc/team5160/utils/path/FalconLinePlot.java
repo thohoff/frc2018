@@ -851,6 +851,10 @@ public class FalconLinePlot extends JPanel implements ClipboardOwner{
     	}
     }
     
+    public void clearNodes(){
+    	link.clear();
+    }
+    
     /******TEST MAIN METHOD*******/
     /*public static void main(String[] args) {
     	

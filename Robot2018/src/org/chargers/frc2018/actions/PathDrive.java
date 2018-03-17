@@ -17,7 +17,7 @@ public class PathDrive extends Action{
 	private double lastX = 0, lastY = 0;
 	private boolean reverse = false;
 	public PathDrive(Path path, boolean reverse){
-		controller = new PursuitController(path, 28, 15*12);
+		controller = new PursuitController(path);
 		this.reverse = reverse; 
 	}
 

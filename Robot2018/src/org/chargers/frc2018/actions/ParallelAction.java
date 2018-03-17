@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 public class ParallelAction extends Action {
 	private ArrayList<Action> actions;
-	private double timeLimit;
 	private boolean finishOnFirst;
+	
+	public ParallelAction(boolean finishOnFirst){
+		this.actions = new ArrayList<Action>();
+		this.finishOnFirst = finishOnFirst;
+	}
 	
 	public ParallelAction addAction(Action action){
 		actions.add(action);
@@ -20,10 +24,19 @@ public class ParallelAction extends Action {
 	@Override
 	protected boolean isFinished() {
 		boolean isFinished = false;
-		for (Action action : actions){
-			if(action.canCall() == false){
-				return true;
+		if(finishOnFirst){
+			for (Action action : actions){
+				if(action.canCall() == false){
+					return true;
+				}
 			}
+		}
+		else{
+			boolean allFinished = true;
+			for (Action action : actions){
+				allFinished = allFinished == true && action.canCall() == false;
+			}
+			return allFinished;
 		}
 		return false;
 	}

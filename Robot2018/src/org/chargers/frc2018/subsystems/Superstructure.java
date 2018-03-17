@@ -15,6 +15,10 @@ import org.chargers.frc2018.actions.ThreeCubeAutoRight;
 import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Superstructure extends Subsystem {
 	
@@ -32,10 +36,12 @@ public class Superstructure extends Subsystem {
 	public static Elevator elevator = new Elevator();
 	public static Intake intake = new Intake();
 	private Action autoMode = null;
+	private SendableChooser autoChooser;
 	
 	//Auto configuration
-	private StartingPosition startingPosition = StartingPosition.LEFT;
+	private StartingPosition startingPosition = StartingPosition.CENTER;
 	private Priority priority = Priority.NONE;		
+	private long counter = 0;
 	
 	public Superstructure(){
 		subsystems.add(driveTrain);
@@ -49,6 +55,12 @@ public class Superstructure extends Subsystem {
 	
 	@Override
 	public void robotInit() {
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("Default", StartingPosition.CENTER);
+		autoChooser.addObject("Left", StartingPosition.LEFT);
+		autoChooser.addObject("Right", StartingPosition.RIGHT);
+		autoChooser.addObject("Center", StartingPosition.CENTER);
+		SmartDashboard.putData("Starting position", autoChooser);
 		for(Subsystem s : subsystems){
 			s.robotInit();
 		}
@@ -56,8 +68,9 @@ public class Superstructure extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		String gameData = "LLL";
-        this.autoMode = new RightSwitchLeft();
+		this.startingPosition = (StartingPosition) autoChooser.getSelected();
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();//"LLR";DriverStation.getInstance().getGameSpecificMessage();
+        this.autoMode = new RightSwitchCenter();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
 		// Select the correct autonomous mode based on the field configuration
@@ -121,8 +134,6 @@ public class Superstructure extends Subsystem {
 		}
 		
 		executeAutoAction();
-		//MetaRobot.x = driveTrain.getPositionX();
-		//MetaRobot.y = driveTrain.getPositionY();
 	}
 
 	@Override
@@ -162,6 +173,22 @@ public class Superstructure extends Subsystem {
 				autoMode.call();
 			}
 		}
+	}
+	
+	private void updateDashboard(){
+		if(counter % 10 == 0){
+			SmartDashboard.putNumber("Elevator height", elevator.getHeightInches());
+			SmartDashboard.putBoolean("Elevator bottom", elevator.atLowerLimit());
+			SmartDashboard.putBoolean("Elevator top", elevator.atUpperLimit());
+			SmartDashboard.putNumber("Intake Ultrasonic", intake.getUltrasonicDistance());
+			SmartDashboard.putNumber("DT left Encoder", driveTrain.leftEncoder.getDistance());
+			SmartDashboard.putNumber("DT right Encoder", driveTrain.rightEncoder.getDistance());
+			SmartDashboard.putNumber("DT angle", driveTrain.getAngle());
+			SmartDashboard.putNumber("DT posX", driveTrain.getPositionX());
+			SmartDashboard.putNumber("DT posY", driveTrain.getPositionY());
+		}
+		counter++;
+	
 	}
 	
 }

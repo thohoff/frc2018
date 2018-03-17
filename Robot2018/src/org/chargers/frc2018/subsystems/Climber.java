@@ -26,7 +26,6 @@ public class Climber extends Subsystem {
 	
 	@Override
 	public void teleopPeriodic(){
-		this.setPower(OI.getClimberPower());
 	}
 	
 	public void setPower(double power){
