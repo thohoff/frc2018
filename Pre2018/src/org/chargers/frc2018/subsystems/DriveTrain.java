@@ -28,7 +28,7 @@ public class DriveTrain extends Subsystem {
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = Constants.kWheelDiameter*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
 	private Timer timeSinceLastDrive = new Timer();
-	private boolean fieldOriented = true;
+	private boolean fieldOriented = false;
 	
 	private double desired_angle = 90; 
 	private BasicPID turnPID;
@@ -44,8 +44,8 @@ public class DriveTrain extends Subsystem {
 		//Initialize robot PID
 		turnPID = new BasicPID(Constants.kTeleTurnKp, Constants.kTeleTurnKi, Constants.kTeleTurnKd);
 		
-		frontRight = new Talon(0);
-		backRight = new Talon(1);
+		frontRight = new Talon(1);
+		backRight = new Talon(0);
 		frontLeft = new Talon(2);
 		backLeft = new Talon(3);
 		
@@ -68,11 +68,12 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(this.getAngle()+ ", "+ this.desired_angle);
 		if(fieldOriented){
 			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX(), OI.getJoystickRotationY() );
 		}
 		else{
-			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
+			this.mecanumDrive(-OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
 		}
 		
 	}
@@ -91,7 +92,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getAngle(){
-		return -gyro.getAngle()+90;
+		return gyro.getAngle()+90;
 	}
 	
 	public double getSpeed(){
@@ -125,7 +126,7 @@ public class DriveTrain extends Subsystem {
 		double angle_error = Math.toDegrees(Math.asin(Math.sin(Math.toRadians(this.getAngle())- Math.toRadians(desired_angle))));
 		
 		double rotation = -turnPID.runPID(angle_error, 0);//Plug the error into PID to get to the desired angle
-		 
+		rotation *= 0.6;
 		if(Math.abs(forwards) + Math.abs(sideways) + Math.abs(rotation) > 1){
 			rotation = rotation * RMath.clamp(0.1, 1, 1 - Math.abs(forwards) + Math.abs(sideways));
 		}
@@ -133,7 +134,7 @@ public class DriveTrain extends Subsystem {
 		//Field oriented drive power changing
 		double temp    =  forwards*Math.sin(Math.toRadians(this.getAngle())) + sideways*Math.cos(Math.toRadians(this.getAngle())); 
 		sideways   =  -forwards*Math.cos(Math.toRadians(this.getAngle())) + sideways*Math.sin(Math.toRadians(this.getAngle())); 
-		forwards =  temp; 
+		forwards =  -temp; 
 		 
 		//Normalize power so that no motor has more than 100% power. 
 		double[] tmp = RMath.normalizeThree(forwards, sideways, rotation);
