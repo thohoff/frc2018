@@ -24,8 +24,8 @@ public class RobotMain {
 		MetaRobot meta = new MetaRobot(robot, 0.95, 0.0,0.95 );
 		
 		robot.robotInit();
-	//	robot.autonomousInit();
-	//	meta.autoInit();
+		robot.autonomousInit();
+		meta.autoInit();
 		drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
 		for(int i = 0; i < 15000; i++){
 			if(i % 1 == 0){
@@ -37,7 +37,7 @@ public class RobotMain {
 				fig1.updateUI();
 			}
 			meta.update();
-			robot.teleopPeriodic();
+			robot.autonomousPeriodic();
 			
 			Thread.sleep(10);
 				

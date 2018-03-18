@@ -23,13 +23,13 @@ public class Elevator extends Subsystem {
 
 	public WPI_TalonSRX leftMotor;
 	public WPI_TalonSRX rightMotor;
-	public Encoder encoder;
+	//public Encoder encoder;
 
 	public TrajectoryPID pid;
 	public static double p = 0.2, i = 0.0, d = 4, v = 0.0, a = 0.0;
 
-	private DigitalInput upperLimitSwitch;
-	private DigitalInput lowerLimitSwitch;
+	//private DigitalInput upperLimitSwitch;
+	//private DigitalInput lowerLimitSwitch;
 	private double targetHeight = 0;
 	private double startHeight = 0;
 	private static final double TICK_TO_INCH = 1.5 * Math.PI / 1024.0; // 1024
@@ -47,68 +47,79 @@ public class Elevator extends Subsystem {
 	public void robotInit() {
 		leftMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_LEFT_775);
 		rightMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_RIGHT_775);
-		encoder = new Encoder(RobotMap.ELEVATOR_ENCODER_CHANNEL_A, RobotMap.ELEVATOR_ENCODER_CHANNEL_B, false,
-				EncodingType.k4X);
+		//encoder = new Encoder(RobotMap.ELEVATOR_ENCODER_CHANNEL_A, RobotMap.ELEVATOR_ENCODER_CHANNEL_B, false,
+		//		EncodingType.k4X);
 
 		configureMotor(leftMotor);
 		configureMotor(rightMotor);
 
-		upperLimitSwitch = new DigitalInput(RobotMap.UPPER_SWITCH_CHANNEL);
-		lowerLimitSwitch = new DigitalInput(RobotMap.LOWER_SWITCH_CHANNEL);
+	//	upperLimitSwitch = new DigitalInput(RobotMap.UPPER_SWITCH_CHANNEL);
+	//	lowerLimitSwitch = new DigitalInput(RobotMap.LOWER_SWITCH_CHANNEL);
 
 		pid = new TrajectoryPID(p, i, d, v, a, 24);
 	}
 
 	@Override
 	public void autoInit() {
-		encoder.reset();
+	//	encoder.reset();
 	}
 
 	@Override
 	public void autoPeriodic() {
-		setPower(pid.runPID(getHeightInches(), startHeight, targetHeight));
+		//setPower(pid.runPID(getHeightInches(), startHeight, targetHeight));
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		if (OI.getElevatorMoveUp()) {
-			this.setTarget(this.nextStateUp(getTargetState()));
+			//this.setTarget(this.nextStateUp(getTargetState()));
 		} else if (OI.getElevatorMoveDown()) {
-			this.setTarget(this.nextStateDown(getTargetState()));
+			//this.setTarget(this.nextStateDown(getTargetState()));
 		}
-		if (Math.abs(OI.getElevatorPower()) < 0.1) {
-			setPowerSafe(pid.runPID(getHeightInches(), startHeight, targetHeight));
+		if (Math.abs(OI.getElevatorPower()) < 0.2) {
+		//	setPowerSafe(pid.runPID(getHeightInches(), startHeight, targetHeight));
 		} else {
 			setPower(OI.getElevatorPower());
 		}
 	}
 
 	public double getHeightInches() {
-		return encoder.get() * TICK_TO_INCH;
+		return 15;//encoder.get() * TICK_TO_INCH;
 	}
 
 	public boolean atLowerLimit() {
-		return lowerLimitSwitch.get() || getHeightInches() <= 0;
+		return //lowerLimitSwitch.get() || 
+				getHeightInches() <= 0;
 	}
 
 	public boolean atUpperLimit() {
-		return upperLimitSwitch.get() || getHeightInches() >= 100;
+		return //upperLimitSwitch.get() || 
+				getHeightInches() >= 100;
 	}
 
 	private void setPowerSafe(double power) {
-		power *= 0.6;
-		if (power < 0 && atLowerLimit()) {
+		power *= 0.33;
+		/*if (power < 0 && atLowerLimit()) {
 			power = 0;
 		}
 		if (power > 0 && atUpperLimit()) {
 			power = 0;
+		}*/
+		if(power < 0){
+			power*=0.33;
+			leftMotor.setNeutralMode(NeutralMode.Coast);
+			rightMotor.setNeutralMode(NeutralMode.Coast);
+		}
+		else{
+			leftMotor.setNeutralMode(NeutralMode.Brake);
+			rightMotor.setNeutralMode(NeutralMode.Brake);
 		}
 		leftMotor.set(power);
 		rightMotor.set(power);
 	}
 
 	private void setPower(double power) {
-		power *= 0.6;
+		power *= 0.33;
 		leftMotor.set(power);
 		rightMotor.set(power);
 	}

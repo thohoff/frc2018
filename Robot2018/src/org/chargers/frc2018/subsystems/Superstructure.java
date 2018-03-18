@@ -42,7 +42,7 @@ public class Superstructure extends Subsystem {
 	
 	//Auto configuration
 	private StartingPosition startingPosition = StartingPosition.CENTER;
-	private Priority priority = Priority.NONE;		
+	private Priority priority = Priority.SWITCH;		
 	private long counter = 0;
 	
 	public Superstructure(){
@@ -58,7 +58,7 @@ public class Superstructure extends Subsystem {
 	@Override
 	public void robotInit() {
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Default", StartingPosition.CENTER);
+		autoChooser.addDefault("Default", StartingPosition.LEFT);
 		autoChooser.addObject("Left", StartingPosition.LEFT);
 		autoChooser.addObject("Right", StartingPosition.RIGHT);
 		autoChooser.addObject("Center", StartingPosition.CENTER);
@@ -146,7 +146,8 @@ public class Superstructure extends Subsystem {
 			s.autoPeriodic();
 		}
 		executeAutoAction();
-		
+		System.out.println(driveTrain.getPositionX() + ", "+ driveTrain.getPositionY() + " #### "+driveTrain.getAngle() + " ####");
+		updateDashboard();
 	}
 
 	@Override
@@ -154,6 +155,7 @@ public class Superstructure extends Subsystem {
 		for(Subsystem s : subsystems){
 			s.teleopPeriodic();
 		}
+		updateDashboard();
 	}
 
 	@Override
@@ -180,7 +182,8 @@ public class Superstructure extends Subsystem {
 	}
 	
 	private void updateDashboard(){
-		if(counter % 10 == 0){
+		
+		/*if(counter % 10 == 0){
 			SmartDashboard.putNumber("Elevator height", elevator.getHeightInches());
 			SmartDashboard.putBoolean("Elevator bottom", elevator.atLowerLimit());
 			SmartDashboard.putBoolean("Elevator top", elevator.atUpperLimit());
@@ -190,8 +193,10 @@ public class Superstructure extends Subsystem {
 			SmartDashboard.putNumber("DT angle", driveTrain.getAngle());
 			SmartDashboard.putNumber("DT posX", driveTrain.getPositionX());
 			SmartDashboard.putNumber("DT posY", driveTrain.getPositionY());
+			SmartDashboard.updateValues();
+			System.out.println(driveTrain.leftEncoder.get() + ", "+ driveTrain.rightEncoder.get());
 		}
-		counter++;
+		counter++;*/
 	
 	}
 	

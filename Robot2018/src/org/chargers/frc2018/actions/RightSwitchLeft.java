@@ -13,7 +13,7 @@ public class RightSwitchLeft extends ActionGroup{
 	
 		Point[] fromLeftToRightSwitch = {
 				//new Point(55,robotLength/2.0), 
-				new Point(55,48), new Point(230,90),  new Point(230, 130), new Point(230, 150 - robotLength/2.0)
+				new Point(55,48), new Point(55,90),  new Point(55, 130), new Point(55, 150 - robotLength/2.0)
 		};	
 		
 		this.addAction(new PathDriveDynamic(fromLeftToRightSwitch, false));

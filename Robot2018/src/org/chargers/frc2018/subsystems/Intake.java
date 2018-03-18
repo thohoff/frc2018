@@ -30,6 +30,7 @@ public class Intake extends Subsystem {
 		configureMotor(middleRightMotor);
 		configureMotor(backLeftMotor);
 		configureMotor(backRightMotor);
+		backRightMotor.setInverted(true);
 		ultrasonicSensor = new AnalogInput(3); //Ultrasonic sensor is in port 3
 	}
 	
@@ -46,8 +47,8 @@ public class Intake extends Subsystem {
 	public void setPower(double power){
 		middleLeftMotor.set(power);
 		middleRightMotor.set(-power);
-		backLeftMotor.set(power);
-		backRightMotor.set(power);
+		backLeftMotor.set(power*0.66);
+		backRightMotor.set(power*0.66);
 	}
 	public double getUltrasonicDistance(){
 		return ultrasonicSensor.getVoltage() * InchesPerVolt;
@@ -73,7 +74,7 @@ public class Intake extends Subsystem {
 		motor.enableCurrentLimit(true);
 		motor.configContinuousCurrentLimit(35, 100);
 		motor.configPeakCurrentDuration(300, 100);
-		motor.configPeakCurrentLimit(60, 100);
+		motor.configPeakCurrentLimit(50, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
 	}
 	

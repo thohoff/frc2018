@@ -29,7 +29,7 @@ public class IntakeAction extends Action {
 
 	@Override
 	protected void update() {
-		Robot.superstructure.intake.setPower(power*0.75);
+		Robot.superstructure.intake.setPower(power*0.875);
 	}
 
 	@Override
