@@ -71,12 +71,14 @@ public class Elevator extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
+		/*
 		if (OI.getElevatorMoveUp()) {
 			//this.setTarget(this.nextStateUp(getTargetState()));
 		} else if (OI.getElevatorMoveDown()) {
 			//this.setTarget(this.nextStateDown(getTargetState()));
-		}
+		}*/
 		if (Math.abs(OI.getElevatorPower()) < 0.2) {
+			setPower(0);
 		//	setPowerSafe(pid.runPID(getHeightInches(), startHeight, targetHeight));
 		} else {
 			setPower(OI.getElevatorPower());
@@ -106,9 +108,9 @@ public class Elevator extends Subsystem {
 			power = 0;
 		}*/
 		if(power < 0){
-			power*=0.33;
-			leftMotor.setNeutralMode(NeutralMode.Coast);
-			rightMotor.setNeutralMode(NeutralMode.Coast);
+			power*=0.1;
+			leftMotor.setNeutralMode(NeutralMode.Brake);
+			rightMotor.setNeutralMode(NeutralMode.Brake);
 		}
 		else{
 			leftMotor.setNeutralMode(NeutralMode.Brake);
@@ -119,7 +121,7 @@ public class Elevator extends Subsystem {
 	}
 
 	private void setPower(double power) {
-		power *= 0.33;
+		power *= 0.8;
 		leftMotor.set(power);
 		rightMotor.set(power);
 	}

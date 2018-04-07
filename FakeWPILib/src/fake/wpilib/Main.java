@@ -6,15 +6,15 @@ import org.usfirst.frc.team5160.utils.path.FalconLinePlot;
 public class Main {
 	public static void main(String[] args){
 		Motor PRO = Motor.M_775_PRO;
-		Gearbox box = new Gearbox(PRO, 2, 30, 320); //20-40 for the climber
+		Gearbox box = new Gearbox(PRO, 1, 81, 15); //20-40 for the climber
 		//box.plotPower(4);							//25-30 for a BAG Middle Intake -- Maybe 16-20 -- Double that for back intake
 													//20-25 for a 775 Middle Intake -- Maybe 16 -- Double that for back intake
 													//16-20 for a 775 Front Intake
 													//16-20 for the elevator-- maybe as low as 10-12
-		FalconLinePlot fig4 =  new FalconLinePlot(box.plotPowerLoad(0.75));
-		FalconLinePlot fig3 =  new FalconLinePlot(box.plotAmperageReduction(0.75));
-		FalconLinePlot fig2 =  new FalconLinePlot(box.plotSpeedReduction(0.75));
-		FalconLinePlot fig1 =  new FalconLinePlot(box.plotSpeedPerAmperageReduction(0.75));
+		FalconLinePlot fig4 =  new FalconLinePlot(box.plotPowerLoad(24));
+		FalconLinePlot fig3 =  new FalconLinePlot(box.plotAmperageReduction(24));
+		FalconLinePlot fig2 =  new FalconLinePlot(box.plotSpeedReduction(24));
+		FalconLinePlot fig1 =  new FalconLinePlot(box.plotSpeedPerAmperageReduction(24));
 		//FalconLinePlot fig1 =  new FalconLinePlot(box.plotPowerReduction(4));
 		fig1.setTitle("Speed per amp vs Reduction");
 		fig2.setTitle("Speed vs Reduction");

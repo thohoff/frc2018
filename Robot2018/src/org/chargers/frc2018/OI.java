@@ -13,6 +13,20 @@ public class OI {
 	public static Joystick joystick = new Joystick(0);
 	public static Joystick operator = new Joystick(1);
 	
+	public static boolean reversed = false;
+	public static boolean turnSlow = false;
+	
+	public static double getJoystickSlider(){
+		return joystick.getRawAxis(3);
+	}
+	
+	public static boolean getReverseButton(){
+		return joystick.getRawButtonPressed(2);
+	}
+	public static boolean getTurnSpeedButton(){
+		return joystick.getRawButtonPressed(1);
+	}
+	
 	public static double getJoystickX(){
 		if(Math.abs(joystick.getX()) > 0.05){
 			return joystick.getX()*joystick.getX() * Math.signum(joystick.getX());
@@ -39,6 +53,12 @@ public class OI {
 		}
 		return 0;
 	}
+	public static double getJoystickTwist(){
+		if(Math.abs(joystick.getTwist()) > 0.05){
+			return joystick.getTwist();
+		}
+		return 0;
+	}
 	public static boolean getElevatorMoveUp(){
 		return operator.getRawButtonPressed(3);
 	}
@@ -48,7 +68,10 @@ public class OI {
 	}
 	
 	public static double getElevatorPower(){
-		return operator.getY();
+		if(Math.abs(operator.getY()) > 0.05){
+			return operator.getY();
+		}
+		return 0;
 	}
 	public static double getIntakePowerOverride(){
 		return operator.getRawAxis(5);

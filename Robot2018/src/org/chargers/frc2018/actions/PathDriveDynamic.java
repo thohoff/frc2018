@@ -50,6 +50,7 @@ public class PathDriveDynamic extends Action{
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		point.distance = distanceTraveled;
 		double[] output = RMath.normalizeTwo(controller.getDrive(point));
+		System.out.println("output "+ output[1]);
 		if (reverse == false){
 			dt.mecanumDrive(output[0]*power, 0, output[1]*(power*1.4));
 		}

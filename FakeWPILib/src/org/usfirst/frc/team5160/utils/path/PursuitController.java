@@ -61,6 +61,7 @@ public class PursuitController {
 		double beta = Kb * Math.atan2(2.0 * wheelBase * Math.sin(Math.toRadians(robot.angle - target.angle)) / Lf, 1.0);
 		double delta_angle = alpha + beta;
 		double delta_speed = pid.runPID(robot.distance, 0, path.getLength());//Kp*(Path.DistanceBetweenPoints(robot, target)) + Kv * (targetVelocity - robot.velocity/robotTopSpeed);
+		System.out.println("Delta angle"+delta_angle);
 		return new double[]{delta_speed, delta_angle};
 	}
 	
@@ -81,7 +82,7 @@ public class PursuitController {
 	 * @return True if the robot has fully traversed the path. 
 	 */
 	public boolean isFinished(Point robotPose){
-		return robotPose.distance >= path.getLength() || Path.DistanceBetweenPoints(robotPose, path.getNearest(path.getLength())) < 3;
+		return robotPose.distance >= path.getLength() || Path.DistanceBetweenPoints(robotPose, path.getNearest(path.getLength())) < 6;
 	}
 	
 	/*public static void main(String[] args){

@@ -11,14 +11,14 @@ import org.usfirst.frc.team5160.utils.path.Point;
 
 public class RightSwitchCenter extends ActionGroup{
 	public RightSwitchCenter(){
-		double scoreBuffer = 0;//Constants.kCenterToFrontBumperDistance;
+		double scoreBuffer = Constants.kCenterToFrontBumperDistance/3.0;
 		double cubeBuffer = Constants.kCenterToIntakeDistance - Constants.kAutoCubeIntakeDistance;
 	
 		Point[] fromMiddleToRightSwitch = {
 				//new Point(180,robotLength/2.0),
-				new Point(180,36), new Point(230,70), new Point(230, 150 - scoreBuffer)
+				new Point(180,36), new Point(230,65), new Point(208, 150 - scoreBuffer)
 		};	
-		
+		       
 		Point[] fromRightSwitchToCube = {
 				//new Point(230, 150 - robotLength/2.0), 
 				new Point(210, 90) , new Point(180, 150-cubeBuffer*2)
@@ -39,7 +39,7 @@ public class RightSwitchCenter extends ActionGroup{
 	     
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );	
-		// this.addAction(new IntakeAction(0.7, 2));
+		 this.addAction(new IntakeAction(0.7, 2));
 		
 		/*
 		tmp = new ParallelAction(false)

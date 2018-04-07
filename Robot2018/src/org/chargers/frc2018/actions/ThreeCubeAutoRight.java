@@ -6,7 +6,7 @@ import org.usfirst.frc.team5160.utils.path.Point;
 
 public class ThreeCubeAutoRight extends ActionGroup {
 	public ThreeCubeAutoRight() {
-		double scoreBuffer = Constants.kCenterToFrontBumperDistance;
+		double scoreBuffer = Constants.kCenterToFrontBumperDistance*3;
 		double cubeBuffer = Constants.kCenterToIntakeDistance - Constants.kAutoCubeIntakeDistance;
 
 		Point[] fromRightToScale = {

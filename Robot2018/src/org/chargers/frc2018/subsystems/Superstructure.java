@@ -3,6 +3,7 @@ package org.chargers.frc2018.subsystems;
 import java.util.ArrayList;
 
 import org.chargers.frc2018.actions.Action;
+import org.chargers.frc2018.actions.Forward;
 import org.chargers.frc2018.actions.LeftSwitchCenter;
 import org.chargers.frc2018.actions.LeftSwitchLeft;
 import org.chargers.frc2018.actions.LeftSwitchRight;
@@ -25,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Superstructure extends Subsystem {
 	
 	public enum StartingPosition {
-		LEFT, RIGHT, CENTER;	
+		LEFT, RIGHT, CENTER, FORWARD, NONE;	
 	};
 	
 	public enum Priority {
@@ -41,7 +42,7 @@ public class Superstructure extends Subsystem {
 	private SendableChooser autoChooser;
 	
 	//Auto configuration
-	private StartingPosition startingPosition = StartingPosition.CENTER;
+	private StartingPosition startingPosition = StartingPosition.LEFT;
 	private Priority priority = Priority.SWITCH;		
 	private long counter = 0;
 	
@@ -58,7 +59,7 @@ public class Superstructure extends Subsystem {
 	@Override
 	public void robotInit() {
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Default", StartingPosition.LEFT);
+		autoChooser.addDefault("Default", StartingPosition.FORWARD);
 		autoChooser.addObject("Left", StartingPosition.LEFT);
 		autoChooser.addObject("Right", StartingPosition.RIGHT);
 		autoChooser.addObject("Center", StartingPosition.CENTER);
@@ -66,15 +67,15 @@ public class Superstructure extends Subsystem {
 		for(Subsystem s : subsystems){
 			s.robotInit();
 		}
-		//UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		//camera.setResolution(400, 300);
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(400, 300);
 	}
 
 	@Override
 	public void autoInit() {
 		this.startingPosition = (StartingPosition) autoChooser.getSelected();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();//"LLR";DriverStation.getInstance().getGameSpecificMessage();
-        this.autoMode = new RightSwitchCenter();
+        this.autoMode = new Forward();
 		char low = gameData.charAt(0);
 		char high = gameData.charAt(1);
 		// Select the correct autonomous mode based on the field configuration
@@ -85,17 +86,18 @@ public class Superstructure extends Subsystem {
 					this.autoMode = new LeftSwitchLeft();
 				}
 				else{
-					this.autoMode = new ThreeCubeAutoLeft();
+					this.autoMode = new LeftSwitchLeft();
 				}
-			}
-			else if(high == 'L'){
-				this.autoMode = new ThreeCubeAutoLeft();
 			}
 			else if(low == 'L'){
 				this.autoMode = new LeftSwitchLeft();
+				
+			}
+			else if(high == 'L'){
+				this.autoMode = new Forward();//new ThreeCubeAutoLeft();
 			}
 			else if(low == 'R' ){
-				this.autoMode = new RightSwitchLeft();
+				this.autoMode = new Forward();//new RightSwitchLeft();
 			}
 			
 		}
@@ -118,21 +120,28 @@ public class Superstructure extends Subsystem {
 					this.autoMode = new RightSwitchRight();
 				}
 				else{
-					this.autoMode = new ThreeCubeAutoRight();
+					this.autoMode = new Forward();
 				}
 			}
-			else if(high == 'R'){
-				this.autoMode = new ThreeCubeAutoRight();
-			}
 			else if(low == 'R'){
-				this.autoMode = new RightSwitchRight();
+				this.autoMode =  new Forward();
 			}
+			else if(high == 'R'){
+				this.autoMode = new Forward();
+			}
+			
 			else if(low == 'L' ){
-				this.autoMode = new LeftSwitchRight();
+				this.autoMode = new Forward();
 			}
 		}
+		else if(startingPosition == StartingPosition.FORWARD){
+			this.autoMode =  new Forward();
+		}
+		else if(startingPosition == StartingPosition.NONE){
+			this.autoMode = null;
+		}
 		
-		
+		//this.autoMode = new Forward();
 		for(Subsystem s : subsystems){
 			s.autoInit();
 		}
@@ -183,7 +192,7 @@ public class Superstructure extends Subsystem {
 	
 	private void updateDashboard(){
 		
-		/*if(counter % 10 == 0){
+		if(counter % 10 == 0){
 			SmartDashboard.putNumber("Elevator height", elevator.getHeightInches());
 			SmartDashboard.putBoolean("Elevator bottom", elevator.atLowerLimit());
 			SmartDashboard.putBoolean("Elevator top", elevator.atUpperLimit());
@@ -196,7 +205,7 @@ public class Superstructure extends Subsystem {
 			SmartDashboard.updateValues();
 			System.out.println(driveTrain.leftEncoder.get() + ", "+ driveTrain.rightEncoder.get());
 		}
-		counter++;*/
+		counter++;
 	
 	}
 	

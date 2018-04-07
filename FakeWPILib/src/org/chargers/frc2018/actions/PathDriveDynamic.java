@@ -1,6 +1,5 @@
 package org.chargers.frc2018.actions;
 
-import java.awt.Color;
 
 import org.chargers.frc2018.Robot;
 import org.chargers.frc2018.subsystems.DriveTrain;
@@ -9,7 +8,6 @@ import org.usfirst.frc.team5160.utils.path.Path;
 import org.usfirst.frc.team5160.utils.path.Point;
 import org.usfirst.frc.team5160.utils.path.PursuitController;
 
-import fake.wpilib.RobotMain;
 
 
 public class PathDriveDynamic extends Action{
@@ -52,11 +50,12 @@ public class PathDriveDynamic extends Action{
 		Point point = new Point(dt.getPositionX(), dt.getPositionY(), dt.getAngle(), dt.getSpeed());
 		point.distance = distanceTraveled;
 		double[] output = RMath.normalizeTwo(controller.getDrive(point));
+		System.out.println("output "+ output[1]);
 		if (reverse == false){
-			dt.mecanumDrive(output[0]*power, 0, output[1]*(power*1.2));
+			dt.mecanumDrive(output[0]*power, 0, output[1]*(power*1.4));
 		}
 		else{
-			dt.mecanumDrive(-output[0]*power,  0,-output[1]*(power*1.2));
+			dt.mecanumDrive(-output[0]*power,  0,-output[1]*(power*1.4));
 		}
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));
 		lastX = point.x;
@@ -83,7 +82,6 @@ public class PathDriveDynamic extends Action{
 	  	ps = Path.InjectPoints(ps,2);
 	  	ps = Path.SmoothPoints(ps);
 	  	path.addPoints(ps);
-	  	RobotMain.fig2.addData(Path.ToDoubleArray(ps), Color.BLUE);
 	  	return path;
 	}
 	

@@ -27,7 +27,7 @@ public class RobotMain {
 		robot.autonomousInit();
 		meta.autoInit();
 		drawRobot(meta.x, meta.y, meta.angle, Color.PINK);
-		for(int i = 0; i < 15000; i++){
+		for(int i = 0; i < 500; i++){
 			if(i % 1 == 0){
 				
 				fig2.removeLastNode();

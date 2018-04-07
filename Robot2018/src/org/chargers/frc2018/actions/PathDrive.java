@@ -41,10 +41,10 @@ public class PathDrive extends Action{
 		point.distance = distanceTraveled;
 		double[] power = RMath.normalizeTwo(controller.getDrive(point));
 		if (reverse == false){
-			dt.mecanumDrive(power[0]*0.65, 0, power[1]*0.65);
+			dt.mecanumDrive(power[0]*0.65, 0, power[1]*0.8);
 		}
 		else{
-			dt.mecanumDrive(-power[0]*0.65,  0,-power[1]*0.65);
+			dt.mecanumDrive(-power[0]*0.65,  0,-power[1]*0.8);
 		}
 		
 		distanceTraveled += Math.sqrt(Math.pow(point.x - lastX, 2) + Math.pow(point.y - lastY, 2));

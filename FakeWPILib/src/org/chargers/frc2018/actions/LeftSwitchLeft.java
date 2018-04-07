@@ -27,7 +27,7 @@ public class LeftSwitchLeft extends ActionGroup{
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(0), 1 ));	
 		 this.addAction(new TimedAction(new TurnAction(0), 1 ));	
-		 
+		 this.addAction(new IntakeAction(1, 2));
 
 			
 	}

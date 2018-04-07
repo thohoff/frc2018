@@ -30,25 +30,25 @@ public class Intake extends Subsystem {
 		configureMotor(middleRightMotor);
 		configureMotor(backLeftMotor);
 		configureMotor(backRightMotor);
-		backRightMotor.setInverted(true);
+		backRightMotor.setInverted(false);
 		ultrasonicSensor = new AnalogInput(3); //Ultrasonic sensor is in port 3
 	}
 	
 	@Override
 	public void teleopPeriodic(){
 		if(Math.abs(OI.getIntakePowerOverride()) < 0.1){
-			this.setPowerSafe(OI.getIntakePower()*0.75);	
+			this.setPowerSafe(-OI.getIntakePower()*1);	
 		}
 		else{
-			this.setPower(OI.getIntakePowerOverride()*0.75);
+			this.setPower(-OI.getIntakePowerOverride()*1);
 		}
 	}
 	
 	public void setPower(double power){
-		middleLeftMotor.set(power);
-		middleRightMotor.set(-power);
-		backLeftMotor.set(power*0.66);
-		backRightMotor.set(power*0.66);
+		middleLeftMotor.set(power*0.8);
+		middleRightMotor.set(-power*0.8);
+		backLeftMotor.set(power*1);
+		backRightMotor.set(power*1);
 	}
 	public double getUltrasonicDistance(){
 		return ultrasonicSensor.getVoltage() * InchesPerVolt;
@@ -70,11 +70,11 @@ public class Intake extends Subsystem {
 		}
 	}
 	private void configureMotor(TalonSRX motor){
-		motor.configOpenloopRamp(0.2, 100);
+		motor.configOpenloopRamp(0.05, 100);
 		motor.enableCurrentLimit(true);
-		motor.configContinuousCurrentLimit(35, 100);
+		motor.configContinuousCurrentLimit(30, 100);
 		motor.configPeakCurrentDuration(300, 100);
-		motor.configPeakCurrentLimit(50, 100);
+		motor.configPeakCurrentLimit(45, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
 	}
 	

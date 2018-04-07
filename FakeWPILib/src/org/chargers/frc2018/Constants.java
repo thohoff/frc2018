@@ -32,9 +32,9 @@ public class Constants {
 	public static double kTrajectoryKd = 0;
 	public static double kTrajectoryKv = 0;
 	public static double kTrajectoryKa = 0;
-	public static double kTrajectoryLookAhead = 18;
+	public static double kTrajectoryLookAhead = 14;
 	public static double kTrajectoryAccelerationDistance = 48;
-	public static double kTrajectoryKalpha = 2.5; // For turning in pursuit
-	public static double kTrajectoryKbeta = 0; // For turning in pursuit
+	public static double kTrajectoryKalpha = 2.7; // For turning in pursuit
+	public static double kTrajectoryKbeta = 0.0; // For turning in pursuit
 	
 }

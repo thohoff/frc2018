@@ -11,7 +11,7 @@ import org.usfirst.frc.team5160.utils.path.Point;
 
 public class ThreeCubeAutoLeft extends ActionGroup{
 	public ThreeCubeAutoLeft(){
-		double scoreBuffer = Constants.kCenterToFrontBumperDistance;
+		double scoreBuffer = Constants.kCenterToFrontBumperDistance*3;
 		double cubeBuffer = Constants.kCenterToIntakeDistance - Constants.kAutoCubeIntakeDistance;
 		
 		Point[] fromLeftToScale = {

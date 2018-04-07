@@ -11,12 +11,12 @@ import org.usfirst.frc.team5160.utils.path.Point;
 
 public class LeftSwitchCenter extends ActionGroup{
 	public LeftSwitchCenter(){
-		double scoreBuffer = 0;//Constants.kCenterToFrontBumperDistance;
+		double scoreBuffer = Constants.kCenterToFrontBumperDistance/3.0;
 		double cubeBuffer = Constants.kCenterToIntakeDistance - Constants.kAutoCubeIntakeDistance;
 	
 		Point[] fromMiddleToLeftSwitch = {
 			//new Point(180,robotLength/2.0), 
-			new Point(180,36), new Point(100,70), new Point(100, 150 - scoreBuffer)
+			new Point(180,36), new Point(120,65), new Point(120, 150 - scoreBuffer)
 		};
 		Point[] fromLeftSwitchToCube = {
 				//new Point(100, 150 - robotLength/2.0), 
@@ -39,7 +39,7 @@ public class LeftSwitchCenter extends ActionGroup{
 	     
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(90), 0.5) );		
-		 //this.addAction(new IntakeAction(0.7, 2));
+		 this.addAction(new IntakeAction(0.7, 2));
 		/*
 		tmp = new ParallelAction(false)
 	    		 .addAction(new PathDriveDynamic(fromLeftSwitchToCube, true).setPower(0.65), 6)

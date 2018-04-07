@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.chargers.frc2018.Constants;
@@ -27,7 +28,7 @@ public class DriveTrain extends Subsystem {
 	private double lastEncoderDistance;
 	private static final double TICK_TO_INCH = Constants.kWheelDiameter*Math.PI/256.0;//256 ticks per rev, 6 inch diameter wheels
 	private Timer timeSinceLastDrive = new Timer();
-	private boolean fieldOriented = true;
+	private boolean fieldOriented = false;
 	
 	private double desired_angle = 90; 
 	private BasicPID turnPID;
@@ -80,12 +81,29 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
+		
+		if(OI.getReverseButton()){
+			OI.reversed = !OI.reversed;
+			//B BUTTON
+		}
+		if(OI.getTurnSpeedButton()){
+			OI.turnSlow = !OI.turnSlow;
+			//A BUTTON
+		}
+		
+		
 		if(fieldOriented){
-			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX(), OI.getJoystickRotationY() );
+			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX(), OI.getJoystickRotationY());
 		}
 		else{
-			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
+			double turnSpeed = RMath.clamp(0.5, 1.0, OI.getJoystickSlider() + 0.5);
+			if(OI.reversed){
+				this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX() * (OI.turnSlow ? turnSpeed : 1));
+			}else{
+				this.mecanumDrive(-OI.getJoystickY(), -OI.getJoystickX(), OI.getJoystickRotationX() * (OI.turnSlow ? turnSpeed : 1));
+			}
 		}
+		
 		
 	}
 
@@ -168,8 +186,9 @@ public class DriveTrain extends Subsystem {
 	 * @param rotation The amount of power in rotation, relative to the robot, input in the range of -1 to 1. Higher values will work but won't lead to faster speeds
 	 */
 	public void mecanumDrive(double forwards, double sideways, double rotation){
+		
 		forwards = forwards;
-		rotation = rotation * 0.6;
+		rotation = rotation * 0.65;
 		
 		double[] tmp = RMath.normalizeThree(forwards, sideways, rotation);
 		forwards = tmp[0];
@@ -193,6 +212,7 @@ public class DriveTrain extends Subsystem {
 		this.posY = this.posY + deltaY;
 		this.speed = deltaDistance/deltaTime;
 		timeSinceLastDrive.reset();
+		System.out.println(rotation);
 	}
 	
 	private void configureMotor(TalonSRX motor){

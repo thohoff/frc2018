@@ -47,7 +47,7 @@ public class MetaRobot {
 		this.driveTrain.setPosition(x, y);
 		this.momentum = momentum;
 		this.elevatorMomentum = elevatorMomentum;
-		this.elevator.error = 0;
+		//this.elevator.error = 0;
 	}
 	public void autoInit(){
 		this.x = driveTrain.getPositionX();
@@ -97,7 +97,7 @@ public class MetaRobot {
 		driveTrain.leftEncoder.adjust(dt*leftSpeed);
 		driveTrain.rightEncoder.adjust(dt * rightSpeed);
 		driveTrain.gyro.adjust( deltaDegree);
-		elevator.encoder.set(elevatorHeight*10);
+		//elevator.encoder.set(elevatorHeight*10);
 		time += dt;
 		double accel = (forwards-lastSpeed) / dt;
 		lastJerk = (lastAccel - accel) / dt;

@@ -24,7 +24,7 @@ public class RightSwitchRight extends ActionGroup{
 		 this.addAction(tmp);
 		 this.addAction(new TimedAction(new TurnAction(180), 1 ));	
 		 this.addAction(new TimedAction(new TurnAction(180), 1 ));	
-
+		 this.addAction(new IntakeAction(1, 2));
 			
 	}
 	

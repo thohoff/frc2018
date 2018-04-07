@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.chargers.frc2018.Constants;
@@ -80,12 +81,29 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	public void teleopPeriodic() {
+		
+		if(OI.getReverseButton()){
+			OI.reversed = !OI.reversed;
+			//B BUTTON
+		}
+		if(OI.getTurnSpeedButton()){
+			OI.turnSlow = !OI.turnSlow;
+			//A BUTTON
+		}
+		
+		
 		if(fieldOriented){
-			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
+			this.mecanumDriveField(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX(), OI.getJoystickRotationY());
 		}
 		else{
-			this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX());
+			double turnSpeed = RMath.clamp(0.5, 1.0, OI.getJoystickSlider() + 0.5);
+			if(OI.reversed){
+				this.mecanumDrive(OI.getJoystickY(), OI.getJoystickX(), OI.getJoystickRotationX() * (OI.turnSlow ? turnSpeed : 1));
+			}else{
+				this.mecanumDrive(-OI.getJoystickY(), -OI.getJoystickX(), OI.getJoystickRotationX() * (OI.turnSlow ? turnSpeed : 1));
+			}
 		}
+		
 		
 	}
 
@@ -168,8 +186,9 @@ public class DriveTrain extends Subsystem {
 	 * @param rotation The amount of power in rotation, relative to the robot, input in the range of -1 to 1. Higher values will work but won't lead to faster speeds
 	 */
 	public void mecanumDrive(double forwards, double sideways, double rotation){
+		
 		forwards = forwards;
-		rotation = rotation * 0.6;
+		rotation = rotation * 0.65;
 		
 		double[] tmp = RMath.normalizeThree(forwards, sideways, rotation);
 		forwards = tmp[0];
@@ -193,6 +212,7 @@ public class DriveTrain extends Subsystem {
 		this.posY = this.posY + deltaY;
 		this.speed = deltaDistance/deltaTime;
 		timeSinceLastDrive.reset();
+		System.out.println(rotation);
 	}
 	
 	private void configureMotor(TalonSRX motor){
@@ -200,9 +220,9 @@ public class DriveTrain extends Subsystem {
 		motor.clearStickyFaults(0);
 		motor.configOpenloopRamp(0.2, 100);
 		motor.enableCurrentLimit(true);
-		motor.configContinuousCurrentLimit(60, 100);
-		motor.configPeakCurrentDuration(2000, 100);
-		motor.configPeakCurrentLimit(85, 100);
+		motor.configContinuousCurrentLimit(55, 100);
+		motor.configPeakCurrentDuration(700, 100);
+		motor.configPeakCurrentLimit(65, 100);
 		motor.setNeutralMode(NeutralMode.Brake);
 	}
 
